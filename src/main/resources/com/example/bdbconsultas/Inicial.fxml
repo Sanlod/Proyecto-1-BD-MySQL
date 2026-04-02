@@ -85,24 +85,33 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="31.0" layoutY="53.0" prefHeight="180.0" prefWidth="850.0">
+                        <TableView layoutX="31.0" layoutY="53.0" prefHeight="118.0" prefWidth="850.0">
                           <columns>
                             <TableColumn prefWidth="75.0" text="C1" />
                             <TableColumn prefWidth="75.0" text="C2" />
                           </columns>
                         </TableView>
                         <Text layoutX="31.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adopciones" />
-                        <Text layoutX="34.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Solicitudes" />
-                        <TableView layoutX="31.0" layoutY="285.0" prefHeight="180.0" prefWidth="850.0">
+                        <Text layoutX="34.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Solicitudes" />
+                        <TableView layoutX="31.0" layoutY="215.0" prefHeight="134.0" prefWidth="850.0">
                            <columns>
                               <TableColumn prefWidth="75.0" text="C1" />
                               <TableColumn prefWidth="75.0" text="C2" />
                            </columns>
                         </TableView>
-                        <Text layoutX="34.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID solicitud a aprovar" />
-                        <Text layoutX="629.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID solicitud a denegar" />
-                        <Spinner layoutX="31.0" layoutY="497.0" />
-                        <Spinner layoutX="629.0" layoutY="497.0" />
+                        <Text layoutX="37.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID solicitud a aprobar" />
+                        <Text layoutX="629.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID solicitud a denegar" />
+                        <Spinner layoutX="34.0" layoutY="530.0" />
+                        <Spinner layoutX="629.0" layoutY="530.0" />
+                        <Button layoutX="209.0" layoutY="530.0" mnemonicParsing="false" text="Aprobar" />
+                        <Button layoutX="798.0" layoutY="530.0" mnemonicParsing="false" text="Denegar" />
+                        <Text layoutX="32.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Respuestas" />
+                        <TableView layoutX="31.0" layoutY="379.0" prefHeight="134.0" prefWidth="850.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="C1" />
+                              <TableColumn prefWidth="75.0" text="C2" />
+                           </columns>
+                        </TableView>
                      </children></AnchorPane>
               </content>
             </Tab>
@@ -116,6 +125,9 @@
                         <Text layoutX="575.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID de la mascota" />
                         <Spinner layoutX="575.0" layoutY="319.0" />
                         <Button layoutX="783.0" layoutY="492.0" mnemonicParsing="false" text="Adoptar" />
+                        <TextField layoutX="17.0" layoutY="125.0" />
+                        <TextField layoutX="469.0" layoutY="125.0" />
+                        <TextField layoutX="18.0" layoutY="377.0" />
                      </children></AnchorPane>
               </content>
             </Tab>
@@ -167,7 +179,6 @@
                         <TextField layoutX="32.0" layoutY="80.0" />
                         <Text layoutX="32.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID de la mascota" />
                         <Text layoutX="667.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID de la mascota" />
-                        <TextField layoutX="667.0" layoutY="93.0" />
                         <Spinner layoutX="32.0" layoutY="137.0" />
                         <Text layoutX="32.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monto" />
                         <ComboBox layoutX="207.0" layoutY="137.0" prefWidth="150.0" />
@@ -181,6 +192,8 @@
                         <Text layoutX="584.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociacion3" />
                         <Button layoutX="803.0" layoutY="183.0" mnemonicParsing="false" text="Donar" />
                         <Button layoutX="803.0" layoutY="228.0" mnemonicParsing="false" text="Reclamar" />
+                        <Text layoutX="25.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recompensas" />
+                        <Spinner layoutX="661.0" layoutY="93.0" />
                      </children></AnchorPane>
               </content>
             </Tab>
@@ -196,6 +209,7 @@
                         </TableView>
                         <Text layoutX="34.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID match a ejecutar" />
                         <Spinner layoutX="34.0" layoutY="272.0" />
+                        <Button layoutX="208.0" layoutY="272.0" mnemonicParsing="false" text="Ejecutar" />
                      </children></AnchorPane>
               </content>
             </Tab>
