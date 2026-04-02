@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+   <children>
+      <TabPane prefHeight="598.0" prefWidth="913.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Mascotas">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="316.0" prefWidth="392.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total mascotas:" />
+                        <Text layoutX="415.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="En adopción:" />
+                        <Text layoutX="209.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donaciones:" />
+                        <ComboBox layoutX="14.0" layoutY="72.0" prefWidth="150.0" />
+                        <Text layoutX="14.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estado" />
+                        <ComboBox layoutX="177.0" layoutY="72.0" prefWidth="150.0" />
+                        <Text layoutX="177.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raza" />
+                        <ComboBox layoutX="340.0" layoutY="72.0" prefWidth="150.0" />
+                        <Text layoutX="340.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo" />
+                        <Text layoutX="17.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lugar" />
+                        <ComboBox layoutX="20.0" layoutY="143.0" prefWidth="150.0" />
+                        <Text layoutX="20.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Provincia" />
+                        <ComboBox layoutX="189.0" layoutY="143.0" prefWidth="150.0" />
+                        <Text layoutX="189.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Distrito" />
+                        <ComboBox layoutX="352.0" layoutY="143.0" prefWidth="150.0" />
+                        <Text layoutX="352.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantón" />
+                        <Button layoutX="18.0" layoutY="180.0" mnemonicParsing="false" text="Buscar" />
+                        <TableView layoutX="14.0" layoutY="216.0" prefHeight="340.0" prefWidth="870.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Registrar mascota">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField layoutX="38.0" layoutY="52.0" />
+                        <Text layoutX="38.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" />
+                        <ComboBox layoutX="253.0" layoutY="52.0" prefWidth="150.0" />
+                        <Text layoutX="253.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo" />
+                        <ComboBox layoutX="482.0" layoutY="52.0" prefWidth="150.0" />
+                        <Text layoutX="482.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raza" />
+                        <ComboBox layoutX="37.0" layoutY="141.0" prefWidth="150.0" />
+                        <Text layoutX="38.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estado" />
+                        <ComboBox layoutX="253.0" layoutY="141.0" prefWidth="150.0" />
+                        <Text layoutX="253.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
+                        <DatePicker layoutX="38.0" layoutY="223.0" />
+                        <Text layoutX="42.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha" />
+                        <ComboBox layoutX="265.0" layoutY="223.0" prefWidth="150.0" />
+                        <Text layoutX="265.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Provincia" />
+                        <ComboBox layoutX="482.0" layoutY="223.0" prefWidth="150.0" />
+                        <Text layoutX="482.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Distrito" />
+                        <ComboBox layoutX="707.0" layoutY="223.0" prefWidth="150.0" />
+                        <Text layoutX="707.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantón" />
+                        <TextArea layoutX="675.0" layoutY="325.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Text layoutX="675.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" />
+                        <Text layoutX="42.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ruta de la imagen de la mascota" />
+                        <TextField layoutX="38.0" layoutY="325.0" />
+                        <Button layoutX="41.0" layoutY="525.0" mnemonicParsing="false" text="Registrar" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Adopciones">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="31.0" layoutY="53.0" prefHeight="180.0" prefWidth="850.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <Text layoutX="31.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adopciones" />
+                        <Text layoutX="34.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Solicitudes" />
+                        <TableView layoutX="31.0" layoutY="285.0" prefHeight="180.0" prefWidth="850.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="C1" />
+                              <TableColumn prefWidth="75.0" text="C2" />
+                           </columns>
+                        </TableView>
+                        <Text layoutX="34.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID solicitud a aprovar" />
+                        <Text layoutX="629.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID solicitud a denegar" />
+                        <Spinner layoutX="31.0" layoutY="497.0" />
+                        <Spinner layoutX="629.0" layoutY="497.0" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Adoptar">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="34.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pregunta 1" />
+                        <Text layoutX="469.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pregunta 2" />
+                        <Text layoutX="34.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pregunta 3" />
+                        <Text layoutX="575.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID de la mascota" />
+                        <Spinner layoutX="575.0" layoutY="319.0" />
+                        <Button layoutX="783.0" layoutY="492.0" mnemonicParsing="false" text="Adoptar" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Donaciones">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="20.0" layoutY="30.0" prefHeight="145.0" prefWidth="879.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <Text layoutX="20.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donación" />
+                        <Text layoutX="20.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donación por asociación" />
+                        <TableView layoutX="20.0" layoutY="201.0" prefHeight="201.0" prefWidth="879.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="C1" />
+                              <TableColumn prefWidth="75.0" text="C2" />
+                           </columns>
+                        </TableView>
+                        <Text layoutX="20.0" layoutY="416.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donar" />
+                        <ComboBox layoutX="20.0" layoutY="444.0" prefWidth="150.0" />
+                        <Text layoutX="20.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación1" />
+                        <ComboBox layoutX="20.0" layoutY="492.0" prefWidth="150.0" />
+                        <Text layoutX="20.0" layoutY="488.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación2" />
+                        <ComboBox layoutX="20.0" layoutY="536.0" prefWidth="150.0" />
+                        <Text layoutX="21.0" layoutY="534.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación3" />
+                        <Spinner layoutX="232.0" layoutY="444.0" />
+                        <Text layoutX="232.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monto" />
+                        <Text layoutX="232.0" layoutY="488.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Divisa" />
+                        <ComboBox layoutX="231.0" layoutY="492.0" prefWidth="150.0" />
+                        <Button layoutX="231.0" layoutY="526.0" mnemonicParsing="false" text="Donar" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Recompensas">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="685.0">
+                     <children>
+                        <Text layoutX="32.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar recompensa" />
+                        <Text layoutX="677.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reclamar recompensa" />
+                        <TableView layoutX="25.0" layoutY="346.0" prefHeight="200.0" prefWidth="853.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <TextField layoutX="32.0" layoutY="80.0" />
+                        <Text layoutX="32.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID de la mascota" />
+                        <Text layoutX="667.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID de la mascota" />
+                        <TextField layoutX="667.0" layoutY="93.0" />
+                        <Spinner layoutX="32.0" layoutY="137.0" />
+                        <Text layoutX="32.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monto" />
+                        <ComboBox layoutX="207.0" layoutY="137.0" prefWidth="150.0" />
+                        <Text layoutX="207.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Divisa" />
+                        <Button layoutX="32.0" layoutY="183.0" mnemonicParsing="false" text="Registrar" />
+                        <ComboBox layoutX="584.0" layoutY="170.0" prefWidth="150.0" />
+                        <Text layoutX="584.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociacion1" />
+                        <ComboBox layoutX="584.0" layoutY="228.0" prefWidth="150.0" />
+                        <Text layoutX="584.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociacion2" />
+                        <ComboBox layoutX="584.0" layoutY="285.0" prefWidth="150.0" />
+                        <Text layoutX="584.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociacion3" />
+                        <Button layoutX="803.0" layoutY="183.0" mnemonicParsing="false" text="Donar" />
+                        <Button layoutX="803.0" layoutY="228.0" mnemonicParsing="false" text="Reclamar" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Matches">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="34.0" layoutY="33.0" prefHeight="200.0" prefWidth="807.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <Text layoutX="34.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID match a ejecutar" />
+                        <Spinner layoutX="34.0" layoutY="272.0" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="BlackList">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="30.0" layoutY="61.0" prefHeight="200.0" prefWidth="792.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <Text layoutX="30.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personas en lista negra" />
+                        <Text layoutX="19.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hacer un select de personas que tengan algo en idBlackList y traer solo id, nombre y notas" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Bitacora">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="25.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario" />
+                        <Text layoutX="256.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tabla" />
+                        <Text layoutX="495.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha" />
+                        <ComboBox layoutX="25.0" layoutY="53.0" prefWidth="150.0" />
+                        <ComboBox layoutX="256.0" layoutY="53.0" prefWidth="150.0" />
+                        <DatePicker layoutX="495.0" layoutY="53.0" />
+                        <TableView layoutX="25.0" layoutY="102.0" prefHeight="425.0" prefWidth="876.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Estadísticas">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BarChart layoutX="25.0" layoutY="36.0" prefHeight="302.0" prefWidth="283.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                        <Text layoutX="44.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mascotas por estado" />
+                        <BarChart layoutX="436.0" layoutY="40.0" prefHeight="301.0" prefWidth="264.0">
+                           <xAxis>
+                              <CategoryAxis prefWidth="208.0" side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis prefHeight="109.0" prefWidth="28.0" side="LEFT" />
+                           </yAxis>
+                        </BarChart>
+                        <Text layoutX="444.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donaciones por asociacion" />
+                        <Text layoutX="46.0" layoutY="377.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%Adopciones exitosas:" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Catálogos">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Entidad" />
+                        <ComboBox layoutX="14.0" layoutY="46.0" prefWidth="150.0" />
+                        <TableView layoutX="14.0" layoutY="93.0" prefHeight="242.0" prefWidth="854.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <Spinner layoutX="27.0" layoutY="422.0" />
+                        <Text layoutX="27.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID a editar" />
+                        <Button layoutX="31.0" layoutY="510.0" mnemonicParsing="false" text="Editar" />
+                        <Text layoutX="639.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor a agregar" />
+                        <Text layoutX="31.0" layoutY="468.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nuevo valor" />
+                        <TextField layoutX="28.0" layoutY="472.0" />
+                        <TextField layoutX="630.0" layoutY="422.0" />
+                        <Button layoutX="639.0" layoutY="459.0" mnemonicParsing="false" text="Agregar" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Reportes">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="25.0" layoutY="63.0" prefHeight="156.0" prefWidth="848.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <Text layoutX="25.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mascotas con más de 2 meses sin adoptar" />
+                        <Text layoutX="25.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top adoptantes" />
+                        <TableView layoutX="25.0" layoutY="263.0" prefHeight="156.0" prefWidth="848.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="C1" />
+                              <TableColumn prefWidth="75.0" text="C2" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
