@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="572.0" prefWidth="885.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+   <children>
+      <TextField layoutX="48.0" layoutY="62.0" />
+      <Text layoutX="48.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" />
+      <ComboBox layoutX="263.0" layoutY="62.0" prefWidth="150.0" />
+      <Text layoutX="263.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo" />
+      <ComboBox layoutX="492.0" layoutY="62.0" prefWidth="150.0" />
+      <Text layoutX="492.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raza" />
+      <ComboBox layoutX="47.0" layoutY="151.0" prefWidth="150.0" />
+      <Text layoutX="48.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estado" />
+      <ComboBox layoutX="263.0" layoutY="151.0" prefWidth="150.0" />
+      <Text layoutX="263.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
+      <DatePicker layoutX="48.0" layoutY="233.0" />
+      <Text layoutX="52.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha" />
+      <ComboBox layoutX="275.0" layoutY="233.0" prefWidth="150.0" />
+      <Text layoutX="275.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Provincia" />
+      <ComboBox layoutX="492.0" layoutY="233.0" prefWidth="150.0" />
+      <Text layoutX="492.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Distrito" />
+      <ComboBox layoutX="717.0" layoutY="233.0" prefWidth="150.0" />
+      <Text layoutX="717.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantón" />
+      <TextArea layoutX="685.0" layoutY="335.0" prefHeight="200.0" prefWidth="200.0" />
+      <Text layoutX="685.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" />
+      <Text layoutX="52.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ruta de la imagen de la mascota" />
+      <TextField layoutX="48.0" layoutY="335.0" />
+      <Button layoutX="51.0" layoutY="535.0" mnemonicParsing="false" text="Registrar" />
+      <Button layoutX="803.0" layoutY="14.0" mnemonicParsing="false" text="Volver" />
+   </children>
+</AnchorPane>

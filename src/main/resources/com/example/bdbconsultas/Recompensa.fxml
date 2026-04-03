@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="569.0" prefWidth="897.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+   <children>
+      <Text layoutX="42.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar recompensa" />
+      <Text layoutX="687.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reclamar recompensa" />
+      <TableView layoutX="35.0" layoutY="356.0" prefHeight="200.0" prefWidth="853.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="C1" />
+            <TableColumn prefWidth="75.0" text="C2" />
+         </columns>
+      </TableView>
+      <TextField layoutX="42.0" layoutY="90.0" />
+      <Text layoutX="42.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID de la mascota" />
+      <Text layoutX="677.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID de la mascota" />
+      <Spinner layoutX="42.0" layoutY="147.0" />
+      <Text layoutX="42.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monto" />
+      <ComboBox layoutX="217.0" layoutY="147.0" prefWidth="150.0" />
+      <Text layoutX="217.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Divisa" />
+      <Button layoutX="42.0" layoutY="193.0" mnemonicParsing="false" text="Registrar" />
+      <ComboBox layoutX="594.0" layoutY="180.0" prefWidth="150.0" />
+      <Text layoutX="594.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociacion1" />
+      <ComboBox layoutX="594.0" layoutY="238.0" prefWidth="150.0" />
+      <Text layoutX="594.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociacion2" />
+      <ComboBox layoutX="594.0" layoutY="295.0" prefWidth="150.0" />
+      <Text layoutX="594.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociacion3" />
+      <Button layoutX="813.0" layoutY="193.0" mnemonicParsing="false" text="Donar" />
+      <Button layoutX="813.0" layoutY="238.0" mnemonicParsing="false" text="Reclamar" />
+      <Text layoutX="35.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recompensas" />
+      <Spinner layoutX="671.0" layoutY="103.0" />
+      <Button layoutX="837.0" layoutY="8.0" mnemonicParsing="false" text="Volver" />
+   </children>
+</AnchorPane>

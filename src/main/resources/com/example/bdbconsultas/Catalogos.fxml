@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="563.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+   <children>
+      <Text layoutX="24.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Entidad" />
+      <ComboBox layoutX="24.0" layoutY="56.0" prefWidth="150.0" />
+      <TableView layoutX="24.0" layoutY="103.0" prefHeight="242.0" prefWidth="854.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="C1" />
+            <TableColumn prefWidth="75.0" text="C2" />
+         </columns>
+      </TableView>
+      <Spinner layoutX="37.0" layoutY="432.0" />
+      <Text layoutX="37.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID a editar" />
+      <Button layoutX="41.0" layoutY="520.0" mnemonicParsing="false" text="Editar" />
+      <Text layoutX="649.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor a agregar" />
+      <Text layoutX="41.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nuevo valor" />
+      <TextField layoutX="38.0" layoutY="482.0" />
+      <TextField layoutX="640.0" layoutY="432.0" />
+      <Button layoutX="649.0" layoutY="469.0" mnemonicParsing="false" text="Agregar" />
+      <Button layoutX="831.0" layoutY="1.0" mnemonicParsing="false" text="Volver" />
+   </children>
+</AnchorPane>
