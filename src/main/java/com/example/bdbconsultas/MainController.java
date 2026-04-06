@@ -36,7 +36,7 @@ public class MainController extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("Tabla.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("Donaciones.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 932, 608);
         stage.setTitle("Ventana");
         stage.setScene(scene);
