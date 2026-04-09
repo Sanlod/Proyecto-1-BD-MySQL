@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
    <children>
       <Text layoutX="41.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donar" />
@@ -16,11 +15,11 @@
       <Text layoutX="41.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación2" />
       <ComboBox layoutX="41.0" layoutY="186.0" prefWidth="150.0" />
       <Text layoutX="42.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación3" />
-      <Spinner layoutX="253.0" layoutY="94.0" />
-      <Text layoutX="253.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monto" />
-      <Text layoutX="253.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Divisa" />
-      <ComboBox layoutX="252.0" layoutY="142.0" prefWidth="150.0" />
-      <Button layoutX="252.0" layoutY="176.0" mnemonicParsing="false" text="Donar" />
+      <Spinner layoutX="254.0" layoutY="101.0" />
+      <Text layoutX="253.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monto" />
+      <Text layoutX="255.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Divisa" />
+      <ComboBox layoutX="253.0" layoutY="149.0" prefWidth="150.0" />
+      <Button layoutX="253.0" layoutY="183.0" mnemonicParsing="false" text="Donar" />
       <Button layoutX="537.0" layoutY="14.0" mnemonicParsing="false" text="Volver" />
    </children>
 </AnchorPane>
