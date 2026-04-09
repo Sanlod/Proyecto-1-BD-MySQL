@@ -26,5 +26,26 @@ public class AssociationDAO {
         }
         return associations;
     }
+    public static ObservableList<ObservableList<String>> listadosCatalogo(String nomSP)
+            throws SQLException, ClassNotFoundException {
+        ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{ CALL " + nomSP + " (?) }")) {
+            cs.registerOutParameter(1, Types.REF_CURSOR);
+            cs.execute();
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+                int numCols = rs.getMetaData().getColumnCount();
+                while (rs.next()) {
+                    ObservableList<String> fila = FXCollections.observableArrayList();
+                    for (int i = 1; i <= numCols; i++) {
+                        Object val = rs.getObject(i);
+                        fila.add(val != null ? val.toString() : "");
+                    }
+                    filas.add(fila);
+                }
+            }
+        }
+        return filas;
+    }
 
 }
