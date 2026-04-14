@@ -53,7 +53,7 @@ public class RecompensasDAO {
         int total = 0;
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_RECOMPENSAS(?) }")) {
+             CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_RECOMPENSAS(?,?,?) }")) {
 
             cs.setString(1, idPet);
 

@@ -146,7 +146,7 @@ public class PersonaDAO {
             String telefono) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_REGISTRAR_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("{ CALL SP_REGISTRAR_PERSONA(?,?,?,?,?,?) }")) {
 
             cs.setString(1, primerNombre);
             cs.setString(2, segundoNombre.isEmpty()          ? null : segundoNombre);

@@ -136,6 +136,20 @@ public class MascotasDAO {
             throws SQLException, ClassNotFoundException {
         return listadosCatalogo("SP_LISTAR_PROVINCIAS");
     }
+    public static ObservableList<ObservableList<String>> getEnfermedades()
+            throws SQLException, ClassNotFoundException {
+        return listadosCatalogo("SP_LISTAR_ENFERMEDADES");
+    }
+
+    public static ObservableList<ObservableList<String>> getTratamientos()
+            throws SQLException, ClassNotFoundException {
+        return listadosCatalogo("SP_LISTAR_TRATAMIENTOS");
+    }
+
+    public static ObservableList<ObservableList<String>> getMedicamentos()
+            throws SQLException, ClassNotFoundException {
+        return listadosCatalogo("SP_LISTAR_MEDICAMENTOS");
+    }
     public static ObservableList<ObservableList<String>> getCantonesPorProvincia(String idProvincia)
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
@@ -247,53 +261,123 @@ public class MascotasDAO {
         return new MascotasDAO.ResultadoConsulta(columnas, filas, total);
     }
 
-    public void registrarMascota(
+    public static void registrarMascota(
             String nombre,
-            String idTipo,
+            String idBreed,
             String idColor,
-            String idRaza,
             String chip,
             String idEstado,
             String idSeveridad,
             String idNivelEnergia,
             String idDistrito,
-            String montoRecompensa,
-            String idMoneda,
-            java.time.LocalDate fecha,
-            String descripcion,
+            String petSize,
+            int requiresMuchSpace,
             String telefono,
             String email,
+            String abandonSituationDescription,
+            String descripcion,
+            String trainingDifficulty,
+            java.time.LocalDate lossDate,
+            java.time.LocalDate foundDate,
+            String idVeterinario,
+            String idCasaCuna,
+            String idRescatista,
+            String idAsociacion,
             byte[] imagenAntes,
-            byte[] imagenDespues) throws SQLException, ClassNotFoundException {
+            byte[] imagenDespues,
+            String createdBy) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_REGISTRAR_MASCOTA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall(
+                     "{ CALL SP_REGISTRAR_MASCOTA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }")) {
 
             cs.setString(1, nombre);
-            cs.setString(2, idTipo.isEmpty()          ? null : idTipo);
-            cs.setString(3, idColor.isEmpty()         ? null : idColor);
-            cs.setString(4, idRaza.isEmpty()          ? null : idRaza);
-            cs.setString(5, chip.isEmpty()            ? null : chip);
-            cs.setString(6, idEstado.isEmpty()        ? null : idEstado);
-            cs.setString(7, idSeveridad.isEmpty()     ? null : idSeveridad);
-            cs.setString(8, idNivelEnergia.isEmpty()  ? null : idNivelEnergia);
-            cs.setString(9, idDistrito.isEmpty()      ? null : idDistrito);
-            cs.setString(10, montoRecompensa.isEmpty() ? null : montoRecompensa);
-            cs.setString(11, idMoneda.isEmpty()        ? null : idMoneda);
-            cs.setDate(12, fecha != null ? java.sql.Date.valueOf(fecha) : null);
-            cs.setString(13, descripcion.isEmpty()    ? null : descripcion);
-            cs.setString(14, telefono.isEmpty()       ? null : telefono);
-            cs.setString(15, email.isEmpty()          ? null : email);
+            cs.setString(2, idBreed.isEmpty()                      ? null : idBreed);
+            cs.setString(3, idColor.isEmpty()                      ? null : idColor);
+            cs.setString(4, chip.isEmpty()                         ? null : chip);
+            cs.setString(5, idEstado.isEmpty()                     ? null : idEstado);
+            cs.setString(6, idSeveridad.isEmpty()                  ? null : idSeveridad);
+            cs.setString(7, idNivelEnergia.isEmpty()               ? null : idNivelEnergia);
+            cs.setString(8, idDistrito.isEmpty()                   ? null : idDistrito);
+            cs.setString(9, petSize.isEmpty()                      ? null : petSize);
+            cs.setInt(10, requiresMuchSpace);
+            cs.setString(11, telefono.isEmpty()                    ? null : telefono);
+            cs.setString(12, email.isEmpty()                       ? null : email);
+            cs.setString(13, abandonSituationDescription.isEmpty() ? null : abandonSituationDescription);
+            cs.setString(14, descripcion.isEmpty()                 ? null : descripcion);
+            cs.setString(15, trainingDifficulty.isEmpty()          ? null : trainingDifficulty);
+            cs.setDate(16, lossDate  != null ? java.sql.Date.valueOf(lossDate)  : null);
+            cs.setDate(17, foundDate != null ? java.sql.Date.valueOf(foundDate) : null);
+            cs.setString(18, idVeterinario.isEmpty()               ? null : idVeterinario);
+            cs.setString(19, idCasaCuna.isEmpty()                  ? null : idCasaCuna);
+            cs.setString(20, idRescatista.isEmpty()                ? null : idRescatista);
+            cs.setString(21, idAsociacion.isEmpty()                ? null : idAsociacion);
 
-            if (imagenAntes != null)
-                cs.setBytes(16, imagenAntes);
-            else
-                cs.setNull(16, Types.BLOB);
+            if (imagenAntes != null) cs.setBytes(22, imagenAntes);
+            else cs.setNull(22, Types.BLOB);
 
-            if (imagenDespues != null)
-                cs.setBytes(17, imagenDespues);
-            else
-                cs.setNull(17, Types.BLOB);
+            if (imagenDespues != null) cs.setBytes(23, imagenDespues);
+            else cs.setNull(23, Types.BLOB);
+
+            cs.setString(24, createdBy);
+
+            cs.execute();
+        }
+    }
+    public static void registrarEnfermedadMascota(
+            String idPet,
+            String idDisease,
+            java.time.LocalDate startDate,
+            String createdBy) throws SQLException, ClassNotFoundException {
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(
+                     "{ CALL SP_REGISTRAR_ENFERMEDAD_MASCOTA(?,?,?,?) }")) {
+
+            cs.setString(1, idPet);
+            cs.setString(2, idDisease);
+            cs.setDate(3, startDate != null ? java.sql.Date.valueOf(startDate) : null);
+            cs.setString(4, createdBy);
+
+            cs.execute();
+        }
+    }
+
+    public static void registrarTratamientoMascota(
+            String idPet,
+            String idTreatment,
+            java.time.LocalDate startDate,
+            String createdBy) throws SQLException, ClassNotFoundException {
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(
+                     "{ CALL SP_REGISTRAR_TRATAMIENTO_MASCOTA(?,?,?,?) }")) {
+
+            cs.setString(1, idPet);
+            cs.setString(2, idTreatment);
+            cs.setDate(3, startDate != null ? java.sql.Date.valueOf(startDate) : null);
+            cs.setString(4, createdBy);
+
+            cs.execute();
+        }
+    }
+
+    public static void registrarMedicamentoMascota(
+            String idPet,
+            String idMedication,
+            String dose,
+            java.time.LocalDate startDate,
+            String createdBy) throws SQLException, ClassNotFoundException {
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(
+                     "{ CALL SP_REGISTRAR_MEDICAMENTO_MASCOTA(?,?,?,?,?) }")) {
+
+            cs.setString(1, idPet);
+            cs.setString(2, idMedication);
+            cs.setString(3, dose.isEmpty() ? null : dose);
+            cs.setDate(4, startDate != null ? java.sql.Date.valueOf(startDate) : null);
+            cs.setString(5, createdBy);
 
             cs.execute();
         }

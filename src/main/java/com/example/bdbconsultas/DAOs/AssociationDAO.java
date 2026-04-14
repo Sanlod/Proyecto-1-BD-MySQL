@@ -69,7 +69,7 @@ public class AssociationDAO {
         int total = 0;
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_ASOCIACIONES(?) }")) {
+             CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_ASOCIACIONES(?,?,?) }")) {
 
             cs.setString(1, nombre.isEmpty()          ? null : nombre);
 
