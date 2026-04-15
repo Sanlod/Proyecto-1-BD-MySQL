@@ -23,7 +23,6 @@ public class MainController extends Application {
 
     /// RECORDAR IGUAL Y PODEMOS REUNIRNOS CON EL ASISTENTE Y PREGUNTARLE SOBRE LA INTERFAZ
     /// SI HACEN FALTA COSAS O SI ES LO QUE LA PROFE ESPERA (porque la verdad no estoy muy seguro que lo que construí aquí está bien)
-    /// FALTA HACER LA PARTE DEL LOGIN Y TAL VEZ QUE EXISTA UN USUARIO ADMIN QUE PUEDA ACCEDER A CIERTA INFO IDK LO QUE DÉ TIEMPOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     /// Falta poder registrar personas (cassas cuna y esas cosas)   :(
     ///
 
@@ -36,7 +35,7 @@ public class MainController extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("Donaciones.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("LogIn.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 932, 608);
         stage.setTitle("Ventana");
         stage.setScene(scene);

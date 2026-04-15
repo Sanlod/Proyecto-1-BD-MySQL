@@ -4,19 +4,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
-   <children>
-      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido!" />
-      <Button layoutX="39.0" layoutY="106.0" mnemonicParsing="false" text="Buscar mascota" />
-      <Button layoutX="194.0" layoutY="106.0" mnemonicParsing="false" text="Adoptar" />
-      <Button layoutX="408.0" layoutY="106.0" mnemonicParsing="false" text="Recompensas" />
-      <Button layoutX="39.0" layoutY="174.0" mnemonicParsing="false" text="BlackList" />
-      <Button layoutX="158.0" layoutY="174.0" mnemonicParsing="false" text="Estadísticas" />
-      <Button layoutX="290.0" layoutY="174.0" mnemonicParsing="false" text="Reportes" />
-      <Button layoutX="487.0" layoutY="10.0" mnemonicParsing="false" text="Cerrar sesión" />
-      <Text layoutX="34.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total mascostas:" />
-      <Text layoutX="191.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="En adopción" />
-      <Text layoutX="335.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donaciones:" />
-      <Button layoutX="311.0" layoutY="106.0" mnemonicParsing="false" text="Donar" />
-   </children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.UsuarioController">
+    <children>
+        <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Panel de Usuario" />
+
+        <Button layoutX="40.0" layoutY="90.0" mnemonicParsing="false" text="Buscar mascota" />
+        <Button layoutX="170.0" layoutY="90.0" mnemonicParsing="false" text="Adoptar" />
+        <Button layoutX="270.0" layoutY="90.0" mnemonicParsing="false" text="Donar" />
+        <Button layoutX="360.0" layoutY="90.0" mnemonicParsing="false" text="Recompensas" />
+
+        <Button layoutX="40.0" layoutY="160.0" mnemonicParsing="false" text="BlackList" />
+        <Button layoutX="140.0" layoutY="160.0" mnemonicParsing="false" text="Estadísticas" />
+        <Button layoutX="250.0" layoutY="160.0" mnemonicParsing="false" text="Reportes" />
+
+        <Button layoutX="480.0" layoutY="10.0" mnemonicParsing="false" text="Cerrar sesión" />
+
+        <Text layoutX="40.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resumen de cuenta" />
+    </children>
 </AnchorPane>
