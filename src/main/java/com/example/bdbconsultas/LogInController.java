@@ -22,7 +22,7 @@ public class LogInController {
 
     @FXML
     public void initialize() {
-        // Configuramos el botón para que responda al Enter
+        // El boton responde al ENTER
         btnLogin.setDefaultButton(true);
     }
 
@@ -31,6 +31,7 @@ public class LogInController {
         String user = txtUsuario.getText();
         String password = txtContrasena.getText();
 
+        // Error si se ingresan más los datos
         if (user.isEmpty() || password.isEmpty()) {
             mostrarAlerta("Campos vacíos", "Por favor, introduce usuario y contraseña.");
             return;
@@ -57,12 +58,12 @@ public class LogInController {
     // Funcion para no repetir la carga de escenas
     private void cambiarEscena(String fxml, String titulo) {
         try {
-            // Construimos la ruta completa basándonos en tu estructura de carpetas
+            // Construcción de la ruta completa
             String rutaCompleta = "/com/example/bdbconsultas/" + fxml;
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(rutaCompleta));
 
-            // Verificación de seguridad: si no encuentra el archivo, lanzamos error detallado
+            // Verificación de seguridad: si no encuentra el archivo, tira error
             if (fxmlLoader.getLocation() == null) {
                 throw new IOException("No se encontró el archivo FXML en: " + rutaCompleta);
             }
@@ -73,6 +74,7 @@ public class LogInController {
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
+            
         } catch (IOException e) {
             // Esto te dirá exactamente qué falló (ej. si hay un error de sintaxis dentro del FXML)
             mostrarAlerta("Error de Interfaz", "Error al cargar " + fxml + ": " + e.getMessage());
