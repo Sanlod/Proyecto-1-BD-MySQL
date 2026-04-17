@@ -10,17 +10,17 @@
 
         <Button layoutX="40.0" layoutY="90.0" mnemonicParsing="false" text="Buscar mascota" />
         <Button layoutX="170.0" layoutY="90.0" mnemonicParsing="false" text="Adoptar" />
-        <Button layoutX="270.0" layoutY="90.0" mnemonicParsing="false" text="Donar" />
+        <Button layoutX="270.0" layoutY="90.0" mnemonicParsing="false" onAction="#switchDonar" text="Donar" />
         <Button layoutX="360.0" layoutY="90.0" mnemonicParsing="false" text="Recompensas" />
 
         <Button layoutX="40.0" layoutY="160.0" mnemonicParsing="false" text="BlackList" />
         <Button layoutX="140.0" layoutY="160.0" mnemonicParsing="false" text="Estadísticas" />
-        <Button layoutX="250.0" layoutY="160.0" mnemonicParsing="false" text="Estad. Adopciones" />
+        <Button layoutX="250.0" layoutY="160.0" mnemonicParsing="false" onAction="#switchEstadisticasAdopciones" text="Estad. Adopciones" />
 
-        <Button layoutX="480.0" layoutY="10.0" mnemonicParsing="false" text="Cerrar sesión" />
+        <Button layoutX="480.0" layoutY="10.0" mnemonicParsing="false" onAction="#switchVolver" text="Cerrar sesión" />
 
         <Text layoutX="40.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resumen de cuenta" />
-      <Button layoutX="392.0" layoutY="160.0" mnemonicParsing="false" text="Estad. Matches" />
-      <Button layoutX="390.0" layoutY="214.0" mnemonicParsing="false" text="Estad. Donaciones" />
+      <Button layoutX="392.0" layoutY="160.0" mnemonicParsing="false" onAction="#switchEstadisticasMatches" text="Estad. Matches" />
+      <Button layoutX="390.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchEstadisticasDonacion" text="Estad. Donaciones" />
     </children>
 </AnchorPane>

@@ -55,6 +55,7 @@ public class LogInController {
         }
     }
 
+
     // Funcion para no repetir la carga de escenas
     private void cambiarEscena(String fxml, String titulo) {
         try {

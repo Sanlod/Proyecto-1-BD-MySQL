@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
@@ -72,6 +73,15 @@ public class DonarController {
     }
 
     public void donar(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        if(monto.getValue() == null){
+            mostrarAlerta("Por favor ingrese un monto");
+            return;
+        }
+        if(divisa.getValue() == null){
+            mostrarAlerta("Por favor ingrese una divisa");
+            return;
+        }
+
         int nuMonto = (int) monto.getValue();
         int porcentaje = 0;
         if(aso1.getValue() != null) porcentaje += 1;
@@ -90,11 +100,26 @@ public class DonarController {
             ninguna = false;
             dao.registrarDonacion(nuMonto,porcentaje,idPersona,Integer.parseInt(aso1.getValue().get(0)),idCurrency);
         }
-
+        if(aso2.getValue() != null) {
+            ninguna = false;
+            dao.registrarDonacion(nuMonto,porcentaje,idPersona,Integer.parseInt(aso2.getValue().get(0)),idCurrency);
+        }
+        if(aso3.getValue() != null) {
+            ninguna = false;
+            dao.registrarDonacion(nuMonto,porcentaje,idPersona,Integer.parseInt(aso3.getValue().get(0)),idCurrency);
+        }
+        if(ninguna){
+            mostrarAlerta("Por favor seleccione una asociacion");
+        }
 
     }
-
-
+    public void mostrarAlerta(String mensaje){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Problema con entradas de usuario");
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
 
 
 
