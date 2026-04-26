@@ -5,6 +5,7 @@ module com.example.bdbconsultas {
     requires javafx.graphics;
 
 
+
     opens com.example.bdbconsultas to javafx.fxml;
     exports com.example.bdbconsultas;
 }

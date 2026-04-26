@@ -1,6 +1,7 @@
 package com.example.bdbconsultas;
 
 import com.example.bdbconsultas.DAOs.SeguridadDAO;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Hyperlink;
 
 import java.io.IOException;
 
@@ -55,6 +57,11 @@ public class LogInController {
         }
     }
 
+    //Ir a Registrarse
+    @FXML
+    public void onRegistrarseClick(ActionEvent actionEvent) {
+        cambiarEscena("Registrar.fxml", "Registrar Usuario");
+    }
 
     // Funcion para no repetir la carga de escenas
     private void cambiarEscena(String fxml, String titulo) {
@@ -77,7 +84,6 @@ public class LogInController {
             stage.show();
             
         } catch (IOException e) {
-            // Esto te dirá exactamente qué falló (ej. si hay un error de sintaxis dentro del FXML)
             mostrarAlerta("Error de Interfaz", "Error al cargar " + fxml + ": " + e.getMessage());
             e.printStackTrace();
         }
@@ -90,4 +96,6 @@ public class LogInController {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
+
+
 }
