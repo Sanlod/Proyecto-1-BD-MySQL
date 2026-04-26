@@ -364,6 +364,25 @@ public class MascotasDAO {
         }
     }
 
+    public static void registrarEstadoMascota(
+            String idPet,
+            String idState,
+            LocalDate startDate,
+            String createdBy) throws SQLException, ClassNotFoundException {
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(
+                     "{ CALL SP_REGISTRARESTADOMASCOTA(?,?,?,?) }")) {
+
+            cs.setString(1, idPet);
+            cs.setString(2, idState);
+            cs.setDate(3, startDate != null ? Date.valueOf(startDate) : null);
+            cs.setString(4, createdBy);
+
+            cs.execute();
+        }
+    }
+
     public static void registrarEnfermedadMascota(
             String idPet,
             String idDisease,

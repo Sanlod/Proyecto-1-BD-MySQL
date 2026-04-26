@@ -85,14 +85,12 @@ public class PersonaDAO {
             String primerApellido,
             String segundoApellido,
             String enListaNegra) throws SQLException, ClassNotFoundException {
-
         List<String> columnas = new ArrayList<>();
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         int total = 0;
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_PERSONAS(?,?,?,?,?,?) }")) {
-
             cs.setString(1, nombre == null || nombre.isEmpty() ? null : nombre);
             cs.setString(2, primerApellido == null || primerApellido.isEmpty() ? null : primerApellido);
             cs.setString(3, segundoApellido == null || segundoApellido.isEmpty() ? null : segundoApellido);
@@ -100,11 +98,9 @@ public class PersonaDAO {
 
             cs.registerOutParameter(5, Types.REF_CURSOR);
             cs.registerOutParameter(6, Types.NUMERIC);
-
             cs.execute();
 
             total = cs.getInt(6);
-
             try (ResultSet rs = (ResultSet) cs.getObject(5)) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
@@ -155,25 +151,31 @@ public class PersonaDAO {
             cs.execute();
         }
     }
-
+/// Cambié el id a Integer para que
     public static void actualizarPersona(
-            int id,
+            Integer id,
             String primerNombre,
             String segundoNombre,
             String primerApellido,
             String segundoApellido,
-            String notas) throws SQLException, ClassNotFoundException {
+            String notas,
+            Integer rating,
+            String modifiedBy,
+            Integer idBlackList
+            ) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_ACTUALIZAR_PERSONA(?,?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("{ CALL SP_ACTUALIZAR_PERSONA(?,?,?,?,?,?,?,?,?) }")) {
 
-            cs.setInt(1, id);
-            cs.setString(2, primerNombre);
-            cs.setString(3, segundoNombre == null || segundoNombre.isEmpty() ? null : segundoNombre);
-            cs.setString(4, primerApellido);
-            cs.setString(5, segundoApellido == null || segundoApellido.isEmpty() ? null : segundoApellido);
-            cs.setString(6, notas == null || notas.isEmpty() ? null : notas);
-
+            cs.setObject(1, id, Types.INTEGER);
+            cs.setObject(2, primerNombre, Types.VARCHAR);
+            cs.setObject(3, segundoNombre == null || segundoNombre.isEmpty() ? null : segundoNombre, Types.VARCHAR);
+            cs.setObject(4, primerApellido, Types.VARCHAR);
+            cs.setObject(5, segundoApellido == null || segundoApellido.isEmpty() ? null : segundoApellido, Types.VARCHAR);
+            cs.setObject(6, notas == null || notas.isEmpty() ? null : notas, Types.VARCHAR);
+            cs.setObject(7, rating, Types.INTEGER);
+            cs.setObject(8, modifiedBy, Types.VARCHAR);
+            cs.setObject(9, idBlackList, Types.INTEGER);
             cs.execute();
         }
     }

@@ -25,4 +25,7 @@ public class AdminController {
     public void switchDonaciones(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/Donaciones.fxml",event);
     }
+    public void switchCatalogos(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/Catalogos.fxml" , event);
+    }
 }

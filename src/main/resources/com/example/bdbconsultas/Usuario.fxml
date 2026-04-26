@@ -22,5 +22,6 @@
         <Text layoutX="40.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resumen de cuenta" />
       <Button layoutX="392.0" layoutY="160.0" mnemonicParsing="false" onAction="#switchEstadisticasMatches" text="Estad. Matches" />
       <Button layoutX="390.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchEstadisticasDonacion" text="Estad. Donaciones" />
+      <Button layoutX="287.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchReportar" text="Reportar" />
     </children>
 </AnchorPane>

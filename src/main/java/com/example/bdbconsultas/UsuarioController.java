@@ -22,6 +22,10 @@ public class UsuarioController {
         cambiarEscena("/com/example/bdbconsultas/Donar.fxml" , event);
     }
 
+    public void switchReportar(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/Reportar.fxml" , event);
+    }
+
     public void switchEstadisticasAdopciones(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/EstadisticasAdopcion.fxml" , event);
     }

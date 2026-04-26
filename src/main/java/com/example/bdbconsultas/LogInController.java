@@ -19,7 +19,7 @@ public class LogInController {
     @FXML private TextField txtUsuario;
     @FXML private PasswordField txtContrasena;
     @FXML private Button btnLogin;
-
+    public static String loggedUser;
     private final SeguridadDAO seguridadDAO = new SeguridadDAO();
 
     @FXML
@@ -43,8 +43,10 @@ public class LogInController {
             int tipoUsuario = seguridadDAO.validarLogin(user, password);
 
             if (tipoUsuario == 1) { // Si idUserType == 1 entonces es admin
+                loggedUser = user;
                 cambiarEscena("Admin.fxml", "Panel de Administración");
             } else if (tipoUsuario == 2) { // Si idUserType == 2 entonces es usuario
+                loggedUser = user;
                 cambiarEscena("Usuario.fxml", "Panel de Usuario");
             } else {
                 //Avisar si los datos están mal

@@ -116,16 +116,19 @@ public class PersonaController implements Initializable {
             mostrarError("Primer nombre y primer apellido son obligatorios");
             return;
         }
-
+/// Cambié el parámetro a Integer para que pueda ser null y no se tenga que actualizar siempre
         try {
             if (modoEdicion) {
                 PersonaDAO.actualizarPersona(
-                        Integer.parseInt(txtId.getText()),
+                        Integer.valueOf(txtId.getText()),
                         primerNombre,
                         txtSegundoNombre.getText().trim(),
                         primerApellido,
                         txtSegundoApellido.getText().trim(),
-                        txtNotas.getText().trim()
+                        txtNotas.getText().trim(),
+                        null,
+                        null,
+                        null
                 );
                 mostrarInfo("Persona actualizada correctamente");
             } else {
