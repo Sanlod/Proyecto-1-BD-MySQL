@@ -2,7 +2,6 @@ package com.example.bdbconsultas;
 
 import com.example.bdbconsultas.DAOs.AssociationDAO;
 import com.example.bdbconsultas.DAOs.MascotasDAO;
-import com.example.bdbconsultas.DAOs.PersonaDAO;
 import com.example.bdbconsultas.DAOs.RecompensasDAO;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.*;
@@ -16,63 +15,53 @@ import java.util.ResourceBundle;
 public class RecompensaAdminController implements Initializable {
 
     @FXML private TableView<ObservableList<String>> tblMascotasPerdidas;
-    @FXML private ComboBox<String> cmbPersonaEncontro;
     @FXML private ComboBox<String> cmbAsociacion;
     @FXML private Label lblTotal;
-    @FXML private Button btnAsignarPersona;
+    @FXML private Label lblRescatista;
+    @FXML private Button btnPagarRescatista;
     @FXML private Button btnDonarAsociacion;
     @FXML private Button btnVolver;
 
-    private ObservableList<ObservableList<String>> datosPersonas;
     private ObservableList<ObservableList<String>> datosAsociaciones;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        configurarTabla();
         cargarMascotasPerdidas();
-        cargarPersonas();
         cargarAsociaciones();
-        btnAsignarPersona.setDisable(true);
+        btnPagarRescatista.setDisable(true);
         btnDonarAsociacion.setDisable(true);
 
         tblMascotasPerdidas.getSelectionModel().selectedItemProperty()
                 .addListener((obs, old, sel) -> {
-                    btnAsignarPersona.setDisable(sel == null);
-                    btnDonarAsociacion.setDisable(sel == null);
+                    boolean haySeleccion = sel != null;
+                    btnPagarRescatista.setDisable(!haySeleccion);
+                    btnDonarAsociacion.setDisable(!haySeleccion);
+                    if (haySeleccion) {
+                        // Mostrar rescatista asignado a la mascota hallada del match
+                        lblRescatista.setText("Rescatista: " +
+                                (sel.size() > 5 ? sel.get(5) : "Sin rescatista"));
+                    }
                 });
+    }
+
+    private void configurarTabla() {
+        String[] headers = {"ID", "Nombre", "Tipo", "Raza", "Fecha Pérdida", "Bounty", "Moneda"};
+        for (int i = 0; i < headers.length; i++) {
+            final int idx = i;
+            TableColumn<ObservableList<String>, String> col = new TableColumn<>(headers[i]);
+            col.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().get(idx)));
+            tblMascotasPerdidas.getColumns().add(col);
+        }
     }
 
     private void cargarMascotasPerdidas() {
         try {
-            ObservableList<ObservableList<String>> datos =
-                    MascotasDAO.getMascotasPerdidas();
-            tblMascotasPerdidas.getColumns().clear();
-            if (!datos.isEmpty()) {
-                String[] headers = {"ID", "Nombre", "Tipo", "Raza", "Fecha Pérdida"};
-                for (int i = 0; i < headers.length && i < datos.get(0).size(); i++) {
-                    final int idx = i;
-                    TableColumn<ObservableList<String>, String> col =
-                            new TableColumn<>(headers[i]);
-                    col.setCellValueFactory(d ->
-                            new SimpleStringProperty(d.getValue().get(idx)));
-                    tblMascotasPerdidas.getColumns().add(col);
-                }
-            }
+            ObservableList<ObservableList<String>> datos = MascotasDAO.getMascotasPerdidas();
             tblMascotasPerdidas.setItems(datos);
             lblTotal.setText("Total: " + datos.size());
         } catch (Exception e) {
             mostrarError("Error al cargar: " + e.getMessage());
-        }
-    }
-
-    private void cargarPersonas() {
-        try {
-            datosPersonas = PersonaDAO.getPersonas();
-            ObservableList<String> nombres = FXCollections.observableArrayList();
-            for (ObservableList<String> fila : datosPersonas)
-                nombres.add(fila.get(1));
-            cmbPersonaEncontro.setItems(nombres);
-        } catch (Exception e) {
-            mostrarError("Error al cargar personas: " + e.getMessage());
         }
     }
 
@@ -88,25 +77,18 @@ public class RecompensaAdminController implements Initializable {
         }
     }
 
-    // Marcar hallada y asignar bounty a persona
     @FXML
-    private void onAsignarPersona() {
+    private void onPagarRescatista() {
         ObservableList<String> sel = tblMascotasPerdidas.getSelectionModel().getSelectedItem();
         if (sel == null) { mostrarError("Seleccione una mascota."); return; }
-        if (cmbPersonaEncontro.getSelectionModel().getSelectedIndex() < 0) {
-            mostrarError("Seleccione la persona que encontró la mascota."); return;
-        }
 
-        String idPet     = sel.get(0);
-        String idPersona = datosPersonas.get(
-                cmbPersonaEncontro.getSelectionModel().getSelectedIndex()).get(0);
-
+        String idPet = sel.get(0);
         try {
-            boolean ok = RecompensasDAO.marcarHallada(idPet, idPersona, "SYSTEM");
+            // El rescatista viene del match confirmado — SP_MARCAR_HALLADA busca el rescatista de la mascota hallada
+            boolean ok = RecompensasDAO.marcarHallada(idPet, "SYSTEM");
             if (ok) {
-                mostrarInfo("Mascota hallada. Bounty asignado a la persona.");
+                mostrarInfo("Bounty pagado al rescatista.");
                 cargarMascotasPerdidas();
-                cmbPersonaEncontro.setValue(null);
             } else {
                 mostrarError("No se pudo procesar.");
             }
@@ -115,7 +97,6 @@ public class RecompensaAdminController implements Initializable {
         }
     }
 
-    // Marcar hallada y donar bounty a asociación
     @FXML
     private void onDonarAsociacion() {
         ObservableList<String> sel = tblMascotasPerdidas.getSelectionModel().getSelectedItem();
@@ -129,18 +110,15 @@ public class RecompensaAdminController implements Initializable {
                 cmbAsociacion.getSelectionModel().getSelectedIndex()).get(0);
 
         try {
-            // Marcar hallada sin asignar persona
-            RecompensasDAO.marcarHallada(idPet, null, "SYSTEM");
-
-            // Obtener bounty y donar
-            RecompensasDAO.ResultadoConsulta bounties =
-                    RecompensasDAO.consultarRecompensas(idPet);
+            RecompensasDAO.ResultadoConsulta bounties = RecompensasDAO.consultarRecompensas(idPet);
             if (!bounties.filas.isEmpty()) {
                 String idBounty = bounties.filas.get(0).get(0);
                 RecompensasDAO.donarRecompensa(idBounty, idAsociacion, "SYSTEM");
-                mostrarInfo("Mascota hallada. Bounty donado a la asociación.");
+                // Marcar mascota como hallada
+                RecompensasDAO.marcarHallada(idPet,  "SYSTEM");
+                mostrarInfo("Bounty donado a la asociación.");
             } else {
-                mostrarInfo("Mascota hallada. No había bounty activo.");
+                mostrarError("No hay bounty activo para esta mascota.");
             }
             cargarMascotasPerdidas();
             cmbAsociacion.setValue(null);

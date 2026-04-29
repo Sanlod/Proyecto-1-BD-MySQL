@@ -135,19 +135,16 @@ public class RecompensasDAO {
         }
     }
 
-    public static boolean marcarHallada(
-            String idPet, String idPersonFound, String modifiedBy)
+    public static boolean marcarHallada(String idPet, String modifiedBy)
             throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_MARCAR_HALLADA(?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("{ CALL SP_MARCAR_HALLADA(?,?,?) }")) {
             cs.setString(1, idPet);
-            cs.setString(2, idPersonFound);
-            cs.setString(3, modifiedBy);
-            cs.registerOutParameter(4, Types.NUMERIC);
+            cs.setString(2, modifiedBy != null ? modifiedBy : "SYSTEM");
+            cs.registerOutParameter(3, Types.NUMERIC);
             cs.execute();
-            return cs.getInt(4) == 0;
+            return cs.getInt(3) == 0;
         }
     }
 }
