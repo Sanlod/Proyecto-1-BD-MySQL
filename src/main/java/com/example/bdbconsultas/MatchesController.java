@@ -1,6 +1,3 @@
-//Mostrar matches
-//Tomar matches y eliminar/editar match, cambiar estado de las mascotas
-
 package com.example.bdbconsultas;
 
 import com.example.bdbconsultas.DAOs.MascotasDAO;
@@ -14,18 +11,13 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class MatchesController implements Initializable {
 
-
     @FXML private ComboBox<String> cmbTipo;
     @FXML private ComboBox<String> cmbRaza;
-    @FXML private ComboBox<String> cmbEstado;
     @FXML private ComboBox<String> cmbColor;
     @FXML private ComboBox<String> cmbProvincia;
     @FXML private ComboBox<String> cmbCanton;
@@ -37,21 +29,12 @@ public class MatchesController implements Initializable {
     @FXML private ComboBox<String> cmbMatchState;
     @FXML private DatePicker dtDesde;
     @FXML private DatePicker dtHasta;
+    @FXML private ComboBox<String> cmbMascotaPerdida;
 
     @FXML private TableView<ObservableList<String>> tblMatches;
-    @FXML private TableColumn<ObservableList<String>, String> colId;
-    @FXML private TableColumn<ObservableList<String>, String> colNombre;
-    @FXML private TableColumn<ObservableList<String>, String> colTipo;
-    @FXML private TableColumn<ObservableList<String>, String> colRaza;
-    @FXML private TableColumn<ObservableList<String>, String> colColor;
-    @FXML private TableColumn<ObservableList<String>, String> colEstado;
-    @FXML private TableColumn<ObservableList<String>, String> colUbicacion;
-    @FXML private TableColumn<ObservableList<String>, String> colFecha;
     @FXML private Label lblTotal;
 
-
     @FXML private ComboBox<String> cmbNuevoEstado;
-    @FXML private ComboBox<String> cmbMascotaPerdida;
     @FXML private Button btnCambiarEstado;
     @FXML private Button btnBuscar;
     @FXML private Button btnLimpiar;
@@ -59,7 +42,6 @@ public class MatchesController implements Initializable {
 
     private ObservableList<ObservableList<String>> datosTiposActuales;
     private ObservableList<ObservableList<String>> datosRazasActuales;
-    private ObservableList<ObservableList<String>> datosEstadosActuales;
     private ObservableList<ObservableList<String>> datosColoresActuales;
     private ObservableList<ObservableList<String>> datosProvinciasActuales;
     private ObservableList<ObservableList<String>> datosCantonesActuales;
@@ -69,31 +51,16 @@ public class MatchesController implements Initializable {
     private ObservableList<ObservableList<String>> datosMascotasPerdidas;
     private ObservableList<ObservableList<String>> datosEstadosMatch;
 
-
-
     private final MatchesDAO dao = new MatchesDAO();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        configurarTabla();
         cargarCombos();
         cargarEstadosMatch();
-        deshabilitarBotonEstado();
-    }
-
-    private void configurarTabla() {
-        colId.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(0)));
-        colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(1)));
-        colTipo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(2)));
-        colRaza.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(3)));
-        colColor.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(4)));
-        colEstado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(6)));
-        colUbicacion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(8)));
-        colFecha.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(7)));
-
         tblMatches.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             btnCambiarEstado.setDisable(newVal == null);
         });
+        btnCambiarEstado.setDisable(true);
     }
 
     private void cargarCombos() {
@@ -104,10 +71,6 @@ public class MatchesController implements Initializable {
 
             datosColoresActuales = MascotasDAO.getColores();
             cmbColor.setItems(datosColoresActuales.stream().map(r -> r.get(1))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-
-            datosEstadosActuales = MascotasDAO.getEstados();
-            cmbEstado.setItems(datosEstadosActuales.stream().map(r -> r.get(1))
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
 
             datosProvinciasActuales = MascotasDAO.getProvincias();
@@ -134,11 +97,6 @@ public class MatchesController implements Initializable {
 
     private void cargarEstadosMatch() {
         try {
-            ObservableList<ObservableList<String>> estados = MatchesDAO.getEstadosMatch();
-            cmbMatchState.setItems(estados.stream().map(r -> r.get(0))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-            cmbNuevoEstado.setItems(estados.stream().map(r -> r.get(0))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
             datosEstadosMatch = MatchesDAO.getEstadosMatch();
             cmbMatchState.setItems(datosEstadosMatch.stream().map(r -> r.get(1))
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
@@ -189,13 +147,13 @@ public class MatchesController implements Initializable {
     private void onBuscar() {
         try {
             String idMascotaPerdida = obtenerIdSeleccionado(cmbMascotaPerdida, datosMascotasPerdidas);
-            String idTipo      = obtenerIdSeleccionado(cmbTipo, datosTiposActuales);
-            String idRaza      = obtenerIdSeleccionado(cmbRaza, datosRazasActuales);
-            String idColor     = obtenerIdSeleccionado(cmbColor, datosColoresActuales);
-            String idEstado    = obtenerIdSeleccionado(cmbMatchState, datosEstadosMatch);
+            String idTipo = obtenerIdSeleccionado(cmbTipo, datosTiposActuales);
+            String idRaza = obtenerIdSeleccionado(cmbRaza, datosRazasActuales);
+            String idColor = obtenerIdSeleccionado(cmbColor, datosColoresActuales);
+            String idEstado = obtenerIdSeleccionado(cmbMatchState, datosEstadosMatch);
             String idProvincia = obtenerIdSeleccionado(cmbProvincia, datosProvinciasActuales);
-            String idCanton    = obtenerIdSeleccionado(cmbCanton, datosCantonesActuales);
-            String idDistrito  = obtenerIdSeleccionado(cmbDistrito, datosDistritosActuales);
+            String idCanton = obtenerIdSeleccionado(cmbCanton, datosCantonesActuales);
+            String idDistrito = obtenerIdSeleccionado(cmbDistrito, datosDistritosActuales);
             String idAsociacion = obtenerIdSeleccionado(cmbAsociacion, datosAsociacionesActuales);
 
             MatchesDAO.ResultadoConsulta resultado = MatchesDAO.consultarMatches(
@@ -214,7 +172,7 @@ public class MatchesController implements Initializable {
         }
     }
 
-    private void configurarColumnasDinamicas(List<String> columnas) {
+    private void configurarColumnasDinamicas(java.util.List<String> columnas) {
         tblMatches.getColumns().clear();
         for (int i = 0; i < columnas.size(); i++) {
             final int idx = i;
@@ -250,7 +208,6 @@ public class MatchesController implements Initializable {
     private void onLimpiar() {
         cmbTipo.setValue(null);
         cmbRaza.setValue(null);
-        cmbEstado.setValue(null);
         cmbColor.setValue(null);
         cmbProvincia.setValue(null);
         cmbCanton.setValue(null);
@@ -264,10 +221,6 @@ public class MatchesController implements Initializable {
         dtHasta.setValue(null);
         tblMatches.setItems(null);
         lblTotal.setText("Total: 0 resultados");
-    }
-
-    private void deshabilitarBotonEstado() {
-        btnCambiarEstado.setDisable(true);
     }
 
     private String obtenerIdSeleccionado(ComboBox<String> cmb, ObservableList<ObservableList<String>> datos) {

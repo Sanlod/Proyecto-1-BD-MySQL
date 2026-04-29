@@ -116,4 +116,39 @@ public class CatalogoDAO {
             ps.executeUpdate();
         }
     }
+
+    public static void agregarPregunta(String texto, String tipo, String createdBy)
+            throws SQLException, ClassNotFoundException {
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{ CALL SP_AGREGAR_PREGUNTA(?,?,?) }")) {
+            cs.setString(1, texto);
+            cs.setString(2, tipo);
+            cs.setString(3, createdBy);
+            cs.execute();
+        }
+    }
+
+    public static void editarPregunta(int id, String texto, String tipo, String modifiedBy)
+            throws SQLException, ClassNotFoundException {
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{ CALL SP_EDITAR_PREGUNTA(?,?,?,?) }")) {
+            cs.setInt(1, id);
+            cs.setString(2, texto);
+            cs.setString(3, tipo);
+            cs.setString(4, modifiedBy);
+            cs.execute();
+        }
+
+    }
+    public static void eliminarCatalogo(String tabla, int id)
+            throws SQLException, ClassNotFoundException {
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{ CALL SP_ELIMINAR_CATALOGO(?,?) }")) {
+            cs.setString(1, tabla);
+            cs.setInt(2, id);
+            cs.execute();
+        }
+    }
+
+
 }

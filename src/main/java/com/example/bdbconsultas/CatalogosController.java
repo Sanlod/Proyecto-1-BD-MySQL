@@ -1,5 +1,6 @@
 package com.example.bdbconsultas;
 
+import com.example.bdbconsultas.DAOs.AdopcionesDAO;
 import com.example.bdbconsultas.DAOs.AssociationDAO;
 import com.example.bdbconsultas.DAOs.CatalogoDAO;
 import com.example.bdbconsultas.DAOs.MascotasDAO;
@@ -30,6 +31,7 @@ public class CatalogosController implements Initializable {
 
     @FXML private Button btnEditar;
     @FXML private Button btnAgregar;
+    @FXML private Button btnEliminar;
     @FXML private Button btnVolver;
 
     private boolean esAdmin = false;
@@ -71,13 +73,20 @@ public class CatalogosController implements Initializable {
                 "Asociación", "Color", "Raza", "Tipo Mascota", "Estado",
                 "Severidad", "Nivel Energía", "Dificultad Entrenamiento",
                 "Moneda", "Enfermedad", "Tratamiento", "Medicamento",
-                "Provincia", "Cantón", "Distrito"
+                "Provincia", "Cantón", "Distrito", "Pregunta"
         ));
     }
 
     private void configurarTabla() {
         colC1.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().get(0)));
         colC2.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().get(1)));
+        tblDatos.getSelectionModel().selectedItemProperty().addListener((obs, old, sel) -> {
+            if (sel != null) {
+                spnIdEditar.getValueFactory().setValue(
+                        Integer.parseInt(sel.get(0)));
+                txtNuevoValor.setText(sel.get(1));
+            }
+        });
     }
 
     @FXML
@@ -95,6 +104,23 @@ public class CatalogosController implements Initializable {
                     cmbFiltroEspecial.setVisible(true);
                     cmbFiltroEspecial.setPromptText("Tipo de mascota");
                     datosFiltroEspecial = MascotasDAO.getTiposMascotas();
+                    cmbFiltroEspecial.setOnAction(e -> {
+                        int idx = cmbFiltroEspecial.getSelectionModel().getSelectedIndex();
+                        if (idx >= 0) {
+                            try {
+                                String idTipo = datosFiltroEspecial.get(idx).get(0);
+                                tblDatos.setItems(MascotasDAO.getRazasPorTipo(idTipo));
+                            } catch (Exception ex) {
+                                mostrarError("Error al filtrar razas: " + ex.getMessage());
+                            }
+                        } else {
+                            try {
+                                tblDatos.setItems(MascotasDAO.getRazasTodas());
+                            } catch (Exception ex) {
+                                mostrarError(ex.getMessage());
+                            }
+                        }
+                    });
                     break;
                 case "Enfermedad":
                     txtDescripcion.setVisible(true);
@@ -109,6 +135,10 @@ public class CatalogosController implements Initializable {
                     cmbFiltroEspecial.setVisible(true);
                     cmbFiltroEspecial.setPromptText("Cantón");
                     datosFiltroEspecial = MascotasDAO.getCantonesPorProvincia("");
+                    break;
+                case "Pregunta":
+                    txtDescripcion.setVisible(true);
+                    txtDescripcion.setPromptText("Tipo de respuesta (TEXT/YESNO/NUMBER)");
                     break;
             }
 
@@ -127,13 +157,30 @@ public class CatalogosController implements Initializable {
         cargarDatos(entidad);
     }
 
+    @FXML
+    private void onEliminar() {
+        if (!esAdmin) { mostrarError("Sin permisos de administrador."); return; }
+
+        String entidad = cmbEntidad.getValue();
+        if (!validarCampo(entidad, "Entidad")) return;
+
+        try {
+            CatalogoDAO.eliminarCatalogo(obtenerTabla(entidad), spnIdEditar.getValue());
+            cargarDatos(entidad);
+            limpiarCamposEdicion();
+            mostrarInfo("Registro eliminado correctamente.");
+        } catch (Exception e) {
+            mostrarError("Error al eliminar: " + e.getMessage());
+        }
+    }
+
     private void cargarDatos(String entidad) {
         try {
             ObservableList<ObservableList<String>> datos = null;
             switch (entidad) {
                 case "Asociación":              datos = AssociationDAO.getAsociaciones(); break;
                 case "Color":                   datos = MascotasDAO.getColores(); break;
-                case "Raza":                    datos = MascotasDAO.getRazas(); break;
+                case "Raza":                    datos = MascotasDAO.getRazasTodas(); break;
                 case "Tipo Mascota":            datos = MascotasDAO.getTiposMascotas(); break;
                 case "Estado":                  datos = MascotasDAO.getEstados(); break;
                 case "Severidad":               datos = MascotasDAO.getSeveridades(); break;
@@ -146,6 +193,7 @@ public class CatalogosController implements Initializable {
                 case "Provincia":               datos = MascotasDAO.getProvincias(); break;
                 case "Cantón":                  datos = MascotasDAO.getCantonesPorProvincia(""); break;
                 case "Distrito":                datos = MascotasDAO.getDistritos(); break;
+                case "Pregunta":                datos = AdopcionesDAO.getPreguntas(); break;
             }
             if (datos != null) tblDatos.setItems(datos);
         } catch (Exception e) {
@@ -169,6 +217,10 @@ public class CatalogosController implements Initializable {
                 String descripcion = txtDescripcion.getText().trim();
                 if (!validarCampo(descripcion, "Descripción")) return;
                 CatalogoDAO.editarEnfermedad(id, nuevoValor, descripcion);
+            } else if (entidad.equals("Pregunta")) {
+                String tipo = txtDescripcion.getText().trim();
+                if (!validarCampo(tipo, "Tipo de respuesta")) return;
+                CatalogoDAO.editarPregunta(id, nuevoValor, tipo, "SYSTEM");
             } else {
                 CatalogoDAO.editarCatalogo(obtenerTabla(entidad), id, nuevoValor);
             }
@@ -221,6 +273,15 @@ public class CatalogosController implements Initializable {
                     CatalogoDAO.agregarDistrito(valor, idCan);
                     break;
                 }
+                case "Pregunta": {
+                    if (CatalogoDAO.existeRegistro("Question", valor)) {
+                        mostrarError("Pregunta ya existe."); return;
+                    }
+                    String tipo = txtDescripcion.getText().trim();
+                    if (!validarCampo(tipo, "Tipo de respuesta")) return;
+                    CatalogoDAO.agregarPregunta(valor, tipo, "SYSTEM");
+                    break;
+                }
                 default: {
                     String tabla = obtenerTabla(entidad);
                     if (CatalogoDAO.existeRegistro(tabla, valor)) { mostrarError("Ya existe ese registro."); return; }
@@ -252,6 +313,7 @@ public class CatalogosController implements Initializable {
             case "Provincia":                return "Province";
             case "Cantón":                   return "Canton";
             case "Distrito":                 return "District";
+            case "Pregunta":                 return "Question";
             default:                         return null;
         }
     }

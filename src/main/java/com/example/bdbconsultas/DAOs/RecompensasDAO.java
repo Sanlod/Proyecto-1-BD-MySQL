@@ -117,4 +117,37 @@ public class RecompensasDAO {
             cs.execute();
         }
     }
+
+    public static void marcarPerdida(
+            String idPet, String monto, String idCurrency,
+            java.time.LocalDate lossDate, String createdBy)
+            throws SQLException, ClassNotFoundException {
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(
+                     "{ CALL SP_MARCAR_PERDIDA(?,?,?,?,?) }")) {
+            cs.setString(1, idPet);
+            cs.setString(2, monto);
+            cs.setString(3, idCurrency);
+            cs.setDate(4, lossDate != null ? java.sql.Date.valueOf(lossDate) : null);
+            cs.setString(5, createdBy);
+            cs.execute();
+        }
+    }
+
+    public static boolean marcarHallada(
+            String idPet, String idPersonFound, String modifiedBy)
+            throws SQLException, ClassNotFoundException {
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(
+                     "{ CALL SP_MARCAR_HALLADA(?,?,?,?) }")) {
+            cs.setString(1, idPet);
+            cs.setString(2, idPersonFound);
+            cs.setString(3, modifiedBy);
+            cs.registerOutParameter(4, Types.NUMERIC);
+            cs.execute();
+            return cs.getInt(4) == 0;
+        }
+    }
 }

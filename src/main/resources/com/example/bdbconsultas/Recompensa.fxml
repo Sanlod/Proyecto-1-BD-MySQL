@@ -1,51 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="577.0" prefWidth="907.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.RecompensasController">
+<AnchorPane prefHeight="580.0" prefWidth="860.0"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.bdbconsultas.RecompensasController">
    <children>
-      <Text layoutX="26.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar recompensa" />
 
-      <Text layoutX="28.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mascota:" />
-      <ComboBox fx:id="cmbMascota" layoutX="103.0" layoutY="105.0" prefWidth="150.0" />
+      <Button fx:id="btnVolver" layoutX="800.0" layoutY="10.0"
+              text="Volver" onAction="#onVolver"/>
 
-      <Text layoutX="28.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monto:" />
-      <TextField fx:id="txtMonto" layoutX="103.0" layoutY="139.0" />
+      <Text layoutX="20.0" layoutY="45.0" text="Reportar mascota perdida"/>
 
-      <Text layoutX="28.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moneda:" />
-      <ComboBox fx:id="cmbMoneda" layoutX="103.0" layoutY="211.0" prefWidth="150.0" />
+      <Text layoutX="20.0" layoutY="75.0" text="Mascota:"/>
+      <ComboBox fx:id="cmbMascota" layoutX="80.0" layoutY="58.0" prefWidth="180.0"/>
 
-      <Button fx:id="btnRegistrar" layoutX="25.0" layoutY="270.0" mnemonicParsing="false" onAction="#onRegistrar" text="Registrar" />
-      <Button fx:id="btnConsultar" layoutX="106.0" layoutY="270.0" mnemonicParsing="false" onAction="#onConsultar" text="Consultar" />
+      <Text layoutX="275.0" layoutY="75.0" text="Monto:"/>
+      <TextField fx:id="txtMonto" layoutX="325.0" layoutY="58.0" prefWidth="120.0"/>
 
-      <Text layoutX="28.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación:" />
-      <ComboBox fx:id="cmbAsociacion" layoutX="103.0" layoutY="175.0" prefWidth="150.0" />
+      <Text layoutX="460.0" layoutY="75.0" text="Moneda:"/>
+      <ComboBox fx:id="cmbMoneda" layoutX="515.0" layoutY="58.0" prefWidth="130.0"/>
 
-      <Text layoutX="25.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recompensa:" />
-      <ComboBox fx:id="cmbRecompensa" layoutX="28.0" layoutY="306.0" prefWidth="150.0" />
+      <Button layoutX="660.0" layoutY="58.0"
+              text="Registrar bounty" onAction="#onRegistrarBounty"/>
 
-      <Button fx:id="btnDonar" layoutX="266.0" layoutY="175.0" mnemonicParsing="false" onAction="#onDonar" prefHeight="25.0" prefWidth="122.0" text="Donar recompensa" />
-
-      <Text layoutX="424.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recompensas" />
-
-      <TableView fx:id="tblRecompensas" layoutX="424.0" layoutY="97.0" prefHeight="371.0" prefWidth="437.0">
+      <Text layoutX="20.0" layoutY="115.0" text="Recompensas activas:"/>
+      <TableView fx:id="tblRecompensas" layoutX="20.0" layoutY="120.0"
+                 prefHeight="330.0" prefWidth="820.0">
          <columns>
-            <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
-            <TableColumn fx:id="colMonto" prefWidth="104.0" text="Monto" />
-            <TableColumn fx:id="colMoneda" prefWidth="101.0" text="Moneda" />
-            <TableColumn fx:id="colMascota" prefWidth="156.0" text="Mascota" />
+            <TableColumn fx:id="colId"      prefWidth="60.0"  text="ID"/>
+            <TableColumn fx:id="colMonto"   prefWidth="120.0" text="Monto"/>
+            <TableColumn fx:id="colMoneda"  prefWidth="100.0" text="Moneda"/>
+            <TableColumn fx:id="colMascota" prefWidth="200.0" text="Mascota"/>
          </columns>
       </TableView>
 
-      <Label fx:id="lblTotal" layoutX="35.0" layoutY="475.0" text="Total: 0 resultados" />
+      <Label fx:id="lblTotal" layoutX="20.0" layoutY="460.0" text="Total: 0"/>
+      <Button layoutX="20.0" layoutY="475.0" text="Consultar" onAction="#onConsultar"/>
 
-      <Button fx:id="btnVolver" layoutX="843.0" layoutY="14.0" mnemonicParsing="false" onAction="#onVolver" text="Volver" />
    </children>
 </AnchorPane>

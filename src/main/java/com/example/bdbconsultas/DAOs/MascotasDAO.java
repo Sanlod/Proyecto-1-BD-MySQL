@@ -629,4 +629,13 @@ public class MascotasDAO {
             throws SQLException, ClassNotFoundException {
         return listadosCatalogo("SP_LISTAR_MASCOTAS");
     }
+    public static ObservableList<ObservableList<String>> getRazasTodas()
+            throws SQLException, ClassNotFoundException {
+        return listadosCatalogo("SP_LISTAR_TODAS_RAZAS");
+    }
+
+    public static ObservableList<ObservableList<String>> getMascotasPerdidas()
+            throws SQLException, ClassNotFoundException {
+        return listadosCatalogo("SP_LISTAR_MASCOTASPERDIDAS");
+    }
 }
