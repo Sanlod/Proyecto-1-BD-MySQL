@@ -36,7 +36,7 @@
                   <Text layoutX="226.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantón" />
                   <TextArea fx:id="txtDescripcion1" layoutX="474.0" layoutY="108.0" prefHeight="175.0" prefWidth="168.0" />
                   <Text layoutX="474.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" />
-                  <Button layoutX="806.0" layoutY="25.0" mnemonicParsing="false" onAction="#onVolver" text="Volver" />
+                  <Button layoutX="806.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchVolver" text="Volver" />
                   <TextField fx:id="txtChip1" layoutX="40.0" layoutY="312.0" />
                   <Text layoutX="40.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chip (si lo porta)" />
                   <Text layoutX="220.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recompensa">

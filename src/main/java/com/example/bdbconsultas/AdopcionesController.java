@@ -4,9 +4,17 @@ import com.example.bdbconsultas.DAOs.AdopcionesDAO;
 import com.example.bdbconsultas.DAOs.PersonaDAO;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class AdopcionesController {
@@ -169,9 +177,10 @@ public class AdopcionesController {
         };
     }
 
-    @FXML
-    private void onVolver() {
-        ((javafx.stage.Stage) btnVolver.getScene().getWindow()).close();
+    public void switchVolver(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/bdbconsultas/Admin.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
     }
 
     private void mostrarAlerta(String titulo, String msg, Alert.AlertType tipo) {

@@ -8,12 +8,12 @@
     <children>
         <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Panel de Administración" />
 
-        <Button layoutX="50.0" layoutY="80.0" mnemonicParsing="false" text="Registrar mascota" />
-        <Button layoutX="200.0" layoutY="80.0" mnemonicParsing="false" text="Adopciones" />
+        <Button layoutX="50.0" layoutY="80.0" mnemonicParsing="false" onAction="#switchRegistrarMascota" text="Registrar mascota" />
+        <Button layoutX="200.0" layoutY="80.0" mnemonicParsing="false" onAction="#switchAdopciones" text="Adopciones" />
         <Button layoutX="350.0" layoutY="80.0" mnemonicParsing="false" onAction="#switchDonaciones" text="Donaciones" />
 
-        <Button layoutX="50.0" layoutY="150.0" mnemonicParsing="false" text="Matches" />
-        <Button layoutX="150.0" layoutY="150.0" mnemonicParsing="false" text="Personas" />
+        <Button layoutX="50.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchMatches" text="Matches" />
+        <Button layoutX="150.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchPersonas" text="Personas" />
         <Button layoutX="250.0" layoutY="150.0" mnemonicParsing="false" text="Bitácoras" />
         <Button layoutX="350.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchCatalogos" text="Catálogos" />
         <Button layoutX="350.0" layoutY="150.0" mnemonicParsing="false" onAction="#Recompensas" text="Recompensas" />

@@ -27,6 +27,18 @@ public class AdminController {
     public void switchCatalogos(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/Catalogos.fxml" , event);
     }
+    public void switchAdopciones(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/Adopciones.fxml" , event);
+    }
+    public void switchMatches(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/Matches.fxml" , event);
+    }
+    public void switchPersonas(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/Persona.fxml" , event);
+    }
+    public void switchRegistrarMascota(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/RegistrarMascota.fxml" , event);
+    }
     public void Recompensas(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/RecompensaAdmin.fxml" , event);
     }

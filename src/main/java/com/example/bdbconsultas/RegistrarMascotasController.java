@@ -4,8 +4,13 @@ import com.example.bdbconsultas.DAOs.MascotasDAO;
 import com.example.bdbconsultas.DAOs.RecompensasDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -377,10 +382,10 @@ public class RegistrarMascotasController implements Initializable {
         alert.show();
     }
 
-    @FXML
-    private void onVolver() {
-        Stage stage = (Stage) txtIdNombre1.getScene().getWindow();
-        stage.close();
+    public void switchVolver(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/bdbconsultas/Admin.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
     }
 
     @FXML

@@ -1,49 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="620.0" prefWidth="900.0"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.bdbconsultas.AdopcionesController">
+<AnchorPane prefHeight="620.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.AdopcionesController">
    <children>
 
-      <Button fx:id="btnVolver" layoutX="840.0" layoutY="10.0"
-              text="Volver" onAction="#onVolver"/>
+      <Button fx:id="btnVolver" layoutX="840.0" layoutY="10.0" onAction="#switchVolver" text="Volver" />
 
       <!-- Filtros -->
-      <Text layoutX="30.0" layoutY="45.0" text="Desde:"/>
-      <DatePicker fx:id="dpDesde" layoutX="80.0" layoutY="28.0"/>
+      <Text layoutX="30.0" layoutY="45.0" text="Desde:" />
+      <DatePicker fx:id="dpDesde" layoutX="80.0" layoutY="28.0" />
 
-      <Text layoutX="270.0" layoutY="45.0" text="Hasta:"/>
-      <DatePicker fx:id="dpHasta" layoutX="320.0" layoutY="28.0"/>
+      <Text layoutX="270.0" layoutY="45.0" text="Hasta:" />
+      <DatePicker fx:id="dpHasta" layoutX="320.0" layoutY="28.0" />
 
-      <Text layoutX="510.0" layoutY="45.0" text="Mascota:"/>
-      <ComboBox fx:id="cbMascota" layoutX="565.0" layoutY="28.0" prefWidth="150.0"/>
+      <Text layoutX="510.0" layoutY="45.0" text="Mascota:" />
+      <ComboBox fx:id="cbMascota" layoutX="565.0" layoutY="28.0" prefWidth="150.0" />
 
-      <Text layoutX="30.0" layoutY="85.0" text="Adoptante:"/>
-      <ComboBox fx:id="cbAdoptante" layoutX="100.0" layoutY="68.0" prefWidth="150.0"/>
+      <Text layoutX="30.0" layoutY="85.0" text="Adoptante:" />
+      <ComboBox fx:id="cbAdoptante" layoutX="100.0" layoutY="68.0" prefWidth="150.0" />
 
-      <Button layoutX="270.0" layoutY="68.0" text="Buscar" onAction="#onBuscar"/>
+      <Button layoutX="270.0" layoutY="68.0" onAction="#onBuscar" text="Buscar" />
 
       <!-- Tabla adopciones -->
-      <Text layoutX="30.0" layoutY="115.0" text="Adopciones"/>
-      <TableView fx:id="tablaAdopciones" layoutX="30.0" layoutY="120.0"
-                 prefHeight="180.0" prefWidth="840.0"/>
+      <Text layoutX="30.0" layoutY="115.0" text="Adopciones" />
+      <TableView fx:id="tablaAdopciones" layoutX="30.0" layoutY="120.0" prefHeight="180.0" prefWidth="840.0" />
 
-      <Label fx:id="lblResultados" layoutX="30.0" layoutY="308.0" text="Total: 0"/>
+      <Label fx:id="lblResultados" layoutX="30.0" layoutY="308.0" text="Total: 0" />
 
       <!-- Tabla solicitudes -->
-      <Text layoutX="30.0" layoutY="335.0" text="Solicitudes"/>
-      <TableView fx:id="tablaSolicitudes" layoutX="30.0" layoutY="340.0"
-                 prefHeight="150.0" prefWidth="840.0"/>
+      <Text layoutX="30.0" layoutY="335.0" text="Solicitudes" />
+      <TableView fx:id="tablaSolicitudes" layoutX="30.0" layoutY="340.0" prefHeight="150.0" prefWidth="840.0" />
 
       <!-- Gestión admin -->
-      <Button fx:id="btnAprobar" layoutX="30.0" layoutY="505.0"
-              text="Aprobar seleccionada" onAction="#onAprobar" visible="false"/>
-      <Button fx:id="btnRechazar" layoutX="200.0" layoutY="505.0"
-              text="Rechazar seleccionada" onAction="#onRechazar" visible="false"/>
+      <Button fx:id="btnAprobar" layoutX="30.0" layoutY="505.0" onAction="#onAprobar" text="Aprobar seleccionada" visible="false" />
+      <Button fx:id="btnRechazar" layoutX="200.0" layoutY="505.0" onAction="#onRechazar" text="Rechazar seleccionada" visible="false" />
 
    </children>
 </AnchorPane>

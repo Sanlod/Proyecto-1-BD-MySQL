@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="580.0" prefWidth="900.0"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.bdbconsultas.RecompensaAdminController">
+<AnchorPane prefHeight="580.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.RecompensaAdminController">
     <children>
 
-        <Button fx:id="btnVolver" layoutX="840.0" layoutY="10.0"
-                text="Volver" onAction="#onVolver"/>
+        <Button fx:id="btnVolver" layoutX="840.0" layoutY="10.0" onAction="#switchVolver" text="Volver" />
 
-        <Text layoutX="20.0" layoutY="38.0" text="Mascotas perdidas con bounty activo"/>
+        <Text layoutX="20.0" layoutY="38.0" text="Mascotas perdidas con bounty activo" />
 
-        <TableView fx:id="tblMascotasPerdidas" layoutX="20.0" layoutY="45.0"
-                   prefHeight="320.0" prefWidth="860.0"/>
+        <TableView fx:id="tblMascotasPerdidas" layoutX="20.0" layoutY="45.0" prefHeight="320.0" prefWidth="860.0" />
 
-        <Label fx:id="lblTotal" layoutX="20.0" layoutY="375.0" text="Total: 0"/>
+        <Label fx:id="lblTotal" layoutX="20.0" layoutY="375.0" text="Total: 0" />
 
-        <Label fx:id="lblRescatista" layoutX="20.0" layoutY="400.0" text="Rescatista: —"/>
+        <Label fx:id="lblRescatista" layoutX="20.0" layoutY="400.0" text="Rescatista: —" />
 
-        <Button fx:id="btnPagarRescatista" layoutX="20.0" layoutY="425.0"
-                text="Pagar bounty al rescatista del match"
-                onAction="#onPagarRescatista"/>
+        <Button fx:id="btnPagarRescatista" layoutX="20.0" layoutY="425.0" onAction="#onPagarRescatista" text="Pagar bounty al rescatista del match" />
 
-        <Text layoutX="20.0" layoutY="475.0" text="Asociación:"/>
-        <ComboBox fx:id="cmbAsociacion" layoutX="100.0" layoutY="458.0" prefWidth="200.0"/>
-        <Button fx:id="btnDonarAsociacion" layoutX="315.0" layoutY="458.0"
-                text="Donar bounty a asociación"
-                onAction="#onDonarAsociacion"/>
+        <Text layoutX="20.0" layoutY="475.0" text="Asociación:" />
+        <ComboBox fx:id="cmbAsociacion" layoutX="100.0" layoutY="458.0" prefWidth="200.0" />
+        <Button fx:id="btnDonarAsociacion" layoutX="315.0" layoutY="458.0" onAction="#onDonarAsociacion" text="Donar bounty a asociación" />
 
     </children>
 </AnchorPane>

@@ -1,69 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="680.0" prefWidth="980.0"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.bdbconsultas.MatchesController">
+<AnchorPane prefHeight="680.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.MatchesController">
    <children>
 
-      <Button fx:id="btnVolver" layoutX="920.0" layoutY="10.0"
-              text="Volver" onAction="#onVolver"/>
+      <Button fx:id="btnVolver" layoutX="920.0" layoutY="10.0" onAction="#switchVolver" text="Volver" />
 
-      <Text layoutX="20.0" layoutY="45.0" text="Mascota perdida:"/>
-      <ComboBox fx:id="cmbMascotaPerdida" layoutX="120.0" layoutY="28.0" prefWidth="150.0"/>
+      <Text layoutX="20.0" layoutY="45.0" text="Mascota perdida:" />
+      <ComboBox fx:id="cmbMascotaPerdida" layoutX="120.0" layoutY="28.0" prefWidth="150.0" />
 
-      <Text layoutX="285.0" layoutY="45.0" text="Tipo:"/>
-      <ComboBox fx:id="cmbTipo" layoutX="315.0" layoutY="28.0" prefWidth="130.0"/>
+      <Text layoutX="285.0" layoutY="45.0" text="Tipo:" />
+      <ComboBox fx:id="cmbTipo" layoutX="315.0" layoutY="28.0" prefWidth="130.0" />
 
-      <Text layoutX="460.0" layoutY="45.0" text="Raza:"/>
-      <ComboBox fx:id="cmbRaza" layoutX="490.0" layoutY="28.0" prefWidth="130.0"/>
+      <Text layoutX="460.0" layoutY="45.0" text="Raza:" />
+      <ComboBox fx:id="cmbRaza" layoutX="490.0" layoutY="28.0" prefWidth="130.0" />
 
-      <Text layoutX="635.0" layoutY="45.0" text="Color:"/>
-      <ComboBox fx:id="cmbColor" layoutX="670.0" layoutY="28.0" prefWidth="130.0"/>
+      <Text layoutX="635.0" layoutY="45.0" text="Color:" />
+      <ComboBox fx:id="cmbColor" layoutX="670.0" layoutY="28.0" prefWidth="130.0" />
 
-      <Text layoutX="20.0" layoutY="85.0" text="Nombre:"/>
-      <TextField fx:id="txtNombre" layoutX="80.0" layoutY="68.0" prefWidth="150.0"/>
+      <Text layoutX="20.0" layoutY="85.0" text="Nombre:" />
+      <TextField fx:id="txtNombre" layoutX="80.0" layoutY="68.0" prefWidth="150.0" />
 
-      <Text layoutX="245.0" layoutY="85.0" text="Chip:"/>
-      <TextField fx:id="txtChip" layoutX="275.0" layoutY="68.0" prefWidth="150.0"/>
+      <Text layoutX="245.0" layoutY="85.0" text="Chip:" />
+      <TextField fx:id="txtChip" layoutX="275.0" layoutY="68.0" prefWidth="150.0" />
 
-      <Text layoutX="440.0" layoutY="85.0" text="Estado match:"/>
-      <ComboBox fx:id="cmbMatchState" layoutX="530.0" layoutY="68.0" prefWidth="130.0"/>
+      <Text layoutX="440.0" layoutY="85.0" text="Estado match:" />
+      <ComboBox fx:id="cmbMatchState" layoutX="530.0" layoutY="68.0" prefWidth="130.0" />
 
-      <Text layoutX="20.0" layoutY="125.0" text="Provincia:"/>
-      <ComboBox fx:id="cmbProvincia" layoutX="85.0" layoutY="108.0" prefWidth="140.0"/>
+      <Text layoutX="20.0" layoutY="125.0" text="Provincia:" />
+      <ComboBox fx:id="cmbProvincia" layoutX="85.0" layoutY="108.0" prefWidth="140.0" />
 
-      <Text layoutX="240.0" layoutY="125.0" text="Cantón:"/>
-      <ComboBox fx:id="cmbCanton" layoutX="290.0" layoutY="108.0" prefWidth="140.0"/>
+      <Text layoutX="240.0" layoutY="125.0" text="Cantón:" />
+      <ComboBox fx:id="cmbCanton" layoutX="290.0" layoutY="108.0" prefWidth="140.0" />
 
-      <Text layoutX="445.0" layoutY="125.0" text="Distrito:"/>
-      <ComboBox fx:id="cmbDistrito" layoutX="495.0" layoutY="108.0" prefWidth="140.0"/>
+      <Text layoutX="445.0" layoutY="125.0" text="Distrito:" />
+      <ComboBox fx:id="cmbDistrito" layoutX="495.0" layoutY="108.0" prefWidth="140.0" />
 
-      <Text layoutX="20.0" layoutY="165.0" text="Rescatista:"/>
-      <ComboBox fx:id="cmbRescatista" layoutX="90.0" layoutY="148.0" prefWidth="140.0"/>
+      <Text layoutX="20.0" layoutY="165.0" text="Rescatista:" />
+      <ComboBox fx:id="cmbRescatista" layoutX="90.0" layoutY="148.0" prefWidth="140.0" />
 
-      <Text layoutX="245.0" layoutY="165.0" text="Asociación:"/>
-      <ComboBox fx:id="cmbAsociacion" layoutX="315.0" layoutY="148.0" prefWidth="140.0"/>
+      <Text layoutX="245.0" layoutY="165.0" text="Asociación:" />
+      <ComboBox fx:id="cmbAsociacion" layoutX="315.0" layoutY="148.0" prefWidth="140.0" />
 
-      <Button fx:id="btnBuscar" layoutX="470.0" layoutY="148.0"
-              text="Buscar" onAction="#onBuscar"/>
+      <Button fx:id="btnBuscar" layoutX="470.0" layoutY="148.0" onAction="#onBuscar" text="Buscar" />
 
-      <Button fx:id="btnLimpiar" layoutX="540.0" layoutY="148.0"
-              text="Limpiar" onAction="#onLimpiar"/>
+      <Button fx:id="btnLimpiar" layoutX="540.0" layoutY="148.0" onAction="#onLimpiar" text="Limpiar" />
 
-      <TableView fx:id="tblMatches" layoutX="20.0" layoutY="185.0"
-                 prefHeight="380.0" prefWidth="940.0"/>
+      <TableView fx:id="tblMatches" layoutX="20.0" layoutY="185.0" prefHeight="380.0" prefWidth="940.0" />
 
-      <Label fx:id="lblTotal" layoutX="20.0" layoutY="573.0" text="Total: 0 resultados"/>
+      <Label fx:id="lblTotal" layoutX="20.0" layoutY="573.0" text="Total: 0 resultados" />
 
-      <Text layoutX="20.0" layoutY="615.0" text="Nuevo estado:"/>
-      <ComboBox fx:id="cmbNuevoEstado" layoutX="110.0" layoutY="598.0" prefWidth="150.0"/>
+      <Text layoutX="20.0" layoutY="615.0" text="Nuevo estado:" />
+      <ComboBox fx:id="cmbNuevoEstado" layoutX="110.0" layoutY="598.0" prefWidth="150.0" />
 
-      <Button fx:id="btnCambiarEstado" layoutX="275.0" layoutY="598.0"
-              text="Cambiar estado" onAction="#onCambiarEstado"/>
+      <Button fx:id="btnCambiarEstado" layoutX="275.0" layoutY="598.0" onAction="#onCambiarEstado" text="Cambiar estado" />
 
    </children>
 </AnchorPane>

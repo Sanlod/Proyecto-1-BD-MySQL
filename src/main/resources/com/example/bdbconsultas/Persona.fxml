@@ -26,7 +26,7 @@
         <Button fx:id="btnGuardar" layoutX="23.0" layoutY="227.0" mnemonicParsing="false" onAction="#onGuardar" prefWidth="160.0" text="Guardar" />
         <Button fx:id="btnCancelar" layoutX="23.0" layoutY="267.0" mnemonicParsing="false" onAction="#onCancelar" prefWidth="160.0" text="Cancelar" />
         <Button fx:id="btnReportarListaNegra" layoutX="23.0" layoutY="317.0" mnemonicParsing="false" onAction="#onReportarListaNegra" prefWidth="160.0" text="Reportar lista negra" />
-        <Button fx:id="btnVolver" layoutX="722.0" layoutY="14.0" mnemonicParsing="false" onAction="#onVolver" prefHeight="17.0" prefWidth="57.0" text="Volver" />
+        <Button fx:id="btnVolver" layoutX="722.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchVolver" prefHeight="17.0" prefWidth="57.0" text="Volver" />
 
         <Label layoutX="200.0" layoutY="410.0" text="ID:" />
         <TextField fx:id="txtId" editable="false" layoutX="300.0" layoutY="406.0" prefHeight="25.0" prefWidth="150.0" />
