@@ -85,7 +85,10 @@ public class MatchesDAO {
             String idProvincia,
             String idCanton,
             String idDistrito,
-            String idAsociacion) throws SQLException, ClassNotFoundException {
+            String idAsociacion,
+            java.time.LocalDate desde,
+            java.time.LocalDate hasta) throws SQLException, ClassNotFoundException {
+
 
 
 
@@ -95,7 +98,7 @@ public class MatchesDAO {
 
         try (Connection conn = DBConnection.getConnection()) {
             try (CallableStatement cs = conn.prepareCall(
-                    "{ CALL SP_CONSULTAR_MATCHES(?,?,?,?,?,?,?,?,?,?,?) }")) {
+                    "{ CALL SP_CONSULTAR_MATCHES(?,?,?,?,?,?,?,?,?,?,?,?,?) }")) {
 
                 // Parámetros IN — si viene vacío manda NULL
 
@@ -109,10 +112,14 @@ public class MatchesDAO {
                 cs.setString(8,  idProvincia == null || idProvincia.isEmpty() ? null : idProvincia);
                 cs.setString(9,  idCanton    == null || idCanton.isEmpty()    ? null : idCanton);
                 cs.setString(10, idDistrito  == null || idDistrito.isEmpty()  ? null : idDistrito);
-                cs.setString(11, idAsociacion == null || idAsociacion.isEmpty() ? null : idAsociacion);
+                if (desde != null) cs.setDate(12, java.sql.Date.valueOf(desde));
+                else cs.setNull(12, Types.DATE);
 
-                cs.registerOutParameter(12, Types.REF_CURSOR);
-                cs.registerOutParameter(13, Types.NUMERIC);
+                if (hasta != null) cs.setDate(13, java.sql.Date.valueOf(hasta));
+                else cs.setNull(13, Types.DATE);
+
+                cs.registerOutParameter(14, Types.REF_CURSOR);
+                cs.registerOutParameter(15, Types.NUMERIC);
                 cs.execute();
 
                 total = cs.getInt(13);

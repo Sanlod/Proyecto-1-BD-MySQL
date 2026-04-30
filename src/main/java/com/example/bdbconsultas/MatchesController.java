@@ -167,7 +167,9 @@ public class MatchesController implements Initializable {
                     txtNombre.getText().trim(),
                     txtChip.getText().trim(),
                     idColor, idEstado, idProvincia,
-                    idCanton, idDistrito, idAsociacion);
+                    idCanton, idDistrito, idAsociacion,
+                    dtDesde.getValue(),
+                    dtHasta.getValue());
 
             configurarColumnasDinamicas(resultado.columnas);
             tblMatches.setItems(resultado.filas);
