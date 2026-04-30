@@ -21,11 +21,13 @@ public class AdminController {
     public void switchVolver(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/LogIn.fxml" , event);
     }
-
     public void switchDonaciones(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/Donaciones.fxml",event);
     }
     public void switchCatalogos(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/Catalogos.fxml" , event);
+    }
+    public void Recompensas(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/RecompensaAdmin.fxml" , event);
     }
 }
