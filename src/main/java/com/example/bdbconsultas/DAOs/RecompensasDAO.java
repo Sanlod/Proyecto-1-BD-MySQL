@@ -118,33 +118,30 @@ public class RecompensasDAO {
         }
     }
 
-    public static void marcarPerdida(
-            String idPet, String monto, String idCurrency,
-            java.time.LocalDate lossDate, String createdBy)
+    public static void pagarRescatista(String idRescuer, String idPet, String modifiedBy)
             throws SQLException, ClassNotFoundException {
-
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_MARCAR_PERDIDA(?,?,?,?,?) }")) {
-            cs.setString(1, idPet);
-            cs.setString(2, monto);
-            cs.setString(3, idCurrency);
-            cs.setDate(4, lossDate != null ? java.sql.Date.valueOf(lossDate) : null);
-            cs.setString(5, createdBy);
+             CallableStatement cs = conn.prepareCall("{ CALL SP_PAGAR_RECOMPENSA(?,?,?,?) }")) {
+            cs.setString(1, idRescuer);
+            cs.setString(2, idPet);
+            cs.setString(3, modifiedBy);
+            cs.registerOutParameter(4, Types.NUMERIC);
             cs.execute();
+            if (cs.getInt(4) != 0)
+                throw new SQLException("No se encontró bounty activo para esta mascota.");
         }
     }
 
     public static boolean marcarHallada(String idPet, String modifiedBy)
             throws SQLException, ClassNotFoundException {
-
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall("{ CALL SP_MARCAR_HALLADA(?,?,?) }")) {
             cs.setString(1, idPet);
-            cs.setString(2, modifiedBy != null ? modifiedBy : "SYSTEM");
+            cs.setString(2, modifiedBy);
             cs.registerOutParameter(3, Types.NUMERIC);
             cs.execute();
-            return cs.getInt(3) == 0;
+            return cs.getInt(3) > 0;
         }
     }
+
 }

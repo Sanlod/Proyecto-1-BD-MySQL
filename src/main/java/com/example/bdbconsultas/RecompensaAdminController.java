@@ -2,6 +2,7 @@ package com.example.bdbconsultas;
 
 import com.example.bdbconsultas.DAOs.AssociationDAO;
 import com.example.bdbconsultas.DAOs.MascotasDAO;
+import com.example.bdbconsultas.DAOs.PersonaDAO;
 import com.example.bdbconsultas.DAOs.RecompensasDAO;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.*;
@@ -21,21 +22,33 @@ import java.util.ResourceBundle;
 
 public class RecompensaAdminController implements Initializable {
 
-    @FXML private TableView<ObservableList<String>> tblMascotasPerdidas;
-    @FXML private ComboBox<String> cmbAsociacion;
-    @FXML private Label lblTotal;
-    @FXML private Label lblRescatista;
-    @FXML private Button btnPagarRescatista;
-    @FXML private Button btnDonarAsociacion;
-    @FXML private Button btnVolver;
+    @FXML
+    private TableView<ObservableList<String>> tblMascotasPerdidas;
+    @FXML
+    private ComboBox<String> cmbAsociacion;
+    @FXML
+    private ComboBox<String> cmbRescatistas;
+    @FXML
+    private Label lblTotal;
+    @FXML
+    private Label lblRescatista;
+    @FXML
+    private Button btnPagarRescatista;
+    @FXML
+    private Button btnDonarAsociacion;
+    @FXML
+    private Button btnVolver;
 
     private ObservableList<ObservableList<String>> datosAsociaciones;
+    private ObservableList<ObservableList<String>> datosRescatistas;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarTabla();
         cargarMascotasPerdidas();
         cargarAsociaciones();
+        cargarRescatistas();
         btnPagarRescatista.setDisable(true);
         btnDonarAsociacion.setDisable(true);
 
@@ -82,23 +95,27 @@ public class RecompensaAdminController implements Initializable {
         } catch (Exception e) {
             mostrarError("Error al cargar asociaciones: " + e.getMessage());
         }
+
     }
 
     @FXML
     private void onPagarRescatista() {
         ObservableList<String> sel = tblMascotasPerdidas.getSelectionModel().getSelectedItem();
         if (sel == null) { mostrarError("Seleccione una mascota."); return; }
+        if (cmbRescatistas.getSelectionModel().getSelectedIndex() < 0) {
+            mostrarError("Seleccione un rescatista."); return;
+        }
 
-        String idPet = sel.get(0);
+        String idPet      = sel.get(0);
+        String idRescuer  = datosRescatistas.get(
+                cmbRescatistas.getSelectionModel().getSelectedIndex()).get(0);
+
         try {
-            // El rescatista viene del match confirmado — SP_MARCAR_HALLADA busca el rescatista de la mascota hallada
-            boolean ok = RecompensasDAO.marcarHallada(idPet, "SYSTEM");
-            if (ok) {
-                mostrarInfo("Bounty pagado al rescatista.");
-                cargarMascotasPerdidas();
-            } else {
-                mostrarError("No se pudo procesar.");
-            }
+            RecompensasDAO.pagarRescatista(idRescuer, idPet, "SYSTEM");
+            RecompensasDAO.marcarHallada(idPet, "SYSTEM");
+            mostrarInfo("Bounty pagado y mascota marcada como hallada.");
+            cargarMascotasPerdidas();
+            cmbRescatistas.setValue(null);
         } catch (Exception e) {
             mostrarError("Error: " + e.getMessage());
         }
@@ -118,22 +135,19 @@ public class RecompensaAdminController implements Initializable {
 
         try {
             RecompensasDAO.ResultadoConsulta bounties = RecompensasDAO.consultarRecompensas(idPet);
-            if (!bounties.filas.isEmpty()) {
-                String idBounty = bounties.filas.get(0).get(0);
-                RecompensasDAO.donarRecompensa(idBounty, idAsociacion, "SYSTEM");
-                // Marcar mascota como hallada
-                RecompensasDAO.marcarHallada(idPet,  "SYSTEM");
-                mostrarInfo("Bounty donado a la asociación.");
-            } else {
-                mostrarError("No hay bounty activo para esta mascota.");
+            if (bounties.filas.isEmpty()) {
+                mostrarError("No hay bounty activo para esta mascota."); return;
             }
+            String idBounty = bounties.filas.get(0).get(0);
+            RecompensasDAO.donarRecompensa(idBounty, idAsociacion, "SYSTEM");
+            RecompensasDAO.marcarHallada(idPet, "SYSTEM");
+            mostrarInfo("Bounty donado y mascota marcada como hallada.");
             cargarMascotasPerdidas();
             cmbAsociacion.setValue(null);
         } catch (Exception e) {
             mostrarError("Error: " + e.getMessage());
         }
     }
-
     public void switchVolver(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/com/example/bdbconsultas/Admin.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -142,11 +156,27 @@ public class RecompensaAdminController implements Initializable {
 
     private void mostrarError(String msg) {
         Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setHeaderText(null); a.setContentText(msg); a.show();
+        a.setHeaderText(null);
+        a.setContentText(msg);
+        a.show();
     }
 
     private void mostrarInfo(String msg) {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setHeaderText(null); a.setContentText(msg); a.show();
+        a.setHeaderText(null);
+        a.setContentText(msg);
+        a.show();
+    }
+
+    private void cargarRescatistas() {
+        try {
+            datosRescatistas = PersonaDAO.getRescatistas();
+            ObservableList<String> nombres = FXCollections.observableArrayList();
+            for (ObservableList<String> fila : datosRescatistas)
+                nombres.add(fila.get(1));
+            cmbRescatistas.setItems(nombres);
+        } catch (Exception e) {
+            mostrarError("Error al cargar rescatistas: " + e.getMessage());
+        }
     }
 }

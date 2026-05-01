@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="580.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.RecompensaAdminController">
+<AnchorPane prefHeight="580.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.RecompensaAdminController">
     <children>
 
         <Button fx:id="btnVolver" layoutX="840.0" layoutY="10.0" onAction="#switchVolver" text="Volver" />
@@ -25,6 +25,9 @@
         <Text layoutX="20.0" layoutY="475.0" text="Asociación:" />
         <ComboBox fx:id="cmbAsociacion" layoutX="100.0" layoutY="458.0" prefWidth="200.0" />
         <Button fx:id="btnDonarAsociacion" layoutX="315.0" layoutY="458.0" onAction="#onDonarAsociacion" text="Donar bounty a asociación" />
+
+        <Text layoutX="20.0" layoutY="525.0" text="Rescatista:" />
+        <ComboBox fx:id="cmbRescatistas" layoutX="100.0" layoutY="508.0" prefWidth="200.0" />
 
     </children>
 </AnchorPane>

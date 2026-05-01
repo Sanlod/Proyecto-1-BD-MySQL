@@ -68,6 +68,11 @@ public class PersonaDAO {
         return listadosCatalogo("SP_LISTAR_NOTASPERSONA");
     }
 
+    public static ObservableList<ObservableList<String>> getRescatistas()
+            throws SQLException, ClassNotFoundException {
+        return listadosCatalogo("SP_LISTAR_RESCATISTAS");
+    }
+
     public static void reportarListaNegra(
             String idPersona,
             String createdBy) throws SQLException, ClassNotFoundException {
@@ -207,4 +212,5 @@ public class PersonaDAO {
         }
         return null;
     }
+
 }
