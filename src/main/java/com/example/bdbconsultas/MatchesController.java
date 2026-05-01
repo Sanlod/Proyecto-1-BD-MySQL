@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -42,6 +44,7 @@ public class MatchesController implements Initializable {
 
     @FXML private ComboBox<String> cmbNuevoEstado;
     @FXML private Button btnCambiarEstado;
+    @FXML private Button btnEjecutarMatch;
     @FXML private Button btnBuscar;
     @FXML private Button btnLimpiar;
     @FXML private Button btnVolver;
@@ -252,5 +255,15 @@ public class MatchesController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/com/example/bdbconsultas/Admin.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
+    }
+    @FXML
+    private void onEjecutarMatch() {
+        try {
+            MatchesDAO.ejecutarMatch();
+            mostrarInfo("Match ejecutado correctamente.");
+            onBuscar();
+        } catch (Exception e) {
+            mostrarError("Error: " + e.getMessage());
+        }
     }
 }

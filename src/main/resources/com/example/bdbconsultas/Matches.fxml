@@ -2,13 +2,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="680.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.MatchesController">
+<AnchorPane prefHeight="680.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.MatchesController">
    <children>
 
       <Button fx:id="btnVolver" layoutX="920.0" layoutY="10.0" onAction="#switchVolver" text="Volver" />
@@ -49,18 +50,26 @@
       <Text layoutX="245.0" layoutY="165.0" text="Asociación:" />
       <ComboBox fx:id="cmbAsociacion" layoutX="315.0" layoutY="148.0" prefWidth="140.0" />
 
-      <Button fx:id="btnBuscar" layoutX="470.0" layoutY="148.0" onAction="#onBuscar" text="Buscar" />
+      <Text layoutX="470.0" layoutY="165.0" text="Desde:" />
+      <DatePicker fx:id="dtDesde" layoutX="515.0" layoutY="148.0" prefWidth="120.0" />
 
-      <Button fx:id="btnLimpiar" layoutX="540.0" layoutY="148.0" onAction="#onLimpiar" text="Limpiar" />
+      <Text layoutX="650.0" layoutY="165.0" text="Hasta:" />
+      <DatePicker fx:id="dtHasta" layoutX="695.0" layoutY="148.0" prefWidth="120.0" />
 
-      <TableView fx:id="tblMatches" layoutX="20.0" layoutY="185.0" prefHeight="380.0" prefWidth="940.0" />
+      <Button fx:id="btnBuscar" layoutX="830.0" layoutY="148.0" onAction="#onBuscar" text="Buscar" />
 
-      <Label fx:id="lblTotal" layoutX="20.0" layoutY="573.0" text="Total: 0 resultados" />
+      <Button fx:id="btnLimpiar" layoutX="890.0" layoutY="148.0" onAction="#onLimpiar" text="Limpiar" />
 
-      <Text layoutX="20.0" layoutY="615.0" text="Nuevo estado:" />
-      <ComboBox fx:id="cmbNuevoEstado" layoutX="110.0" layoutY="598.0" prefWidth="150.0" />
+      <Button fx:id="btnEjecutarMatch" layoutX="20.0" layoutY="190.0" onAction="#onEjecutarMatch" text="Ejecutar Match" />
 
-      <Button fx:id="btnCambiarEstado" layoutX="275.0" layoutY="598.0" onAction="#onCambiarEstado" text="Cambiar estado" />
+      <TableView fx:id="tblMatches" layoutX="20.0" layoutY="225.0" prefHeight="380.0" prefWidth="940.0" />
+
+      <Label fx:id="lblTotal" layoutX="20.0" layoutY="615.0" text="Total: 0 resultados" />
+
+      <Text layoutX="20.0" layoutY="655.0" text="Nuevo estado:" />
+      <ComboBox fx:id="cmbNuevoEstado" layoutX="110.0" layoutY="638.0" prefWidth="150.0" />
+
+      <Button fx:id="btnCambiarEstado" layoutX="275.0" layoutY="638.0" onAction="#onCambiarEstado" text="Cambiar estado" />
 
    </children>
 </AnchorPane>

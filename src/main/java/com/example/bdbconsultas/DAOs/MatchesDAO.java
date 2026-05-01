@@ -147,4 +147,12 @@ public class MatchesDAO {
         }
         return new ResultadoConsulta(columnas, filas, total);
     }
+
+    public static void ejecutarMatch() throws SQLException, ClassNotFoundException {
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{ CALL SP_EJECUTAR_MATCH() }")) {
+
+            cs.execute();
+        }
+    }
 }
