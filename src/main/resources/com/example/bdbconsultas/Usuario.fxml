@@ -24,5 +24,6 @@
       <Button layoutX="390.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchEstadisticasDonacion" text="Estad. Donaciones" />
       <Button layoutX="287.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchReportar" text="Reportar" />
       <Button layoutX="48.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchSalud" text="Salud" />
+      <Button layoutX="130.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchSinAdoptar" text="Sin Adoptar" />
     </children>
 </AnchorPane>

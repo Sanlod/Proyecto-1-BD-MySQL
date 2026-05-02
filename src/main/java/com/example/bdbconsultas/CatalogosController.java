@@ -7,11 +7,17 @@ import com.example.bdbconsultas.DAOs.MascotasDAO;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -34,14 +40,8 @@ public class CatalogosController implements Initializable {
     @FXML private Button btnEliminar;
     @FXML private Button btnVolver;
 
-    private boolean esAdmin = false;
-
     private ObservableList<ObservableList<String>> datosFiltroEspecial;
 
-    public void setEsAdmin(boolean esAdmin) {
-        this.esAdmin = esAdmin;
-        configurarAcceso();
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -52,15 +52,6 @@ public class CatalogosController implements Initializable {
         txtDescripcion.setVisible(false);
     }
 
-    private void configurarAcceso() {
-        btnEditar.setDisable(!esAdmin);
-        btnAgregar.setDisable(!esAdmin);
-        spnIdEditar.setDisable(!esAdmin);
-        txtNuevoValor.setDisable(!esAdmin);
-        txtValorAgregar.setDisable(!esAdmin);
-        cmbFiltroEspecial.setDisable(!esAdmin);
-        txtDescripcion.setDisable(!esAdmin);
-    }
 
     private void configurarSpinner() {
         spnIdEditar.setValueFactory(
@@ -115,6 +106,7 @@ public class CatalogosController implements Initializable {
                             }
                         } else {
                             try {
+                                System.out.println("Entró al else");
                                 tblDatos.setItems(MascotasDAO.getRazasTodas());
                             } catch (Exception ex) {
                                 mostrarError(ex.getMessage());
@@ -159,7 +151,6 @@ public class CatalogosController implements Initializable {
 
     @FXML
     private void onEliminar() {
-        if (!esAdmin) { mostrarError("Sin permisos de administrador."); return; }
 
         String entidad = cmbEntidad.getValue();
         if (!validarCampo(entidad, "Entidad")) return;
@@ -203,7 +194,6 @@ public class CatalogosController implements Initializable {
 
     @FXML
     private void onEditar() {
-        if (!esAdmin) { mostrarError("Sin permisos de administrador."); return; }
 
         String entidad = cmbEntidad.getValue();
         String nuevoValor = txtNuevoValor.getText().trim();
@@ -234,7 +224,6 @@ public class CatalogosController implements Initializable {
 
     @FXML
     private void onAgregar() {
-        if (!esAdmin) { mostrarError("Sin permisos de administrador."); return; }
 
         String entidad = cmbEntidad.getValue();
         String valor = txtValorAgregar.getText().trim();
@@ -346,8 +335,9 @@ public class CatalogosController implements Initializable {
         a.show();
     }
 
-    @FXML
-    private void onVolver() {
-        ((Stage) btnVolver.getScene().getWindow()).close();
+    public void switchVolver(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/bdbconsultas/Admin.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
     }
 }

@@ -9,28 +9,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="680.0" prefWidth="926.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+<AnchorPane prefHeight="680.0" prefWidth="926.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.SinAdoptarController">
    <children>
-      <TableView layoutX="45.0" layoutY="168.0" prefHeight="422.0" prefWidth="854.0">
+      <TableView fx:id="mascotasTable" layoutX="45.0" layoutY="168.0" prefHeight="422.0" prefWidth="854.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <Spinner layoutX="45.0" layoutY="37.0" />
+      <Spinner fx:id="meses" editable="true" layoutX="45.0" layoutY="37.0" />
       <Text layoutX="45.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meses sin adoptar" />
-      <ComboBox layoutX="231.0" layoutY="37.0" prefWidth="150.0" />
+      <ComboBox fx:id="tipo" layoutX="231.0" layoutY="37.0" onAction="#actualizarRazas" prefWidth="150.0" />
       <Text layoutX="231.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de mascota" />
-      <ComboBox layoutX="403.0" layoutY="37.0" prefWidth="150.0" />
+      <ComboBox fx:id="raza" layoutX="403.0" layoutY="37.0" prefWidth="150.0" />
       <Text layoutX="403.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raza" />
-      <ComboBox layoutX="578.0" layoutY="37.0" prefWidth="150.0" />
+      <ComboBox fx:id="color" layoutX="578.0" layoutY="37.0" prefWidth="150.0" />
       <Text layoutX="578.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
-      <Text layoutX="231.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mascotas:" />
-      <Spinner layoutX="45.0" layoutY="98.0" />
-      <Text layoutX="45.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edad" />
-      <Label layoutX="284.0" layoutY="102.0" text="Label" />
-      <Button layoutX="45.0" layoutY="136.0" mnemonicParsing="false" text="Buscar" />
-      <Button layoutX="32.0" layoutY="628.0" mnemonicParsing="false" text="Volver" />
+      <Text layoutX="127.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mascotas:" />
+      <Label fx:id="total" layoutX="181.0" layoutY="140.0" text="Label" />
+      <Button layoutX="45.0" layoutY="136.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
+      <Button layoutX="32.0" layoutY="628.0" mnemonicParsing="false" onAction="#switchVolver" text="Volver" />
    </children>
 </AnchorPane>

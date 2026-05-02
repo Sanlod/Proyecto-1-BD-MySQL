@@ -625,6 +625,59 @@ public class MascotasDAO {
         }
         return null;
     }
+    public static ResultadoConsulta buscarMascotasSinAdoptar(
+        Integer meses,
+        Integer idTipo,
+        Integer idRaza,
+        Integer idColor
+        ) throws SQLException, ClassNotFoundException {
+
+            List<String> columnas = new ArrayList<>();
+            ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
+            int total = 0;
+
+            try (Connection conn = DBConnection.getConnection();
+                 CallableStatement cs = conn.prepareCall(
+                         "{ CALL SP_CONSULTAR_SIN_ADOPTAR(?,?,?,?,?,?) }")) {
+
+                cs.setObject(1, meses, Types.INTEGER);
+                cs.setObject(2, idTipo, Types.INTEGER);
+                cs.setObject(3, idRaza, Types.INTEGER);
+                cs.setObject(4, idColor, Types.INTEGER);
+
+                cs.registerOutParameter(5, Types.REF_CURSOR);
+                cs.registerOutParameter(6, Types.NUMERIC);
+
+                cs.execute();
+
+                total = cs.getInt(6);
+
+                try (ResultSet rs = (ResultSet) cs.getObject(5)) {
+                    ResultSetMetaData meta = rs.getMetaData();
+                    int numCols = meta.getColumnCount();
+
+                    for (int i = 1; i <= numCols; i++) {
+                        columnas.add(meta.getColumnLabel(i));
+                    }
+
+                    while (rs.next()) {
+                        ObservableList<String> fila = FXCollections.observableArrayList();
+                        for (int i = 1; i <= numCols; i++) {
+                            Object val = rs.getObject(i);
+                            if (val instanceof Blob blob) {
+                                fila.add("Imagen");
+                            }else {
+                                fila.add(val != null ? val.toString() : "");
+                            }
+                        }
+                        filas.add(fila);
+                    }
+                }
+            }
+            return new ResultadoConsulta(columnas, filas, total);
+    }
+
+
     public static ObservableList<ObservableList<String>> getMascotas()
             throws SQLException, ClassNotFoundException {
         return listadosCatalogo("SP_LISTAR_MASCOTAS");
