@@ -62,6 +62,10 @@ public class UsuarioController {
         cambiarEscena("/com/example/bdbconsultas/SinAdoptar.fxml" , event);
     }
 
+    public void switchEstadisticasZona(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/EstadisticasZona.fxml" , event);
+    }
+
     public void cambiarEscena(String fxml, ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(fxml));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

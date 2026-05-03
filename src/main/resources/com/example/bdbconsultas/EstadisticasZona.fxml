@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="620" prefWidth="900" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.EstadisticasZonaController">
+
+    <padding><Insets bottom="24" left="24" right="24" top="24" /></padding>
+
+    <top>
+        <VBox spacing="16">
+
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Estadísticas por ubicación" />
+
+            <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: white; -fx-border-color: #e0e0e0;                          -fx-border-radius: 8; -fx-background-radius: 8;                          -fx-padding: 12 16 12 16;">
+                <Label text="Nivel" />
+                <ComboBox fx:id="cbLevel" prefWidth="130" />
+                <Label text="Estado" />
+                <ComboBox fx:id="cbState" prefWidth="150" />
+                <Button onAction="#onFilter" style="-fx-cursor: hand;" text="Filtrar" />
+            </HBox>
+
+            <HBox spacing="12">
+                <VBox alignment="CENTER_LEFT" prefWidth="220" style="-fx-background-color: #f5f5f5; -fx-background-radius: 8;                              -fx-padding: 14 16 14 16;">
+                    <Label style="-fx-font-size: 12px; -fx-text-fill: #777;" text="Total de mascotas" />
+                    <Label fx:id="lblGrandTotal" style="-fx-font-size: 22px; -fx-text-fill: #534AB7;" />
+                </VBox>
+            </HBox>
+
+        </VBox>
+    </top>
+
+    <center>
+        <HBox spacing="16" BorderPane.alignment="CENTER">
+            <HBox.margin><Insets top="16" /></HBox.margin>
+
+            <VBox HBox.hgrow="ALWAYS">
+                <TableView fx:id="tblStats" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colZona" prefWidth="200" text="Zona" />
+                        <TableColumn fx:id="colState" prefWidth="110" text="Estado" />
+                        <TableColumn fx:id="colTotal" prefWidth="90" text="Cantidad" />
+                        <TableColumn fx:id="colPercent" prefWidth="90" text="Porcentaje" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <BarChart fx:id="barChart" animated="false" prefHeight="340" prefWidth="380" HBox.hgrow="ALWAYS">
+                <xAxis>
+                    <CategoryAxis label="Zona" fx:id="xAxis" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yAxis" label="Cantidad" />
+                </yAxis>
+            </BarChart>
+
+        </HBox>
+    </center>
+   <bottom>
+      <Button mnemonicParsing="false" onAction="#switchVolver" text="Volver" BorderPane.alignment="CENTER" />
+   </bottom>
+
+</BorderPane>
