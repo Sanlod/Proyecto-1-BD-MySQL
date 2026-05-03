@@ -388,8 +388,8 @@ public class MascotasDAO {
 
             cs.setString(1, nombre);
             cs.setString(2, idBreed == null || idBreed.isEmpty() ? null : idBreed);
-            cs.setString(3, idColor == null || idColor.isEmpty() ? null : idColor);
-            cs.setString(4, chip == null || chip.isEmpty() ? null : chip);
+            cs.setString(3, chip == null || chip.isEmpty() ? null : chip);
+            cs.setString(4, idColor == null || idColor.isEmpty() ? null : idColor);
             cs.setString(5, idEstado == null || idEstado.isEmpty() ? null : idEstado);
             cs.setString(6, idSeveridad == null || idSeveridad.isEmpty() ? null : idSeveridad);
             cs.setString(7, idNivelEnergia == null || idNivelEnergia.isEmpty() ? null : idNivelEnergia);
@@ -448,7 +448,7 @@ public class MascotasDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRARESTADOMASCOTA(?,?,?,?) }")) {
+                     "{ CALL REGISTRARESTADOMASCOTA(?,?,?,?) }")) {
 
             cs.setString(1, idPet);
             cs.setString(2, idState);
@@ -467,7 +467,7 @@ public class MascotasDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRAR_ENFERMEDAD_MASCOTA(?,?,?,?) }")) {
+                     "{ CALL SP_REGISTRAR_ENF_MASCOTA(?,?,?,?) }")) {
 
             cs.setString(1, idPet);
             cs.setString(2, idDisease);
@@ -486,7 +486,7 @@ public class MascotasDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRAR_TRATAMIENTO_MASCOTA(?,?,?,?) }")) {
+                     "{ CALL SP_REGISTRAR_TRAT_MASCOTA(?,?,?,?) }")) {
 
             cs.setString(1, idPet);
             cs.setString(2, idTreatment);

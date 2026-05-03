@@ -89,7 +89,7 @@ public class DonacionesDAO {
         return new ResultadoConsulta(columnas, filas, total);
     }
 
-    public void registrarDonacion(int monto, int porcentaje, int idPersona, int idAsociacion, int idCurrency) throws SQLException, ClassNotFoundException {
+    public void registrarDonacion(int monto, int porcentaje, int idPersona, int idAsociacion, int idCurrency, String nomPersona) throws SQLException, ClassNotFoundException {
         try (Connection con = DBConnection.getConnection();
         CallableStatement cs = con.prepareCall("CALL SP_DONAR(?,?,?,?,?,?) ")){
             cs.setInt(1, monto);
@@ -97,7 +97,7 @@ public class DonacionesDAO {
             cs.setInt(3, idPersona);
             cs.setInt(4, idAsociacion);
             cs.setInt(5, idCurrency);
-            cs.registerOutParameter(6, Types.REF_CURSOR);
+            cs.setString(6, nomPersona);
             cs.execute();
 
         }

@@ -197,7 +197,7 @@ public class PersonaDAO {
             throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_OBTENER_CALIFICACION_PERSONA(?,?) }")) {
+             CallableStatement cs = conn.prepareCall("{ CALL SP_OBTENER_CALIF_PERSONA(?,?) }")) {
 
             cs.setInt(1, Integer.parseInt(idPersona));
             cs.registerOutParameter(2, Types.REF_CURSOR);

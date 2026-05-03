@@ -87,10 +87,10 @@ public class EstadisticasController {
             Map<String, Integer> totalsByState = new LinkedHashMap<>();
             rows.forEach(r -> totalsByState.merge(r.get(1), Integer.parseInt(r.get(2)), Integer::sum));
 
-            int lost     = totalsByState.getOrDefault("Perdida", 0);
-            int found    = totalsByState.getOrDefault("Encontrada", 0);
-            int adopted  = totalsByState.getOrDefault("Adoptada", 0);
-            int inAdopt  = totalsByState.getOrDefault("En adopción", 0);
+            int lost     = totalsByState.getOrDefault("PERDIDA", 0);
+            int found    = totalsByState.getOrDefault("ENCONTRADA", 0);
+            int adopted  = totalsByState.getOrDefault("ADOPTADA", 0);
+            int inAdopt  = totalsByState.getOrDefault("EN ADOPCION", 0);
 
             lblLostTotal.setText(String.valueOf(lost));
             lblLostPct.setText(String.format("%.1f%% del total", grandTotal == 0 ? 0 : lost * 100.0 / grandTotal));

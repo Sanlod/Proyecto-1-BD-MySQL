@@ -30,7 +30,7 @@ public class SinAdoptarController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory =
-                    new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12, 1);
+                    new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 12, 1);
             meses.setValueFactory(valueFactory);
 
             ObservableList<ObservableList<String>> tipoMascota = MascotasDAO.getTiposMascotas();

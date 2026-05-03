@@ -74,7 +74,7 @@ public class SaludController  implements Initializable {
             });
 
             seleccTratamiento.setItems(tratamientos);
-            buscTratamiento.setConverter(new StringConverter<ObservableList<String>>() {
+            seleccTratamiento.setConverter(new StringConverter<ObservableList<String>>() {
                 @Override
                 public String toString(ObservableList<String> fila) {
                     return fila != null ? fila.get(1) : "";
@@ -180,6 +180,7 @@ public class SaludController  implements Initializable {
         }
         MascotasDAO.registrarMedicamentoMascota(tablaMascotas.getSelectionModel().getSelectedItem().getFirst(),seleccMedicina.getSelectionModel().getSelectedItem().getFirst(),
                 dosis.getText(), LocalDate.now(),LogInController.loggedUser);
+        buscar();
     }
 
     public void asignarTratamiento() throws SQLException, ClassNotFoundException {
@@ -192,6 +193,7 @@ public class SaludController  implements Initializable {
         }
         MascotasDAO.registrarTratamientoMascota(tablaMascotas.getSelectionModel().getSelectedItem().getFirst(),seleccTratamiento.getSelectionModel().getSelectedItem().getFirst()
                 ,LocalDate.now(),LogInController.loggedUser);
+        buscar();
     }
 
 

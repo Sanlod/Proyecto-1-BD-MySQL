@@ -17,7 +17,7 @@
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <Spinner fx:id="meses" editable="true" layoutX="45.0" layoutY="37.0" />
+      <Spinner fx:id="meses" layoutX="45.0" layoutY="37.0" />
       <Text layoutX="45.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meses sin adoptar" />
       <ComboBox fx:id="tipo" layoutX="231.0" layoutY="37.0" onAction="#actualizarRazas" prefWidth="150.0" />
       <Text layoutX="231.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de mascota" />

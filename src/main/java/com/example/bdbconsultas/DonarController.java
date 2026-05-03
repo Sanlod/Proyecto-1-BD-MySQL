@@ -12,15 +12,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Spinner;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 public class DonarController {
 
@@ -43,7 +41,11 @@ public class DonarController {
 
     @FXML
     public void initialize() throws Exception {
-        ObservableList<ObservableList<String>> catalogos = AssociationDAO.getAsociaciones();
+        monto.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1,Integer.MAX_VALUE,1));
+
+
+        ObservableList<ObservableList<String>> catalogos = MascotasDAO.getAsociaciones();
         aso1.setItems(catalogos);
         aso1.setConverter(new StringConverter<ObservableList<String>>() {
             @Override
@@ -78,10 +80,18 @@ public class DonarController {
             }
         });
 
-        catalogos.clear();
-
-        catalogos = MascotasDAO.getMonedas();
-        divisa.setItems(catalogos);
+        ObservableList<ObservableList<String>> divisas = MascotasDAO.getMonedas();
+        divisa.setItems(divisas);
+        divisa.setConverter(new StringConverter<ObservableList<String>>() {
+            @Override
+            public String toString(ObservableList<String> fila) {
+                return fila != null ? fila.get(1) : "";
+            }
+            @Override
+            public ObservableList<String> fromString(String s) {
+                return null;
+            }
+        });
     }
 
     public void donar(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
@@ -96,35 +106,40 @@ public class DonarController {
 
         int nuMonto = (int) monto.getValue();
         int porcentaje = 0;
-        if(aso1.getValue() != null) porcentaje += 1;
-        if(aso2.getValue() != null) porcentaje += 1;
-        if(aso3.getValue() != null) porcentaje += 1;
+        int partes = 0;
+        if(aso1.getValue() != null) partes += 1;
+        if(aso2.getValue() != null) partes += 1;
+        if(aso3.getValue() != null) partes += 1;
 
-        porcentaje = porcentaje * 100 / 3;
+        if(partes == 0){
+            mostrarAlerta(String.format("Por favor seleccione una asociación"));
+            return;
+        }
+
+        porcentaje = 100 /partes ;
 
         int idCurrency = Integer.parseInt(divisa.getValue().get(0));
 
-        int idPersona = 1;
+        String nombrePersona = LogInController.loggedUser;
 
-        boolean ninguna = true;
+        Integer idPersona = Integer.valueOf(LogInController.loggedUserId);
 
         if(aso1.getValue() != null) {
-            ninguna = false;
-            dao.registrarDonacion(nuMonto,porcentaje,idPersona,Integer.parseInt(aso1.getValue().get(0)),idCurrency);
+            dao.registrarDonacion(nuMonto/partes,porcentaje,idPersona,Integer.parseInt(aso1.getValue().get(0)),idCurrency,nombrePersona);
         }
         if(aso2.getValue() != null) {
-            ninguna = false;
-            dao.registrarDonacion(nuMonto,porcentaje,idPersona,Integer.parseInt(aso2.getValue().get(0)),idCurrency);
+            dao.registrarDonacion(nuMonto/partes,porcentaje,idPersona,Integer.parseInt(aso2.getValue().get(0)),idCurrency,nombrePersona);
         }
         if(aso3.getValue() != null) {
-            ninguna = false;
-            dao.registrarDonacion(nuMonto,porcentaje,idPersona,Integer.parseInt(aso3.getValue().get(0)),idCurrency);
-        }
-        if(ninguna){
-            mostrarAlerta("Por favor seleccione una asociacion");
+            dao.registrarDonacion(nuMonto/partes,porcentaje,idPersona,Integer.parseInt(aso3.getValue().get(0)),idCurrency,nombrePersona);
         }
 
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Donación registrada correctamente, gracias por la colaboración");
+        alert.showAndWait();
     }
+
+
     public void mostrarAlerta(String mensaje){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");

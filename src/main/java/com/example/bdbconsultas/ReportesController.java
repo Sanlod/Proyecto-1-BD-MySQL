@@ -108,8 +108,11 @@ public class ReportesController implements Initializable {
             }
             MascotasDAO.registrarEstadoMascota(tablaMascota.getSelectionModel().getSelectedItem().getFirst(), "1", LocalDate.now(), LogInController.loggedUser);
             actualizarMascotas();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Mascota reportada como perdida satisfactoriamente");
+            alert.showAndWait();
         }catch (SQLException e){
-            mostrarAlerta("Error inesperado al reportar mascota");
+            mostrarAlerta(e.getMessage());
         }
     }
 
@@ -122,8 +125,11 @@ public class ReportesController implements Initializable {
             }
             MascotasDAO.registrarEnfermedadMascota(tablaMascota.getSelectionModel().getSelectedItem().getFirst(), enfermedadCbx.getSelectionModel().getSelectedItem().getFirst(), LocalDate.now(), LogInController.loggedUser);
             actualizarMascotas();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Mascota reportada como enferma satisfactoriamente");
+            alert.showAndWait();
         }catch (SQLException e){
-            mostrarAlerta("Error inesperado al reportar mascota enferma");
+            mostrarAlerta(e.getMessage());
         }
     }
 
