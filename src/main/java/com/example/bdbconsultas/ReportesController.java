@@ -99,24 +99,6 @@ public class ReportesController implements Initializable {
     }
 
 
-
-    public void reportarPerdido() throws SQLException, ClassNotFoundException {
-        try {
-            if (tablaMascota.getSelectionModel().getSelectedItem() == null) {
-                mostrarAlerta("Por favor seleccione una mascota");
-                return;
-            }
-            MascotasDAO.registrarEstadoMascota(tablaMascota.getSelectionModel().getSelectedItem().getFirst(), "1", LocalDate.now(), LogInController.loggedUser);
-            actualizarMascotas();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Mascota reportada como perdida satisfactoriamente");
-            alert.showAndWait();
-        }catch (SQLException e){
-            mostrarAlerta(e.getMessage());
-        }
-    }
-
-
     public void reportarEnfermo() throws SQLException, ClassNotFoundException {
         try {
             if (tablaMascota.getSelectionModel().getSelectedItem() == null || enfermedadCbx.getSelectionModel().getSelectedItem() == null) {

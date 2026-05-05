@@ -1,6 +1,8 @@
 package com.example.bdbconsultas;
 
 import com.example.bdbconsultas.DAOs.MascotasDAO;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -25,12 +28,25 @@ public class SinAdoptarController implements Initializable {
     public ComboBox<ObservableList<String>> raza;
     public ComboBox<ObservableList<String>> color;
     public Label total;
+    public ComboBox<String> edad;
+    public PieChart pieChart;
+    public TableView<ObservableList<String>> tablaEstadistica;
+    public Label totalEstadistica;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
+            ObservableList<String> rangosEdad = FXCollections.observableArrayList(
+                    "0-1",
+                    "1-5",
+                    "5-9",
+                    "10-12",
+                    ">12"
+            );
+            edad.setItems(rangosEdad);
+
             SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory =
-                    new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 12, 1);
+                    new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 150, 1);
             meses.setValueFactory(valueFactory);
 
             ObservableList<ObservableList<String>> tipoMascota = MascotasDAO.getTiposMascotas();
@@ -92,25 +108,72 @@ public class SinAdoptarController implements Initializable {
             mostrarAlerta("Por favor determine los meses sin adoptar");
             return;
         }
+        Integer annos = 0;
+        if(edad.getValue() == null){annos = null;}
+        else if (edad.getSelectionModel().getSelectedIndex() == 0){annos = 1;}
+        else if(edad.getSelectionModel().getSelectedIndex() == 1){annos = 5;}
+        else if(edad.getSelectionModel().getSelectedIndex() == 2){annos = 9;}
+        else if(edad.getSelectionModel().getSelectedIndex() == 4){annos = 12;}
+        else if(edad.getSelectionModel().getSelectedIndex() == 6){annos = 13;}
+
         Integer mascotaTipo;
         Integer mascotaBreed;
         Integer mascotaColor;
         if(tipo.getValue() == null) {mascotaTipo = null;}else{mascotaTipo = Integer.valueOf(tipo.getValue().getFirst());}
         if(raza.getValue() == null) {mascotaBreed = null;}else{mascotaBreed = Integer.valueOf(raza.getValue().getFirst());}
         if(color.getValue() == null) {mascotaColor = null;}else{mascotaColor = Integer.valueOf(color.getValue().getFirst());}
-        MascotasDAO.ResultadoConsulta mascotas = MascotasDAO.buscarMascotasSinAdoptar(meses.getValue(),mascotaTipo, mascotaBreed, mascotaColor);
+        MascotasDAO.ResultadoConsulta mascotas = MascotasDAO.buscarMascotasSinAdoptar(meses.getValue(),mascotaTipo, mascotaBreed, mascotaColor,annos);
 
         mascotasTable.getColumns().clear();
         for (int i = 0; i < mascotas.columnas.size(); i++) {
             final int idx = i;
             TableColumn<ObservableList<String>, String> col = new TableColumn<>(mascotas.columnas.get(idx));
             col.setCellValueFactory(c ->
-                    new javafx.beans.property.SimpleStringProperty(c.getValue().get(idx)));
+                    new SimpleStringProperty(c.getValue().get(idx)));
             mascotasTable.getColumns().add(col);
         }
         mascotasTable.setItems(mascotas.filas);
 
         total.setText(String.valueOf(mascotas.total));
+
+
+        MascotasDAO.ResultadoConsulta estadistica = MascotasDAO.buscarMascotasSinAdoptarEstadistica();
+
+        tablaEstadistica.getColumns().clear();
+        for (int i = 0; i < estadistica.columnas.size(); i++) {
+            final int idx = i;
+            TableColumn<ObservableList<String>, String> col = new TableColumn<>(estadistica.columnas.get(idx));
+            col.setCellValueFactory(c ->
+                    new SimpleStringProperty(c.getValue().get(idx)));
+            tablaEstadistica.getColumns().add(col);
+        }
+        tablaEstadistica.setItems(estadistica.filas);
+
+        totalEstadistica.setText(String.valueOf(estadistica.total));
+
+        pieChart.getData().clear();
+
+        for (ObservableList<String> fila : estadistica.filas) {
+
+            String rango = fila.get(0);
+
+            int cantidad = Integer.parseInt(fila.get(1));
+
+            double porcentaje =
+                    estadistica.total == 0
+                            ? 0
+                            : (cantidad * 100.0) / estadistica.total;
+
+            PieChart.Data slice = new PieChart.Data(
+                    rango + " (" +
+                            cantidad + " - " +
+                            String.format("%.1f", porcentaje) + "%)",
+                    cantidad
+            );
+
+            pieChart.getData().add(slice);
+        }
+
     }
 
 

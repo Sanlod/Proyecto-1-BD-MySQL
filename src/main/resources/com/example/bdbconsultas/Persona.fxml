@@ -46,8 +46,8 @@
         <Label layoutX="200.0" layoutY="500.0" text="Notas:" />
         <TextArea fx:id="txtNotas" layoutX="301.0" layoutY="500.0" prefHeight="80.0" prefWidth="275.0" />
 
-        <CheckBox fx:id="chkListaNegra" layoutX="590.0" layoutY="500.0" mnemonicParsing="false" text="En lista negra" />
+        <CheckBox fx:id="chkListaNegra" disable="true" layoutX="590.0" layoutY="500.0" mnemonicParsing="false" text="En lista negra" />
       <Label layoutX="469.0" layoutY="470.0" text="Calificación:" />
-      <TextField fx:id="txtCalificacion" layoutX="589.0" layoutY="466.0" prefWidth="150.0" />
+      <TextField fx:id="txtCalificacion" editable="false" layoutX="589.0" layoutY="466.0" prefWidth="150.0" />
     </children>
 </AnchorPane>

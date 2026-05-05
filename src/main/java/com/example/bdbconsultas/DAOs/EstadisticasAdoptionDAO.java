@@ -9,7 +9,7 @@ public class EstadisticasAdoptionDAO {
 
     public ObservableList<ObservableList<String>> getAdoptionStats(
             LocalDate startDate, LocalDate endDate,
-            int idPetType, int idBreed) throws SQLException {
+            Integer idPetType, Integer idBreed) throws SQLException {
 
         ObservableList<ObservableList<String>> results = FXCollections.observableArrayList();
         String sql = "{ call SP_STATS_ADOPTIONS(?, ?, ?, ?, ?) }";
@@ -19,8 +19,8 @@ public class EstadisticasAdoptionDAO {
 
             cs.setDate(1, Date.valueOf(startDate));
             cs.setDate(2, Date.valueOf(endDate));
-            cs.setInt(3, idPetType);
-            cs.setInt(4, idBreed);
+            cs.setObject(3, idPetType, Types.INTEGER);
+            cs.setObject(4, idBreed, Types.INTEGER);
             cs.registerOutParameter(5, Types.REF_CURSOR);
             cs.execute();
 

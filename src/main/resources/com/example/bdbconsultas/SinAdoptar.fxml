@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -11,7 +12,7 @@
 
 <AnchorPane prefHeight="680.0" prefWidth="926.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.SinAdoptarController">
    <children>
-      <TableView fx:id="mascotasTable" layoutX="45.0" layoutY="168.0" prefHeight="422.0" prefWidth="854.0">
+      <TableView fx:id="mascotasTable" layoutX="5.0" layoutY="104.0" prefHeight="222.0" prefWidth="390.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
@@ -25,9 +26,20 @@
       <Text layoutX="403.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raza" />
       <ComboBox fx:id="color" layoutX="578.0" layoutY="37.0" prefWidth="150.0" />
       <Text layoutX="578.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
-      <Text layoutX="127.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mascotas:" />
-      <Label fx:id="total" layoutX="181.0" layoutY="140.0" text="Label" />
-      <Button layoutX="45.0" layoutY="136.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
+      <Text layoutX="83.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mascotas:" />
+      <Label fx:id="total" layoutX="135.0" layoutY="82.0" text="0" />
+      <Button layoutX="19.0" layoutY="78.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
       <Button layoutX="32.0" layoutY="628.0" mnemonicParsing="false" onAction="#switchVolver" text="Volver" />
+      <PieChart fx:id="pieChart" layoutX="403.0" layoutY="179.0" />
+      <Text layoutX="747.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edad" />
+      <ComboBox fx:id="edad" layoutX="747.0" layoutY="37.0" prefWidth="150.0" />
+      <TableView fx:id="tablaEstadistica" layoutX="9.0" layoutY="361.0" prefHeight="242.0" prefWidth="390.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <Text layoutX="6.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mascotas:" />
+      <Label fx:id="totalEstadistica" layoutX="56.0" layoutY="340.0" text="0" />
    </children>
 </AnchorPane>

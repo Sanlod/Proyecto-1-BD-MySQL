@@ -65,6 +65,8 @@
                   <TextArea fx:id="txtNotasAbandono" layoutX="663.0" layoutY="106.0" prefHeight="175.0" prefWidth="168.0" />
                   <Text layoutX="663.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Notas abandono" />
                   <Button layoutX="28.0" layoutY="521.0" mnemonicParsing="false" onAction="#onIrPagina2" text="Página II" />
+                  <DatePicker fx:id="birthDatePicker" layoutX="213.0" layoutY="112.0" />
+                  <Text layoutX="219.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de nacimiento" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="pagina2" prefHeight="200.0" prefWidth="200.0" visible="false">

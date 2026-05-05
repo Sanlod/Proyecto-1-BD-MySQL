@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 public class RegistrarMascotasController implements Initializable {
 
+    public DatePicker birthDatePicker;
     @FXML private AnchorPane pagina1;
     @FXML private AnchorPane pagina2;
 
@@ -262,6 +263,9 @@ public class RegistrarMascotasController implements Initializable {
 
     @FXML
     private void onRegistrar() {
+        if(birthDatePicker.getValue() == null){
+            mostrarError("Seleccione una fecha de nacimiento");
+            return;}
         try {
             if (!validarCampos()) return;
 
@@ -279,6 +283,7 @@ public class RegistrarMascotasController implements Initializable {
 
             LocalDate lossDate = dpFechaperdida.getValue();
             LocalDate foundDate = LocalDate.now();
+            LocalDate birthDate = birthDatePicker.getValue();
 
             int idMascota = mascotasDAO.registrarMascota(
                     txtIdNombre1.getText(), idRaza, idColor, txtChip1.getText(),
@@ -288,7 +293,7 @@ public class RegistrarMascotasController implements Initializable {
                     txtDescripcion1.getText(), txtNotasAbandono.getText(),
                     idDificultad, lossDate, foundDate,
                     idVeterinario, idCasaCuna, idRescatista, idAsociacion,
-                    imagenAntesBytes, imagenDespuesBytes, "SYSTEM"
+                    imagenAntesBytes, imagenDespuesBytes, "SYSTEM",birthDate
             );
 
             if (txtMonto1.getText() != null && !txtMonto1.getText().isEmpty()) {

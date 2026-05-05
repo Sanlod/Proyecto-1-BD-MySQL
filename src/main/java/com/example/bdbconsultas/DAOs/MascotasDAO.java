@@ -380,11 +380,12 @@ public class MascotasDAO {
             String idAssociation,
             byte[] beforePicture,
             byte[] afterPicture,
-            String createdBy) throws SQLException, ClassNotFoundException {
+            String createdBy,
+            LocalDate birthDate) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRAR_MASCOTA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }")) {
+                     "{ CALL SP_REGISTRAR_MASCOTA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }")) {
 
             cs.setString(1, nombre);
             cs.setString(2, idBreed == null || idBreed.isEmpty() ? null : idBreed);
@@ -432,11 +433,14 @@ public class MascotasDAO {
             }
 
             cs.setString(24, createdBy);
-            cs.registerOutParameter(25, Types.NUMERIC);
+
+            cs.setDate(25, birthDate == null ? null : Date.valueOf(birthDate));
+
+            cs.registerOutParameter(26, Types.NUMERIC);
 
             cs.execute();
 
-            return cs.getInt(25);
+            return cs.getInt(26);
         }
     }
 
@@ -625,11 +629,57 @@ public class MascotasDAO {
         }
         return null;
     }
+    public static ResultadoConsulta buscarMascotasSinAdoptarEstadistica(){
+
+        List<String> columnas = new ArrayList<>();
+        ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
+        int total = 0;
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(
+                     "{ CALL SP_STATS_SIN_ADOPTAR_EDAD(?,?) }")) {
+
+            cs.registerOutParameter(1, Types.REF_CURSOR);
+            cs.registerOutParameter(2, Types.NUMERIC);
+
+            cs.execute();
+
+            total = cs.getInt(2);
+
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+                ResultSetMetaData meta = rs.getMetaData();
+                int numCols = meta.getColumnCount();
+
+                for (int i = 1; i <= numCols; i++) {
+                    columnas.add(meta.getColumnLabel(i));
+                }
+
+                while (rs.next()) {
+                    ObservableList<String> fila = FXCollections.observableArrayList();
+                    for (int i = 1; i <= numCols; i++) {
+                        Object val = rs.getObject(i);
+                        if (val instanceof Blob blob) {
+                            fila.add("Imagen");
+                        }else {
+                            fila.add(val != null ? val.toString() : "");
+                        }
+                    }
+                    filas.add(fila);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return new ResultadoConsulta(columnas, filas, total);
+    }
+
     public static ResultadoConsulta buscarMascotasSinAdoptar(
         Integer meses,
         Integer idTipo,
         Integer idRaza,
-        Integer idColor
+        Integer idColor,
+        Integer edad
         ) throws SQLException, ClassNotFoundException {
 
             List<String> columnas = new ArrayList<>();
@@ -638,7 +688,7 @@ public class MascotasDAO {
 
             try (Connection conn = DBConnection.getConnection();
                  CallableStatement cs = conn.prepareCall(
-                         "{ CALL SP_CONSULTAR_SIN_ADOPTAR(?,?,?,?,?,?) }")) {
+                         "{ CALL SP_CONSULTAR_SIN_ADOPTAR(?,?,?,?,?,?,?) }")) {
 
                 cs.setObject(1, meses, Types.INTEGER);
                 cs.setObject(2, idTipo, Types.INTEGER);
@@ -647,6 +697,7 @@ public class MascotasDAO {
 
                 cs.registerOutParameter(5, Types.REF_CURSOR);
                 cs.registerOutParameter(6, Types.NUMERIC);
+                cs.setObject(7, edad, Types.INTEGER);
 
                 cs.execute();
 

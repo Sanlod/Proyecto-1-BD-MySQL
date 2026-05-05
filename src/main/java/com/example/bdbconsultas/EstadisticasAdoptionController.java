@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.chart.*;
 import javafx.collections.*;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,8 +21,8 @@ public class EstadisticasAdoptionController {
     @FXML private DatePicker dpStartDate;
     @FXML private DatePicker dpEndDate;
 
-    @FXML private ComboBox<String> cbPetType;
-    @FXML private ComboBox<String> cbBreed;
+    @FXML private ComboBox<ObservableList<String>> cbPetType;
+    @FXML private ComboBox<ObservableList<String>> cbBreed;
 
     @FXML private TableView<ObservableList<String>>           tblStats;
     @FXML private TableColumn<ObservableList<String>, String> colStatus;
@@ -69,16 +70,32 @@ public class EstadisticasAdoptionController {
     private void loadComboBoxes() {
         try {
             petTypes = dao.getPetTypes();
-            ObservableList<String> typeNames = FXCollections.observableArrayList();
-            petTypes.forEach(r -> typeNames.add(r.get(1)));
-            cbPetType.setItems(typeNames);
-            if (!typeNames.isEmpty()) cbPetType.getSelectionModel().selectFirst();
+            cbPetType.setItems(petTypes);
+            cbPetType.setConverter(new StringConverter<ObservableList<String>>() {
+                @Override
+                public String toString(ObservableList<String> fila) {
+                    return fila != null ? fila.get(1) : "";
+                }
+
+                @Override
+                public ObservableList<String> fromString(String s) {
+                    return null;
+                }
+            });
 
             breeds = dao.getBreeds();
-            ObservableList<String> breedNames = FXCollections.observableArrayList();
-            breeds.forEach(r -> breedNames.add(r.get(1)));
-            cbBreed.setItems(breedNames);
-            if (!breedNames.isEmpty()) cbBreed.getSelectionModel().selectFirst();
+            cbBreed.setItems(breeds);
+            cbBreed.setConverter(new StringConverter<ObservableList<String>>() {
+                @Override
+                public String toString(ObservableList<String> fila) {
+                    return fila != null ? fila.get(1) : "";
+                }
+
+                @Override
+                public ObservableList<String> fromString(String s) {
+                    return null;
+                }
+            });
 
             loadStats();
 
@@ -93,13 +110,15 @@ public class EstadisticasAdoptionController {
     }
 
     private void loadStats() {
-        int typeIndex  = cbPetType.getSelectionModel().getSelectedIndex();
-        int breedIndex = cbBreed.getSelectionModel().getSelectedIndex();
 
-        if (typeIndex < 0 || breedIndex < 0) return;
-
-        int idPetType = Integer.parseInt(petTypes.get(typeIndex).get(0));
-        int idBreed   = Integer.parseInt(breeds.get(breedIndex).get(0));
+        Integer idPetType;
+        if(cbPetType.getSelectionModel().getSelectedItem() == null){idPetType = null;}else{
+                idPetType = Integer.valueOf(cbPetType.getSelectionModel().getSelectedItem().getFirst());
+        }
+        Integer idBreed;
+        if(cbBreed.getSelectionModel().getSelectedItem() == null){idBreed = null;}else{
+            idBreed = Integer.parseInt(cbBreed.getSelectionModel().getSelectedItem().getFirst());
+        }
 
         LocalDate start = dpStartDate.getValue();
         LocalDate end   = dpEndDate.getValue();
@@ -125,10 +144,10 @@ public class EstadisticasAdoptionController {
 
             // Llenar tarjetas
             rows.forEach(r -> {
-                if (r.get(0).equals("Exitosa")) {
+                if (r.get(0).equals("APROBADA")) {
                     lblSuccessTotal.setText(r.get(1));
                     lblSuccessPct.setText(r.get(2) + " del total");
-                } else if (r.get(0).equals("En espera")) {
+                } else if (r.get(0).equals("PENDIENTE")) {
                     lblWaitingTotal.setText(r.get(1));
                     lblWaitingPct.setText(r.get(2) + " del total");
                 }
