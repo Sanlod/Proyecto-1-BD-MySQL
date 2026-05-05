@@ -3,6 +3,8 @@ package com.example.bdbconsultas.DAOs;
 import com.example.bdbconsultas.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.sql.CallableStatement;
+import oracle.jdbc.OracleTypes;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -536,94 +538,67 @@ public class MascotasDAO {
         }
         return null;
     }
-    public Map<String, Object> obtenerMascotaPorId(String idMascota)
-            throws SQLException, ClassNotFoundException {
 
-        String sql = "SELECT p.id, p.name, pt.name AS tipo, b.name AS raza, c.name AS color, " +
-                "p.chip, st.name AS estado, sev.name AS severidad, en.name AS nivel_energia, " +
-                "p.pet_size AS tamanio, p.requiresMuchSpace AS requiere_espacio, " +
-                "p.telephone, p.email, " +
-                "pr.name || ', ' || can.name || ', ' || d.name AS ubicacion, " +
-                "per.firstName || ' ' || per.firstSurname AS rescatista, " +
-                "a.name AS asociacion, " +
-                "pv.firstName || ' ' || pv.firstSurname AS veterinario, " +
-                "pc.firstName || ' ' || pc.firstSurname AS casa_cuna, " +
-                "td.name AS dificultad, " +
-                "TO_CHAR(p.loss_date, 'DD/MM/YYYY') AS fecha_perdida, " +
-                "TO_CHAR(p.foundDate, 'DD/MM/YYYY') AS fecha_hallazgo, " +
-                "p.abandonSituationDescription, p.descriptionNotes, " +
-                "p.beforePicture, p.afterPicture " +
-                "FROM Pet p " +
-                "JOIN Breed b ON b.id = p.idBreed " +
-                "JOIN PetType pt ON pt.id = b.idPetType " +
-                "LEFT JOIN Colour c ON c.id = p.idColour " +
-                "LEFT JOIN State st ON st.id = p.idState " +
-                "LEFT JOIN Severity sev ON sev.id = p.idSeverity " +
-                "LEFT JOIN EnergyLevel en ON en.id = p.idEnergyLevel " +
-                "LEFT JOIN District d ON d.id = p.idDistrict " +
-                "LEFT JOIN Canton can ON can.id = d.idCanton " +
-                "LEFT JOIN Province pr ON pr.id = can.idProvince " +
-                "LEFT JOIN Rescuer r ON r.id = p.idRescuer " +
-                "LEFT JOIN Person per ON per.id = r.id " +
-                "LEFT JOIN Association a ON a.id = p.idAssociation " +
-                "LEFT JOIN Veterinarian v ON v.id = p.idVeterinarian " +
-                "LEFT JOIN Person pv ON pv.id = v.id " +
-                "LEFT JOIN CribHouse ch ON ch.id = p.idCribHouse " +
-                "LEFT JOIN Person pc ON pc.id = ch.id " +
-                "LEFT JOIN TrainingDifficulty td ON td.id = p.idTrainingDifficulty " +
-                "WHERE p.id = ?";
+    public Map<String, Object> obtenerMascotaPorId(String idMascota) throws SQLException {
+        String sql = "{call SP_GET_DETALLES_PET(?, ?)}";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             CallableStatement cs = conn.prepareCall(sql)) {
 
-            ps.setInt(1, Integer.parseInt(idMascota));
-            ResultSet rs = ps.executeQuery();
+            cs.setInt(1, Integer.parseInt(idMascota));
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
 
-            if (rs.next()) {
-                Map<String, Object> datos = new HashMap<>();
+            cs.execute();
 
-                datos.put("id", rs.getString("id"));
-                datos.put("nombre", rs.getString("name"));
-                datos.put("tipo", rs.getString("tipo"));
-                datos.put("raza", rs.getString("raza"));
-                datos.put("color", rs.getString("color"));
-                datos.put("chip", rs.getString("chip"));
-                datos.put("estado", rs.getString("estado"));
-                datos.put("severidad", rs.getString("severidad"));
-                datos.put("nivelEnergia", rs.getString("nivel_energia"));
-                datos.put("tamanio", rs.getString("tamanio"));
-                datos.put("requiereEspacio", rs.getInt("requiere_espacio"));
-                datos.put("telefono", rs.getString("telephone"));
-                datos.put("email", rs.getString("email"));
-                datos.put("ubicacion", rs.getString("ubicacion"));
-                datos.put("rescatista", rs.getString("rescatista"));
-                datos.put("asociacion", rs.getString("asociacion"));
-                datos.put("veterinario", rs.getString("veterinario"));
-                datos.put("casaCuna", rs.getString("casa_cuna"));
-                datos.put("dificultad", rs.getString("dificultad"));
-                datos.put("fechaPerdida", rs.getString("fecha_perdida"));
-                datos.put("fechaHallazgo", rs.getString("fecha_hallazgo"));
-                datos.put("descripcionAbandono", rs.getString("abandonSituationDescription"));
-                datos.put("notas", rs.getString("descriptionNotes"));
+            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+                if (rs.next()) {
+                    Map<String, Object> datos = new HashMap<>();
 
-                Blob blobAntes = rs.getBlob("beforePicture");
-                if (blobAntes != null) {
-                    datos.put("imagenAntes", blobAntes.getBytes(1, (int) blobAntes.length()));
-                } else {
-                    datos.put("imagenAntes", null);
+                    datos.put("id", rs.getString("id"));
+                    datos.put("nombre", rs.getString("name"));
+                    datos.put("tipo", rs.getString("tipo"));
+                    datos.put("raza", rs.getString("raza"));
+                    datos.put("color", rs.getString("color"));
+
+                    datos.put("chip", rs.getString("chip"));
+
+                    datos.put("estado", rs.getString("estado"));
+                    datos.put("severidad", rs.getString("severidad"));
+                    datos.put("nivelEnergia", rs.getString("nivel_energia"));
+                    datos.put("tamanio", rs.getString("tamanio"));
+                    datos.put("requiereEspacio", rs.getInt("requiere_espacio"));
+                    datos.put("telefono", rs.getString("telephone"));
+                    datos.put("email", rs.getString("email"));
+                    datos.put("ubicacion", rs.getString("ubicacion"));
+                    datos.put("rescatista", rs.getString("rescatista"));
+                    datos.put("asociacion", rs.getString("asociacion"));
+                    datos.put("veterinario", rs.getString("veterinario"));
+                    datos.put("casaCuna", rs.getString("casa_cuna"));
+                    datos.put("dificultad", rs.getString("dificultad"));
+                    datos.put("fechaPerdida", rs.getString("fecha_perdida"));
+                    datos.put("fechaHallazgo", rs.getString("fecha_hallazgo"));
+                    datos.put("descripcionAbandono", rs.getString("abandonSituationDescription"));
+                    datos.put("notas", rs.getString("descriptionNotes"));
+
+                    procesarBlob(rs, datos, "beforePicture", "imagenAntes");
+                    procesarBlob(rs, datos, "afterPicture", "imagenDespues");
+
+                    return datos;
                 }
-
-                Blob blobDespues = rs.getBlob("afterPicture");
-                if (blobDespues != null) {
-                    datos.put("imagenDespues", blobDespues.getBytes(1, (int) blobDespues.length()));
-                } else {
-                    datos.put("imagenDespues", null);
-                }
-
-                return datos;
             }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         return null;
+    }
+
+    private void procesarBlob(ResultSet rs, Map<String, Object> datos, String colName, String key) throws SQLException {
+        Blob blob = rs.getBlob(colName);
+        if (blob != null) {
+            datos.put(key, blob.getBytes(1, (int) blob.length()));
+        } else {
+            datos.put(key, null);
+        }
     }
     public static ResultadoConsulta buscarMascotasSinAdoptar(
         Integer meses,

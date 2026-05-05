@@ -11,11 +11,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 public class AdopcionesController {
 
@@ -29,6 +34,12 @@ public class AdopcionesController {
     @FXML private Button btnAprobar;
     @FXML private Button btnRechazar;
     @FXML private Button btnVolver;
+    @FXML private StackPane stackPaneSolicitudes;
+    @FXML private AnchorPane panelDetalleSolicitud;
+    @FXML private Label lblIdSolicitud, lblMascota, lblAdoptante, lblEstado;
+    @FXML private TextArea txtNotasSolicitud;
+    @FXML private VBox vboxPreguntasRespuestas;
+    @FXML private Button btnAprobarDetalle, btnRechazarDetalle;
 
     private ObservableList<ObservableList<String>> datosEstados;
 
@@ -40,6 +51,15 @@ public class AdopcionesController {
         btnAprobar.setVisible(true);
         btnRechazar.setVisible(true);
         cargarCombos();
+
+        tablaSolicitudes.getSelectionModel().selectedItemProperty().addListener((obs, old, newSelection) -> {
+            if (newSelection != null) {
+                mostrarDetalleSolicitud(newSelection);
+            }
+        });
+
+        tablaSolicitudes.setVisible(true);
+        panelDetalleSolicitud.setVisible(false);
     }
 
     private void cargarCombos() {
@@ -155,7 +175,7 @@ public class AdopcionesController {
 
             boolean ok = AdopcionesDAO.actualizarEstadoSolicitud(
                     idSolicitud, idPet, idPerson,
-                    null, null, "",  // fotos y notas opcionales al aprobar
+                    null, "",   // foto, notas
                     idEstado, "SYSTEM");
 
             if (ok) {
@@ -199,6 +219,49 @@ public class AdopcionesController {
             @Override public ObservableList<String> fromString(String s) { return null; }
         };
     }
+
+    private void mostrarDetalleSolicitud(ObservableList<String> fila) {
+        // Ocultar la tabla y mostrar el panel de detalle
+        tablaSolicitudes.setVisible(false);
+        panelDetalleSolicitud.setVisible(true);
+
+        // Llenar los datos básicos desde la fila de la tabla
+        // Asume columnas: id, idPet, idPerson, nombreMascota, nombreAdoptante, fecha, estado
+        lblIdSolicitud.setText(fila.get(0));
+        lblMascota.setText(fila.get(3));
+        lblAdoptante.setText(fila.get(4));
+        lblEstado.setText(fila.get(6));
+
+        // Cargar notas y preguntas/respuestas desde la BD
+        cargarDetallesCompletos(fila.get(0));
+    }
+
+    private void cargarDetallesCompletos(String idSolicitud) {
+        try {
+            Map<String, Object> detalles = AdopcionesDAO.obtenerDetalleSolicitud(idSolicitud);
+
+            List<Map<String, String>> preguntasRespuestas = (List<Map<String, String>>) detalles.get("preguntas");
+            vboxPreguntasRespuestas.getChildren().clear();
+            for (Map<String, String> pr : preguntasRespuestas) {
+                Label lblPregunta = new Label("P: " + pr.get("question_text"));
+                Label lblRespuesta = new Label("R: " + pr.get("answer_value"));
+                vboxPreguntasRespuestas.getChildren().addAll(lblPregunta, lblRespuesta);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo cargar el detalle: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void onVolverALista() {
+        // Regresar a la tabla
+        panelDetalleSolicitud.setVisible(false);
+        tablaSolicitudes.setVisible(true);
+    }
+
+    // También puedes usar los botones de detalle para aprobar/rechazar
+
 
     public void switchVolver(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/com/example/bdbconsultas/Admin.fxml"));

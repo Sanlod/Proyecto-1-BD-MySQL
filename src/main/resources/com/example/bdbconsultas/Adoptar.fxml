@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
@@ -14,14 +13,11 @@
 
       <Button fx:id="btnVolver" layoutX="815.0" layoutY="10.0" onAction="#switchVolver" text="Volver" />
 
-      <Text layoutX="30.0" layoutY="45.0" text="Mascota:" />
-      <ComboBox fx:id="cmbMascota" layoutX="100.0" layoutY="28.0" prefWidth="200.0" />
+      <Text layoutX="30.0" layoutY="89.0" text="Mascota:" />
+      <ComboBox fx:id="cmbMascota" layoutX="100.0" layoutY="72.0" prefWidth="200.0" />
 
-      <Text layoutX="320.0" layoutY="45.0" text="Adoptante:" />
-      <ComboBox fx:id="cmbAdoptante" layoutX="390.0" layoutY="28.0" prefWidth="200.0" />
-
-      <Text layoutX="30.0" layoutY="85.0" text="Notas:" />
-      <TextArea fx:id="txtNotas" layoutX="30.0" layoutY="90.0" prefHeight="60.0" prefWidth="400.0" />
+      <Text layoutX="320.0" layoutY="89.0" text="Adoptante:" />
+      <ComboBox fx:id="cmbAdoptante" layoutX="390.0" layoutY="72.0" prefWidth="200.0" />
 
       <!-- Fotos req. f -->
       <Text layoutX="30.0" layoutY="168.0" text="Foto con mascota:" />

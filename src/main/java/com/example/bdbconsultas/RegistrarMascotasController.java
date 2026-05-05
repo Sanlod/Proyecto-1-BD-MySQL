@@ -114,9 +114,9 @@ public class RegistrarMascotasController implements Initializable {
             // Estados
             datosEstadosActuales = MascotasDAO.getEstados();
             cmbIdEstado1.setItems(datosEstadosActuales.stream()
+                    .filter(row -> !row.get(1).equalsIgnoreCase("ADOPTADO"))
                     .map(row -> row.get(1))
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-
             // Severidades
             datosSeveridadesActuales = MascotasDAO.getSeveridades();
             cmbIdSeveridad1.setItems(datosSeveridadesActuales.stream()

@@ -5,7 +5,9 @@ import javafx.collections.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdopcionesDAO {
 
@@ -23,8 +25,8 @@ public class AdopcionesDAO {
                                  ObservableList<ObservableList<String>> filas,
                                  int total) {
             this.columnas = columnas;
-            this.filas    = filas;
-            this.total    = total;
+            this.filas = filas;
+            this.total = total;
         }
     }
 
@@ -190,31 +192,27 @@ public class AdopcionesDAO {
     }
 
 
-
     public static boolean actualizarEstadoSolicitud(
             String idSolicitud, String idPet, String idPerson,
-            byte[] foto, byte[] fotoNueva, String notas,
-            String nuevoEstado, String usuario)
-            throws SQLException, ClassNotFoundException {
+            byte[] foto, String notas,
+            String nuevoEstado, String usuario) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_GESTIONAR_SOLICITUD(?,?,?,?,?,?,?,?,?) }")) {
-            cs.setString(1, idSolicitud);
-            cs.setString(2, idPet);
-            cs.setString(3, idPerson);
+             CallableStatement cs = conn.prepareCall("{ CALL SP_GESTIONAR_SOLICITUD(?,?,?,?,?,?,?,?) }")) {
+            cs.setInt(1, Integer.parseInt(idSolicitud));
+            cs.setInt(2, Integer.parseInt(idPet));
+            cs.setInt(3, Integer.parseInt(idPerson));
             if (foto != null) cs.setBytes(4, foto);
             else cs.setNull(4, Types.BLOB);
-            if (fotoNueva != null) cs.setBytes(5, fotoNueva);
-            else cs.setNull(5, Types.BLOB);
-            cs.setString(6, notas != null ? notas : "");
-            cs.setString(7, nuevoEstado);
-            cs.setString(8, usuario);
-            cs.registerOutParameter(9, Types.NUMERIC);
+            cs.setString(5, notas != null ? notas : "");
+            cs.setInt(6, Integer.parseInt(nuevoEstado));
+            cs.setString(7, usuario);
+            cs.registerOutParameter(8, Types.NUMERIC);
             cs.execute();
-            return cs.getInt(9) == 0;
+            return cs.getInt(8) == 0;
         }
     }
+
     public static int registrarRequest(
             String idMascota, String idPerson, String createdBy)
             throws SQLException, ClassNotFoundException {
@@ -231,6 +229,7 @@ public class AdopcionesDAO {
             return cs.getInt(5) == 0 ? cs.getInt(4) : -1;
         }
     }
+
     public static int registrarAdopcion(
             String idMascota, String idAdoptante,
             String notas, byte[] foto, byte[] fotoNueva,
@@ -279,6 +278,7 @@ public class AdopcionesDAO {
             cs.execute();
         }
     }
+
     public static ObservableList<ObservableList<String>> getEstadosSolicitud()
             throws SQLException, ClassNotFoundException {
         return listadosCatalogo("SP_LISTAR_ESTADOS_SOLICITUD");
@@ -314,5 +314,45 @@ public class AdopcionesDAO {
             }
         }
         return new ResultadoConsulta(columnas, filas, total);
+    }
+
+    public static Map<String, Object> obtenerDetalleSolicitud(String idSolicitud) throws SQLException, ClassNotFoundException {
+        Map<String, Object> resultado = new HashMap<>();
+        List<Map<String, String>> preguntasRespuestas = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{ CALL SP_OBTENER_DETALLE_SOLICITUD(?,?,?) }")) {
+
+            cs.setInt(1, Integer.parseInt(idSolicitud));
+            cs.registerOutParameter(2, Types.REF_CURSOR);
+            cs.registerOutParameter(3, Types.REF_CURSOR);
+            cs.execute();
+
+            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+                if (rs.next()) {
+                    resultado.put("id", rs.getString("id"));
+                    resultado.put("idPet", rs.getString("idPet"));
+                    resultado.put("idPerson", rs.getString("idPerson"));
+                    resultado.put("pet_name", rs.getString("pet_name"));
+                    resultado.put("adoptant_name", rs.getString("adoptant_name"));
+                    resultado.put("status_name", rs.getString("status_name"));
+                    resultado.put("createdAt", rs.getTimestamp("createdAt"));
+                    resultado.put("createdBy", rs.getString("createdBy"));
+                    // No hay notes, photo, photoNew en AdoptionRequest
+                }
+            }
+
+            try (ResultSet rsPreg = (ResultSet) cs.getObject(3)) {
+                while (rsPreg.next()) {
+                    Map<String, String> pr = new HashMap<>();
+                    pr.put("question_id", rsPreg.getString("question_id"));
+                    pr.put("question_text", rsPreg.getString("question_text"));
+                    pr.put("answer_value", rsPreg.getString("answer_value"));
+                    preguntasRespuestas.add(pr);
+                }
+            }
+            resultado.put("preguntas", preguntasRespuestas);
+        }
+        return resultado;
     }
 }
