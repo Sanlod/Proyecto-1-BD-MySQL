@@ -25,6 +25,7 @@ public class AdopcionesController {
     @FXML private ComboBox<ObservableList<String>> cbAdoptante;
     @FXML private Label lblResultados;
     @FXML private TableView<ObservableList<String>> tablaAdopciones;
+    @FXML private TableView<ObservableList<String>> tablaSolicitudes;
     @FXML private Button btnAprobar;
     @FXML private Button btnRechazar;
     @FXML private Button btnVolver;
@@ -92,24 +93,32 @@ public class AdopcionesController {
         }
     }
 
+
     @FXML
     public void onBuscar() {
         try {
             String idM = cbMascota.getValue().get(0);
             String idA = cbAdoptante.getValue().get(0);
 
-            AdopcionesDAO.ResultadoConsulta res = AdopcionesDAO.consultarSolicitudes(
+            AdopcionesDAO.ResultadoConsulta solicitudes = AdopcionesDAO.consultarSolicitudes(
                     dpDesde.getValue(), dpHasta.getValue(), idM, idA);
 
-            configurarColumnas(res.columnas);
-            tablaAdopciones.setItems(res.filas);
-            lblResultados.setText("Total: " + res.total);
+            configurarColumnas(solicitudes.columnas);
+            tablaSolicitudes.setItems(solicitudes.filas);
+
+            AdopcionesDAO.ResultadoConsulta adopciones = AdopcionesDAO.consultarAdopciones(
+                    dpDesde.getValue(), dpHasta.getValue(), idM, idA);
+
+            configurarColumnasAdop(adopciones.columnas);
+            tablaAdopciones.setItems(adopciones.filas);
+
+            lblResultados.setText("Total solicitudes: " + solicitudes.total +
+                    " | Total adopciones: " + adopciones.total);
 
         } catch (Exception e) {
             mostrarAlerta("Error de consulta", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
     @FXML
     public void onAprobar() {
         gestionarSolicitud("APROBADA");
@@ -121,7 +130,7 @@ public class AdopcionesController {
     }
 
     private void gestionarSolicitud(String nombreEstado) {
-        ObservableList<String> seleccion = tablaAdopciones.getSelectionModel().getSelectedItem();
+        ObservableList<String> seleccion = tablaSolicitudes.getSelectionModel().getSelectedItem();
         if (seleccion == null) {
             mostrarAlerta("Atención", "Seleccione una solicitud.", Alert.AlertType.WARNING);
             return;
@@ -161,6 +170,17 @@ public class AdopcionesController {
     }
 
     private void configurarColumnas(java.util.List<String> columnas) {
+        tablaSolicitudes.getColumns().clear();
+        for (int i = 0; i < columnas.size(); i++) {
+            final int idx = i;
+            TableColumn<ObservableList<String>, String> col = new TableColumn<>(columnas.get(i));
+            col.setCellValueFactory(data ->
+                    new SimpleStringProperty(data.getValue().get(idx)));
+            tablaSolicitudes.getColumns().add(col);
+        }
+    }
+
+    private void configurarColumnasAdop(java.util.List<String> columnas) {
         tablaAdopciones.getColumns().clear();
         for (int i = 0; i < columnas.size(); i++) {
             final int idx = i;

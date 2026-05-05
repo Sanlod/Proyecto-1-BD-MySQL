@@ -3,7 +3,7 @@ module com.example.bdbconsultas {
     requires javafx.fxml;
     requires java.sql;
     requires javafx.graphics;
-
+    requires javafx.base;
 
 
     opens com.example.bdbconsultas to javafx.fxml;

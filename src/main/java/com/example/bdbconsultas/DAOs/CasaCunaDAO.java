@@ -5,10 +5,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CasaCunaDAO {
 
     private static CasaCunaDAO instance;
+
+    public static class ResultadoCribHouse {
+        public final List<String> columnas;
+        public final ObservableList<ObservableList<String>> filas;
+
+        public ResultadoCribHouse(List<String> columnas, ObservableList<ObservableList<String>> filas) {
+            this.columnas = columnas;
+            this.filas = filas;
+        }
+    }
 
     public static CasaCunaDAO getInstance() {
         if (instance == null) {
@@ -79,5 +91,39 @@ public class CasaCunaDAO {
         }
 
         return idGenerado;
+    }
+
+    public static ResultadoCribHouse listarCribHouses() throws SQLException, ClassNotFoundException {
+        List<String> columnas = new ArrayList<>();
+        ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
+
+        String sql = "{ CALL SP_LISTAR_CRIBHOUSE(?) }";
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(sql)) {
+            cs.registerOutParameter(1, Types.REF_CURSOR);
+            cs.execute();
+
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+                ResultSetMetaData meta = rs.getMetaData();
+                int numCols = meta.getColumnCount();
+
+                // Sacar los nombres de las columnas
+                for (int i = 1; i <= numCols; i++) {
+                    columnas.add(meta.getColumnLabel(i));
+                }
+
+                // Se recorren las filas
+                while (rs.next()) {
+                    ObservableList<String> fila = FXCollections.observableArrayList();
+                    for (int i = 1; i <= numCols; i++) {
+                        Object val = rs.getObject(i);
+                        fila.add(val != null ? val.toString() : "");
+                    }
+                    filas.add(fila);
+                }
+            }
+        }
+        return new ResultadoCribHouse(columnas, filas);
     }
 }

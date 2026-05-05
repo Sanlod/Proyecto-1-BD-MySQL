@@ -9,6 +9,7 @@ import java.util.List;
 
 public class AdopcionesDAO {
 
+
     public ResultadoConsulta consultarSolicitudes(String idM, String idA) {
         return null;
     }
@@ -110,6 +111,59 @@ public class AdopcionesDAO {
             cs.setString(3, (idMascota == null || idMascota.equals("0")) ? null : idMascota);
             cs.setString(4, (idAdoptante == null || idAdoptante.equals("0")) ? null : idAdoptante);
 
+            cs.registerOutParameter(5, Types.REF_CURSOR);  // ← Cursor
+            cs.registerOutParameter(6, Types.NUMERIC);    // ← Total
+
+            cs.execute();
+            total = cs.getInt(6);  // ← Obtener total
+
+            System.out.println("Total desde SP: " + total);  // DEBUG
+
+            try (ResultSet rs = (ResultSet) cs.getObject(5)) {  // ← Obtener cursor
+                if (rs == null) {
+                    System.out.println("ERROR: El cursor es NULL");
+                    return new ResultadoConsulta(columnas, filas, total);
+                }
+
+                ResultSetMetaData meta = rs.getMetaData();
+                int numCols = meta.getColumnCount();
+                System.out.println("Número de columnas: " + numCols);  // DEBUG
+
+                for (int i = 1; i <= numCols; i++) {
+                    columnas.add(meta.getColumnLabel(i));
+                }
+
+                while (rs.next()) {
+                    ObservableList<String> fila = FXCollections.observableArrayList();
+                    for (int i = 1; i <= numCols; i++) {
+                        Object val = rs.getObject(i);
+                        fila.add(val != null ? val.toString() : "");
+                    }
+                    filas.add(fila);
+                    System.out.println("Fila agregada: " + fila);  // DEBUG
+                }
+            }
+        }
+        System.out.println("Total filas obtenidas: " + filas.size());  // DEBUG
+        return new ResultadoConsulta(columnas, filas, total);
+    }
+
+    public static ResultadoConsulta consultarAdopciones(
+            LocalDate desde, LocalDate hasta,
+            String idMascota, String idAdoptante) throws SQLException, ClassNotFoundException {
+
+        List<String> columnas = new ArrayList<>();
+        ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
+        int total = 0;
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_ADOPS(?,?,?,?,?,?) }")) {
+
+            cs.setObject(1, desde != null ? Date.valueOf(desde) : null);
+            cs.setObject(2, hasta != null ? Date.valueOf(hasta) : null);
+            cs.setString(3, (idMascota == null || idMascota.equals("0")) ? null : idMascota);
+            cs.setString(4, (idAdoptante == null || idAdoptante.equals("0")) ? null : idAdoptante);
+
             cs.registerOutParameter(5, Types.REF_CURSOR);
             cs.registerOutParameter(6, Types.NUMERIC);
 
@@ -134,6 +188,7 @@ public class AdopcionesDAO {
         }
         return new ResultadoConsulta(columnas, filas, total);
     }
+
 
 
     public static boolean actualizarEstadoSolicitud(

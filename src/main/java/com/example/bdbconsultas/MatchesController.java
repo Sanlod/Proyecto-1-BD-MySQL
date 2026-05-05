@@ -174,6 +174,13 @@ public class MatchesController implements Initializable {
                     dtDesde.getValue(),
                     dtHasta.getValue());
 
+            if (resultado == null || resultado.columnas == null || resultado.columnas.isEmpty()) {
+                tblMatches.getColumns().clear();
+                tblMatches.setItems(null);
+                lblTotal.setText("Total: 0 resultados");
+                return;
+            }
+
             configurarColumnasDinamicas(resultado.columnas);
             tblMatches.setItems(resultado.filas);
             lblTotal.setText("Total: " + resultado.total);
@@ -184,12 +191,24 @@ public class MatchesController implements Initializable {
     }
 
     private void configurarColumnasDinamicas(java.util.List<String> columnas) {
+
+        if (columnas == null || columnas.isEmpty()) {
+            tblMatches.getColumns().clear();
+            return;
+        }
+
         tblMatches.getColumns().clear();
+
         for (int i = 0; i < columnas.size(); i++) {
             final int idx = i;
             TableColumn<ObservableList<String>, String> col = new TableColumn<>(columnas.get(i));
-            col.setCellValueFactory(data ->
-                    new SimpleStringProperty(data.getValue().get(idx)));
+            col.setCellValueFactory(data -> {
+                ObservableList<String> fila = data.getValue();
+                if (fila != null && idx < fila.size()) {
+                    return new SimpleStringProperty(fila.get(idx));
+                }
+                return new SimpleStringProperty("");
+            });
             tblMatches.getColumns().add(col);
         }
     }
