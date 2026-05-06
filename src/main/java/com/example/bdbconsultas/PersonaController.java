@@ -35,7 +35,6 @@ public class PersonaController implements Initializable {
     @FXML private TextArea txtNotas;
     @FXML private CheckBox chkListaNegra;
 
-    @FXML private Button btnNuevo;
     @FXML private Button btnEditar;
     @FXML private Button btnEliminar;
     @FXML private Button btnGuardar;
@@ -95,26 +94,19 @@ public class PersonaController implements Initializable {
     }
 
     @FXML
-    private void onNuevo() {
-        modoEdicion = false;
-        limpiarFormulario();
-        txtPrimerNombre.requestFocus();
-        btnGuardar.setDisable(false);
-        deshabilitarBotonesAccion();
-    }
-
-    @FXML
     private void onEditar() {
         if (tblDatos.getSelectionModel().getSelectedItem() == null) {
             mostrarError("Seleccione una persona para editar");
             return;
         }
         modoEdicion = true;
+        setCamposEditables(true);
         btnGuardar.setDisable(false);
     }
 
     @FXML
     private void onGuardar() {
+        if (!modoEdicion) return;
         String primerNombre = txtPrimerNombre.getText().trim();
         String primerApellido = txtPrimerApellido.getText().trim();
 
@@ -137,14 +129,6 @@ public class PersonaController implements Initializable {
                         null
                 );
                 mostrarInfo("Persona actualizada correctamente");
-            } else {
-                PersonaDAO.registrarPersona(
-                        primerNombre,
-                        txtSegundoNombre.getText().trim(),
-                        primerApellido,
-                        txtSegundoApellido.getText().trim()
-                );
-                mostrarInfo("Persona registrada correctamente");
             }
             cargarDatos();
             limpiarFormulario();
@@ -266,6 +250,16 @@ public class PersonaController implements Initializable {
         txtNotas.clear();
         chkListaNegra.setSelected(false);
         modoEdicion = false;
+
+        setCamposEditables(false);
+    }
+
+    private void setCamposEditables(boolean valor) {
+        txtPrimerNombre.setEditable(valor);
+        txtSegundoNombre.setEditable(valor);
+        txtPrimerApellido.setEditable(valor);
+        txtSegundoApellido.setEditable(valor);
+        txtNotas.setEditable(valor);
     }
 
     private void habilitarBotonesAccion() {

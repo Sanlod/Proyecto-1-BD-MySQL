@@ -277,6 +277,7 @@ public class BuscarMascotasController implements Initializable {
     private void onLimpiar() {
         txtNombre.clear();
         txtNumChip.clear();
+
         cmbTipo.setValue(null);
         cmbRaza.setValue(null);
         cmbEstado.setValue(null);
@@ -286,13 +287,17 @@ public class BuscarMascotasController implements Initializable {
         cmbDistrito.setValue(null);
         cmbAsociacion.setValue(null);
         cmbRescatista.setValue(null);
+
         dtDesde.setValue(null);
         dtHasta.setValue(null);
-        tblDatos.setItems(null);
+
+        if (tblDatos.getItems() != null) {
+            tblDatos.getItems().clear();
+        }
+
         imvMascota.setImage(null);
         lblTotal.setText("Total: 0 resultados");
     }
-
     @FXML
     private void onVerDetalle() {
         ObservableList<String> seleccion = tblDatos.getSelectionModel().getSelectedItem();
@@ -300,6 +305,7 @@ public class BuscarMascotasController implements Initializable {
             mostrarError("Seleccione una mascota para ver el detalle");
             return;
         }
+
 
         String idMascota = seleccion.get(0);
         cargarDatosDetalle(idMascota);

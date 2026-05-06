@@ -552,6 +552,9 @@ public class MascotasDAO {
 
             cs.execute();
 
+
+
+
             try (ResultSet rs = (ResultSet) cs.getObject(2)) {
                 if (rs.next()) {
                     Map<String, Object> datos = new HashMap<>();
@@ -578,7 +581,7 @@ public class MascotasDAO {
                     datos.put("casaCuna", rs.getString("casa_cuna"));
                     datos.put("dificultad", rs.getString("dificultad"));
                     datos.put("fechaPerdida", rs.getString("fecha_perdida"));
-                    datos.put("fechaHallazgo", rs.getString("fecha_hallazgo"));
+                    datos.put("fechaHallazgo", rs.getString("fecha_hallada"));
                     datos.put("descripcionAbandono", rs.getString("abandonSituationDescription"));
                     datos.put("notas", rs.getString("descriptionNotes"));
 

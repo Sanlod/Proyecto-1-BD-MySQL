@@ -24,7 +24,6 @@ public class AdoptarController implements Initializable {
 
     @FXML private ComboBox<String> cmbMascota;
     @FXML private ComboBox<String> cmbAdoptante;
-    @FXML private TextArea txtNotas;
     @FXML private VBox vboxPreguntas;
     @FXML private Button btnRegistrar;
     @FXML private Button btnVolver;
@@ -123,7 +122,6 @@ public class AdoptarController implements Initializable {
     private void limpiar() {
         cmbMascota.getSelectionModel().clearSelection();
         cmbAdoptante.getSelectionModel().clearSelection();
-        txtNotas.clear();
         camposRespuesta.forEach(TextField::clear);
         fotoBytes = null;
         fotoNuevaBytes = null;

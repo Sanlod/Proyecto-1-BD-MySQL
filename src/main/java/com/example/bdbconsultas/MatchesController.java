@@ -164,7 +164,7 @@ public class MatchesController implements Initializable {
             String idCanton = obtenerIdSeleccionado(cmbCanton, datosCantonesActuales);
             String idDistrito = obtenerIdSeleccionado(cmbDistrito, datosDistritosActuales);
             String idAsociacion = obtenerIdSeleccionado(cmbAsociacion, datosAsociacionesActuales);
-
+            tblMatches.getColumns().clear();
             MatchesDAO.ResultadoConsulta resultado = MatchesDAO.consultarMatches(
                     idMascotaPerdida, idTipo, idRaza,
                     txtNombre.getText().trim(),
@@ -176,7 +176,7 @@ public class MatchesController implements Initializable {
 
             if (resultado == null || resultado.columnas == null || resultado.columnas.isEmpty()) {
                 tblMatches.getColumns().clear();
-                tblMatches.setItems(null);
+                tblMatches.setItems(FXCollections.observableArrayList());
                 lblTotal.setText("Total: 0 resultados");
                 return;
             }
@@ -187,6 +187,7 @@ public class MatchesController implements Initializable {
 
         } catch (Exception e) {
             mostrarError("Error al buscar: " + e.getMessage());
+            tblMatches.setItems(FXCollections.observableArrayList());
         }
     }
 
@@ -263,7 +264,8 @@ public class MatchesController implements Initializable {
         txtChip.clear();
         dtDesde.setValue(null);
         dtHasta.setValue(null);
-        tblMatches.setItems(null);
+        tblMatches.getColumns().clear();
+        tblMatches.setItems(FXCollections.observableArrayList());
         lblTotal.setText("Total: 0 resultados");
     }
 
