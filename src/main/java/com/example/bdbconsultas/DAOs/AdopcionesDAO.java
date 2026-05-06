@@ -113,15 +113,14 @@ public class AdopcionesDAO {
             cs.setString(3, (idMascota == null || idMascota.equals("0")) ? null : idMascota);
             cs.setString(4, (idAdoptante == null || idAdoptante.equals("0")) ? null : idAdoptante);
 
-            cs.registerOutParameter(5, Types.REF_CURSOR);  // ← Cursor
-            cs.registerOutParameter(6, Types.NUMERIC);    // ← Total
+            cs.registerOutParameter(5, Types.REF_CURSOR);
+            cs.registerOutParameter(6, Types.NUMERIC);
 
             cs.execute();
-            total = cs.getInt(6);  // ← Obtener total
+            total = cs.getInt(6);
 
-            System.out.println("Total desde SP: " + total);  // DEBUG
 
-            try (ResultSet rs = (ResultSet) cs.getObject(5)) {  // ← Obtener cursor
+            try (ResultSet rs = (ResultSet) cs.getObject(5)) {
                 if (rs == null) {
                     System.out.println("ERROR: El cursor es NULL");
                     return new ResultadoConsulta(columnas, filas, total);
@@ -129,7 +128,6 @@ public class AdopcionesDAO {
 
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
-                System.out.println("Número de columnas: " + numCols);  // DEBUG
 
                 for (int i = 1; i <= numCols; i++) {
                     columnas.add(meta.getColumnLabel(i));
@@ -142,11 +140,9 @@ public class AdopcionesDAO {
                         fila.add(val != null ? val.toString() : "");
                     }
                     filas.add(fila);
-                    System.out.println("Fila agregada: " + fila);  // DEBUG
                 }
             }
         }
-        System.out.println("Total filas obtenidas: " + filas.size());  // DEBUG
         return new ResultadoConsulta(columnas, filas, total);
     }
 
@@ -338,7 +334,6 @@ public class AdopcionesDAO {
                     resultado.put("status_name", rs.getString("status_name"));
                     resultado.put("createdAt", rs.getTimestamp("createdAt"));
                     resultado.put("createdBy", rs.getString("createdBy"));
-                    // No hay notes, photo, photoNew en AdoptionRequest
                 }
             }
 

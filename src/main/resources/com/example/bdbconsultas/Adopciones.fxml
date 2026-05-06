@@ -16,7 +16,6 @@
 
       <Button fx:id="btnVolver" layoutX="840.0" layoutY="10.0" onAction="#switchVolver" text="Volver" />
 
-      <!-- Filtros -->
       <Text layoutX="30.0" layoutY="45.0" text="Desde:" />
       <DatePicker fx:id="dpDesde" layoutX="80.0" layoutY="28.0" />
 
@@ -31,13 +30,11 @@
 
       <Button layoutX="270.0" layoutY="68.0" onAction="#onBuscar" text="Buscar" />
 
-      <!-- Tabla adopciones (historial) -->
       <Text layoutX="30.0" layoutY="115.0" text="Adopciones" />
       <TableView fx:id="tablaAdopciones" layoutX="30.0" layoutY="120.0" prefHeight="140.0" prefWidth="840.0" />
 
       <Label fx:id="lblResultados" layoutX="30.0" layoutY="270.0" text="Total: 0" />
 
-      <!-- StackPane para solicitudes con altura fija (no se estira) -->
       <Text layoutX="30.0" layoutY="295.0" text="Solicitudes" />
       <StackPane fx:id="stackPaneSolicitudes" layoutX="30.0" layoutY="305.0" maxHeight="150.0" prefHeight="150.0" prefWidth="840.0">
          <children>
@@ -67,7 +64,6 @@
          </children>
       </StackPane>
 
-      <!-- Botones de aprobar/rechazar (actúan sobre la solicitud seleccionada) -->
       <Button fx:id="btnAprobar" layoutX="30.0" layoutY="475.0" onAction="#onAprobar" text="Aprobar seleccionada" />
       <Button fx:id="btnRechazar" layoutX="180.0" layoutY="475.0" onAction="#onRechazar" text="Rechazar seleccionada" />
 
