@@ -432,6 +432,8 @@ public class MascotasDAO {
                 cs.setNull(23, Types.BLOB);
             }
 
+            cs.setString(19, idCribHouse == null || idCribHouse.isEmpty() ? null : idCribHouse);
+
             cs.setString(24, createdBy);
 
             cs.setDate(25, birthDate == null ? null : Date.valueOf(birthDate));

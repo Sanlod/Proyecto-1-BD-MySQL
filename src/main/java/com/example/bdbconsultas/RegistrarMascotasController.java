@@ -61,12 +61,9 @@ public class RegistrarMascotasController implements Initializable {
     @FXML private ComboBox<String> cmbDificultadEntrenamiento;
     @FXML private DatePicker dpFechaperdida;
     @FXML private ComboBox<String> cmbVeterinario;
-    @FXML private ComboBox<String> cmbCasaCuna;
     @FXML private ComboBox<String> cmbRescatista;
     @FXML private ComboBox<String> cmbAsociacion;
-    @FXML private ComboBox<String> cmbEnfermedades;
-    @FXML private ComboBox<String> cmbTratamientos;
-    @FXML private ComboBox<String> cmbMedicamentos;
+
     @FXML private Button btnRegistrar;
 
     private byte[] imagenAntesBytes;
@@ -164,33 +161,11 @@ public class RegistrarMascotasController implements Initializable {
                     .map(row -> row.get(1))
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
 
-            // Casas Cuna
-            datosCasasCunaActuales = MascotasDAO.getCasasCuna();
-            cmbCasaCuna.setItems(datosCasasCunaActuales.stream()
-                    .map(row -> row.get(1))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-
             // Asociaciones
             datosAsociacionesActuales = MascotasDAO.getAsociaciones();
             cmbAsociacion.setItems(datosAsociacionesActuales.stream()
                     .map(row -> row.get(1))
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-
-            // Enfermedades
-            cmbEnfermedades.setItems(MascotasDAO.getEnfermedades().stream()
-                    .map(row -> row.get(1))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-
-            // Tratamientos
-            cmbTratamientos.setItems(MascotasDAO.getTratamientos().stream()
-                    .map(row -> row.get(1))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-
-            // Medicamentos
-            cmbMedicamentos.setItems(MascotasDAO.getMedicamentos().stream()
-                    .map(row -> row.get(1))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-
         } catch (Exception e) {
             mostrarError("Error al cargar catálogos: " + e.getMessage());
         }
@@ -233,6 +208,25 @@ public class RegistrarMascotasController implements Initializable {
                 mostrarError("Error al cargar razas: " + ex.getMessage());
             }
         });
+        cmbIdEstado1.setOnAction(e -> {
+            String estadoSeleccionado = cmbIdEstado1.getValue();
+            boolean esPerdida = "PERDIDA".equalsIgnoreCase(estadoSeleccionado);
+            txtMonto1.setDisable(!esPerdida);
+            cmbIdMoneda1.setDisable(!esPerdida);
+            if (!esPerdida) {
+                txtMonto1.clear();
+                cmbIdMoneda1.setValue(null);
+            }
+
+            boolean bloquearRescatista = "EN ADOPCION".equalsIgnoreCase(estadoSeleccionado)
+                    || "PERDIDA".equalsIgnoreCase(estadoSeleccionado);
+            cmbRescatista.setDisable(bloquearRescatista);
+            if (bloquearRescatista) {
+                cmbRescatista.setValue(null);
+            }
+
+        });
+
     }
 
     @FXML
@@ -276,7 +270,6 @@ public class RegistrarMascotasController implements Initializable {
             String idNivelEnergia = obtenerIdSeleccionado(cmbIdNivEnergia1, datosNivelesEnergiaActuales);
             String idDistrito = obtenerIdSeleccionado(cmbIdDistrito1, datosDistritosActuales);
             String idVeterinario = obtenerIdSeleccionado(cmbVeterinario, datosVeterinariosActuales);
-            String idCasaCuna = obtenerIdSeleccionado(cmbCasaCuna, datosCasasCunaActuales);
             String idAsociacion = obtenerIdSeleccionado(cmbAsociacion, datosAsociacionesActuales);
             String idDificultad = obtenerIdSeleccionado(cmbDificultadEntrenamiento, datosDificultadActuales);
             String idRescatista = obtenerIdSeleccionado(cmbRescatista, datosRescatistaActuales);
@@ -292,7 +285,7 @@ public class RegistrarMascotasController implements Initializable {
                     txtTelefono.getText(), txtCorreo.getText(),
                     txtDescripcion1.getText(), txtNotasAbandono.getText(),
                     idDificultad, lossDate, foundDate,
-                    idVeterinario, idCasaCuna, idRescatista, idAsociacion,
+                    idVeterinario, null, idRescatista, idAsociacion,
                     imagenAntesBytes, imagenDespuesBytes, "SYSTEM",birthDate
             );
 
@@ -323,11 +316,50 @@ public class RegistrarMascotasController implements Initializable {
         if (txtIdNombre1.getText().isEmpty()) { mostrarError("El nombre es obligatorio"); return false; }
         if (cmbIdTipo1.getValue() == null) { mostrarError("El tipo de mascota es obligatorio"); return false; }
         if (cmbIdEstado1.getValue() == null) { mostrarError("El estado es obligatorio"); return false; }
+        String montoStr = (txtMonto1 != null && txtMonto1.getText() != null) ? txtMonto1.getText().trim() : "";
+        String monedaSel = (cmbIdMoneda1 != null) ? cmbIdMoneda1.getValue() : null;
+        String estadoSel = (cmbIdEstado1 != null) ? cmbIdEstado1.getValue() : null;
+        String rescSel = (cmbRescatista != null) ? cmbRescatista.getValue() : null;
+
         if (txtChip1.getText() != null && !txtChip1.getText().isEmpty()) {
             try {
                 Long.parseLong(txtChip1.getText());
             } catch (NumberFormatException e) {
                 mostrarError("El chip debe contener solo números");
+                return false;
+            }
+        }
+
+        if (!montoStr.isEmpty() || monedaSel != null) {
+            if (!"PERDIDA".equalsIgnoreCase(estadoSel)) {
+                mostrarError("Solo se pueden asignar recompensas si el estado es 'PERDIDA'.");
+                return false;
+            }
+        }
+        if (!montoStr.isEmpty() && monedaSel == null) {
+            mostrarError("Debe seleccionar una moneda para el monto.");
+            return false;
+        }
+        if (montoStr.isEmpty() && monedaSel != null) {
+            mostrarError("Debe ingresar un monto para la moneda seleccionada.");
+            return false;
+        }
+
+        if (!montoStr.isEmpty()) {
+            try {
+                Long.parseLong(montoStr);
+            } catch (NumberFormatException e) {
+                mostrarError("El monto debe contener solo números.");
+                return false;
+            }
+        }
+        if ("HALLADA".equalsIgnoreCase(estadoSel) && rescSel == null) {
+            mostrarError("Debe seleccionar un rescatista para una mascota hallada.");
+            return false;
+        }
+        if ("EN ADOPCION".equalsIgnoreCase(estadoSel) || "PERDIDA".equalsIgnoreCase(estadoSel))
+            { if (rescSel != null) {
+                mostrarError("Una mascota en adopción o perdida no puede tener un rescatista asignado en este formulario.");
                 return false;
             }
         }
@@ -367,12 +399,8 @@ public class RegistrarMascotasController implements Initializable {
         cmbDificultadEntrenamiento.setValue(null);
         dpFechaperdida.setValue(null);
         cmbVeterinario.setValue(null);
-        cmbCasaCuna.setValue(null);
         cmbRescatista.setValue(null);
         cmbAsociacion.setValue(null);
-        cmbEnfermedades.setValue(null);
-        cmbTratamientos.setValue(null);
-        cmbMedicamentos.setValue(null);
         imvFotoAntes.setImage(null);
         imvFotoDespues.setImage(null);
         imagenAntesBytes = null;

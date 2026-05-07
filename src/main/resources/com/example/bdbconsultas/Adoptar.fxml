@@ -45,20 +45,8 @@
 
       <VBox layoutX="30.0" layoutY="235.0" spacing="10.0">
          <children>
-            <HBox alignment="CENTER_LEFT" spacing="15.0">
-               <children>
-                  <Label prefWidth="120.0" text="Foto con mascota:" />
-                  <Button fx:id="btnFoto" onAction="#onSeleccionarFoto" text="Seleccionar" />
-                  <Label fx:id="lblFoto" text="Sin foto" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" spacing="15.0">
-               <children>
-                  <Label prefWidth="120.0" text="Foto nueva vida:" />
-                  <Button fx:id="btnFotoNueva" onAction="#onSeleccionarFotoNueva" text="Seleccionar" />
-                  <Label fx:id="lblFotoNueva" text="Sin foto" />
-               </children>
-            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="15.0" />
+            <HBox alignment="CENTER_LEFT" spacing="15.0" />
          </children>
       </VBox>
 

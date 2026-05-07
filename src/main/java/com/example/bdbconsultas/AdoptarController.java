@@ -30,10 +30,6 @@ public class AdoptarController implements Initializable {
     @FXML private VBox vboxPreguntas;
     @FXML private Button btnRegistrar;
     @FXML private Button btnVolver;
-    @FXML private Button btnFoto;
-    @FXML private Button btnFotoNueva;
-    @FXML private Label lblFoto;
-    @FXML private Label lblFotoNueva;
 
     private byte[] fotoBytes = null;
     private byte[] fotoNuevaBytes = null;
@@ -137,8 +133,7 @@ public class AdoptarController implements Initializable {
         camposRespuesta.forEach(TextField::clear);
         fotoBytes = null;
         fotoNuevaBytes = null;
-        lblFoto.setText("Sin foto");
-        lblFotoNueva.setText("Sin foto");
+
     }
     @FXML
     private void onVolver() {
@@ -153,33 +148,6 @@ public class AdoptarController implements Initializable {
     private void mostrarInfo(String msg) {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setHeaderText(null); a.setContentText(msg); a.show();
-    }
-    @FXML
-    private void onSeleccionarFoto() {
-        fotoBytes = seleccionarImagen(lblFoto);
-    }
-
-    @FXML
-    private void onSeleccionarFotoNueva() {
-        fotoNuevaBytes = seleccionarImagen(lblFotoNueva);
-    }
-
-    private byte[] seleccionarImagen(Label lblIndicador) {
-        javafx.stage.FileChooser fc = new javafx.stage.FileChooser();
-        fc.getExtensionFilters().add(
-                new javafx.stage.FileChooser.ExtensionFilter(
-                        "Imágenes", "*.png", "*.jpg", "*.jpeg"));
-        java.io.File archivo = fc.showOpenDialog(btnFoto.getScene().getWindow());
-        if (archivo != null) {
-            try {
-                byte[] bytes = java.nio.file.Files.readAllBytes(archivo.toPath());
-                lblIndicador.setText(archivo.getName());
-                return bytes;
-            } catch (Exception e) {
-                mostrarError("Error al leer imagen: " + e.getMessage());
-            }
-        }
-        return null;
     }
 
 
