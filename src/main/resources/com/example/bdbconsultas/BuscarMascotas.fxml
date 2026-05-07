@@ -17,10 +17,7 @@
    <children>
       <StackPane prefHeight="600.0" prefWidth="933.0">
          <children>
-
-            <!-- ============================================== -->
-            <!-- PÁGINA 2: DETALLE -->
-            <!-- ============================================== -->
+            <!-- PÁGINA 2: DETALLE-->
             <AnchorPane fx:id="paginaDetalle" prefHeight="601.0" prefWidth="933.0" visible="false">
                <children>
                   <Button fx:id="btnVolverBusqueda" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onVolverBusqueda" text="← Volver a resultados" />
@@ -107,9 +104,7 @@
                </children>
             </AnchorPane>
 
-            <!-- ============================================== -->
             <!-- PÁGINA 1: BÚSQUEDA -->
-            <!-- ============================================== -->
             <AnchorPane fx:id="paginaBusqueda" prefHeight="599.0" prefWidth="932.0">
                <children>
                   <Text layoutX="14.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estado" />

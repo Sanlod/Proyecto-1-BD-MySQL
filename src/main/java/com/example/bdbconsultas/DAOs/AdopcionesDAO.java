@@ -191,21 +191,29 @@ public class AdopcionesDAO {
     public static boolean actualizarEstadoSolicitud(
             String idSolicitud, String idPet, String idPerson,
             byte[] foto, String notas,
-            String nuevoEstado, String usuario) throws SQLException, ClassNotFoundException {
+            String nuevoEstado, String usuario, byte[] fotoNew) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_GESTIONAR_SOLICITUD(?,?,?,?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("{ CALL SP_GESTIONAR_SOLICITUD(?,?,?,?,?,?,?,?,?) }")) {
             cs.setInt(1, Integer.parseInt(idSolicitud));
             cs.setInt(2, Integer.parseInt(idPet));
             cs.setInt(3, Integer.parseInt(idPerson));
-            if (foto != null) cs.setBytes(4, foto);
-            else cs.setNull(4, Types.BLOB);
+            if (foto != null) {
+                cs.setBytes(4, foto);
+            } else {
+                cs.setNull(4, Types.BLOB);
+            }
             cs.setString(5, notas != null ? notas : "");
             cs.setInt(6, Integer.parseInt(nuevoEstado));
             cs.setString(7, usuario);
-            cs.registerOutParameter(8, Types.NUMERIC);
+            if (fotoNew != null) {
+                cs.setBytes(8, fotoNew);
+            } else {
+                cs.setNull(8, Types.BLOB);
+            }
+            cs.registerOutParameter(9, Types.NUMERIC);
             cs.execute();
-            return cs.getInt(8) == 0;
+            return cs.getInt(9) == 0;
         }
     }
 
@@ -350,4 +358,40 @@ public class AdopcionesDAO {
         }
         return resultado;
     }
+
+
+    public static byte[] obtenerImagenMascota(Integer idAdoption, boolean cual) {
+
+        try (Connection conn = DBConnection.getConnection();
+
+             CallableStatement cs = conn.prepareCall("{CALL SP_GET_PHOTOS(?,?)}")){
+                 cs.setInt(1, idAdoption);
+                 cs.registerOutParameter(2, Types.REF_CURSOR);
+                 cs.execute();
+
+                 ResultSet rs = (ResultSet) cs.getObject(2);
+
+                 if(rs.next()) {
+                     if(cual) {
+                         Blob blobPhoto = rs.getBlob("PHOTO");
+                         if (blobPhoto != null) {
+                             return blobPhoto.getBytes(1, (int) blobPhoto.length());
+                         }
+                     }else {
+                         Blob blobPhoto = rs.getBlob("PHOTONEW");
+                         if (blobPhoto != null) {
+                             return blobPhoto.getBytes(1, (int) blobPhoto.length());
+                         }
+                     }
+                 }
+             }
+             catch(Exception e){
+                 System.out.println("Ërro" + e.getMessage());
+                 return null;
+             }
+
+        return null;
+    }
+
+
 }

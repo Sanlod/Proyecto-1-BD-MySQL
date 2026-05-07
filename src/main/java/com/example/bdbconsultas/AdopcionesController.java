@@ -11,19 +11,30 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 public class AdopcionesController {
 
+    public ImageView imgNuevaVida;
+    public ImageView imgFoto;
+    public StackPane stackPaneSolicitudes;
     @FXML private DatePicker dpDesde;
     @FXML private DatePicker dpHasta;
     @FXML private ComboBox<ObservableList<String>> cbMascota;
@@ -34,12 +45,14 @@ public class AdopcionesController {
     @FXML private Button btnAprobar;
     @FXML private Button btnRechazar;
     @FXML private Button btnVolver;
-    @FXML private StackPane stackPaneSolicitudes;
+    @FXML private StackPane licitudes;
     @FXML private AnchorPane panelDetalleSolicitud;
     @FXML private Label lblIdSolicitud, lblMascota, lblAdoptante, lblEstado;
     @FXML private TextArea txtNotasSolicitud;
     @FXML private VBox vboxPreguntasRespuestas;
     @FXML private Button btnAprobarDetalle, btnRechazarDetalle;
+    byte[] foto;
+    byte[] fotoNew;
 
     private ObservableList<ObservableList<String>> datosEstados;
 
@@ -141,6 +154,16 @@ public class AdopcionesController {
     }
     @FXML
     public void onAprobar() {
+        mostrarAlerta("Seleccionar foto", "Selecciona la foto del adoptante con su mascota",
+                Alert.AlertType.INFORMATION);
+        foto = seleccionarImagen();
+        System.out.println("foto: " + (foto == null ? "NULL" : foto.length + " bytes"));
+
+        mostrarAlerta("Seleccionar foto", "Selecciona la foto de la nueva vida de la mascota",
+                Alert.AlertType.INFORMATION);
+        fotoNew = seleccionarImagen();
+        System.out.println("fotoNew: " + (fotoNew == null ? "NULL" : fotoNew.length + " bytes"));
+
         gestionarSolicitud("APROBADA");
     }
 
@@ -173,10 +196,11 @@ public class AdopcionesController {
             String idPet       = seleccion.get(1); // ajustar índice según SP
             String idPerson    = seleccion.get(2); // ajustar índice según SP
 
+
             boolean ok = AdopcionesDAO.actualizarEstadoSolicitud(
                     idSolicitud, idPet, idPerson,
-                    null, "",   // foto, notas
-                    idEstado, "SYSTEM");
+                    foto, "",   // foto, notas
+                    idEstado, "SYSTEM", fotoNew);
 
             if (ok) {
                 mostrarAlerta("Éxito", "Estado actualizado.", Alert.AlertType.INFORMATION);
@@ -260,8 +284,6 @@ public class AdopcionesController {
         tablaSolicitudes.setVisible(true);
     }
 
-    // También puedes usar los botones de detalle para aprobar/rechazar
-
 
     public void switchVolver(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/com/example/bdbconsultas/Admin.fxml"));
@@ -276,4 +298,44 @@ public class AdopcionesController {
         a.setContentText(msg);
         a.showAndWait();
     }
+
+    private byte[] seleccionarImagen() {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
+            );
+            File archivo = fileChooser.showOpenDialog(null);
+            if (archivo != null) {
+                byte[] bytes = Files.readAllBytes(archivo.toPath());
+                mostrarAlerta("Éxito", "Imagen cargada", Alert.AlertType.INFORMATION);
+                return bytes;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "Error cargando imagen, no se seleccionará ninguna", Alert.AlertType.ERROR);
+        }
+        return null;
+    }
+
+    public void verFotos() throws SQLException {
+        try {
+            System.out.println("El id del adoption es " + tablaAdopciones.getSelectionModel().getSelectedItem().get(0));
+            byte[] imagental = AdopcionesDAO.obtenerImagenMascota(Integer.valueOf(tablaAdopciones.getSelectionModel().getSelectedItem().get(0)),true);
+
+            if(imagental != null && imagental.length > 0) {
+                imgFoto.setImage(new Image(new ByteArrayInputStream(imagental)));
+            }
+
+            imagental = AdopcionesDAO.obtenerImagenMascota(Integer.valueOf(tablaAdopciones.getSelectionModel().getSelectedItem().get(0)),false);
+
+            if(imagental != null && imagental.length > 0) {
+                imgNuevaVida.setImage(new Image(new ByteArrayInputStream(imagental)));
+            }
+        }catch(Exception e){
+            System.out.println("Error al obtener el imagen" + e.getMessage());
+        }
+    }
+
+
 }

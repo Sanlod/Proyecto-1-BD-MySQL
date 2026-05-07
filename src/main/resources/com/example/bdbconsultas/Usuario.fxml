@@ -11,7 +11,6 @@
         <Button layoutX="40.0" layoutY="90.0" mnemonicParsing="false" onAction="#switchBuscarMascotas" text="Buscar mascota" />
         <Button layoutX="170.0" layoutY="90.0" mnemonicParsing="false" onAction="#switchAdoptar" text="Adoptar" />
         <Button layoutX="270.0" layoutY="90.0" mnemonicParsing="false" onAction="#switchDonar" text="Donar" />
-        <Button layoutX="360.0" layoutY="90.0" mnemonicParsing="false" text="Recompensas" />
 
         <Button layoutX="40.0" layoutY="160.0" mnemonicParsing="false" onAction="#switchBlackList" text="BlackList" />
         <Button layoutX="140.0" layoutY="160.0" mnemonicParsing="false" onAction="#switchEstadisticas" text="Estadísticas" />
