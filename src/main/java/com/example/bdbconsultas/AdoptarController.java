@@ -101,7 +101,7 @@ public class AdoptarController implements Initializable {
             }
         }
         String idMascota = mascotaSeleccionada.get(0);
-        String idAdoptante = adoptanteSeleccionado.get(0);
+        String idAdoptante = String.valueOf(LogInController.loggedUserId);
         String createdBy = LogInController.loggedUser;
 
         try {

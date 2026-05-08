@@ -14,7 +14,7 @@
 
         <Button layoutX="50.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchMatches" text="Matches" />
         <Button layoutX="150.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchPersonas" text="Personas" />
-        <Button layoutX="250.0" layoutY="150.0" mnemonicParsing="false" text="Bitácoras" />
+        <Button layoutX="250.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchBitacora" text="Bitácoras" />
         <Button layoutX="350.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchCatalogos" text="Catálogos" />
         <Button layoutX="350.0" layoutY="150.0" mnemonicParsing="false" onAction="#Recompensas" text="Recompensas" />
 

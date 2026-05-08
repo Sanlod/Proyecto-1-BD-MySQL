@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,18 +47,13 @@ public class BitacoraDAO {
 
         public static ObservableList<ObservableList<String>> getUsuarios()
                 throws SQLException, ClassNotFoundException {
-            return listadosCatalogo("SP_LISTAR_USUARIOS_BITACORA");
-        }
-
-        public static ObservableList<ObservableList<String>> getTablas()
-                throws SQLException, ClassNotFoundException {
-            return listadosCatalogo("SP_LISTAR_TABLAS_BITACORA");
+            return listadosCatalogo("SP_LISTAR_USUARIOS");
         }
 
         public static ResultadoConsulta consultarBitacora(
-                String idUsuario,
+                String usuario,
                 String tabla,
-                String fecha) throws SQLException, ClassNotFoundException {
+                LocalDate fecha) throws SQLException, ClassNotFoundException {
 
             List<String> columnas = new ArrayList<>();
             ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
@@ -66,10 +62,10 @@ public class BitacoraDAO {
             try (Connection conn = DBConnection.getConnection();
                  CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_BITACORA(?,?,?,?,?) }")) {
 
-                cs.setString(1, idUsuario.isEmpty() ? null : idUsuario);
-                cs.setString(2, tabla.isEmpty()     ? null : tabla);
+                cs.setObject(1, usuario, Types.VARCHAR);
+                cs.setObject(2, tabla, Types.VARCHAR);
 
-                if (fecha != null && !fecha.isEmpty())
+                if (fecha != null)
                     cs.setTimestamp(3, Timestamp.valueOf(fecha + " 00:00:00"));
                 else
                     cs.setNull(3, Types.TIMESTAMP);

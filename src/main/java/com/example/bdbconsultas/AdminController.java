@@ -42,6 +42,9 @@ public class AdminController {
     public void Recompensas(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/RecompensaAdmin.fxml" , event);
     }
+    public void switchBitacora(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/Bitacora.fxml" , event);
+    }
     public void switchRegistrarCasaCuna(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/RegistrarCasaCuna.fxml", event);
     }

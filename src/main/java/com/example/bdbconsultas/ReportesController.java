@@ -46,7 +46,6 @@ public class ReportesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            System.out.println("Se abrió la ventana de reportes");
             MascotasDAO.ResultadoConsulta mascotas = mascotasDAO.consultarMascotas(null, null, null, null, null, null,
                     null, null, null, null, null, null, null);
             PersonaDAO.ResultadoConsulta personas = PersonaDAO.consultarPersonas(null, null, null, null);
