@@ -286,7 +286,7 @@ public class RegistrarMascotasController implements Initializable {
                     txtDescripcion1.getText(), txtNotasAbandono.getText(),
                     idDificultad, lossDate, foundDate,
                     idVeterinario, null, idRescatista, idAsociacion,
-                    imagenAntesBytes, imagenDespuesBytes, "SYSTEM",birthDate
+                    imagenAntesBytes, imagenDespuesBytes, LogInController.loggedUser,birthDate
             );
 
             if (txtMonto1.getText() != null && !txtMonto1.getText().isEmpty()) {

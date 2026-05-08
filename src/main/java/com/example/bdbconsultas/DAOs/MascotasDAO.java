@@ -744,4 +744,48 @@ public class MascotasDAO {
             return cs.getInt(4);
         }
     }
+
+    public static void quitarEnfermedad(
+            Integer idMascota,
+            Integer idEnfermedad) throws SQLException, ClassNotFoundException {
+        try (Connection conn = DBConnection.getConnection();
+        CallableStatement cs = conn.prepareCall("{ CALL SP_QUITAR_ENFERMEDAD(?,?) }")) {
+
+            cs.setObject(1, idMascota, Types.INTEGER);
+            cs.setObject(2, idEnfermedad, Types.INTEGER);
+
+            cs.execute();
+
+        }
+    }
+
+    public static void quitarTratamiento(
+            Integer idMascota,
+            Integer idEnfermedad) throws SQLException, ClassNotFoundException {
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{ CALL SP_QUITAR_TRATAMIENTO(?,?) }")) {
+
+            cs.setObject(1, idMascota, Types.INTEGER);
+            cs.setObject(2, idEnfermedad, Types.INTEGER);
+
+            cs.execute();
+
+        }
+    }
+
+    public static void quitarMedicamento(
+            Integer idMascota,
+            Integer idEnfermedad) throws SQLException, ClassNotFoundException {
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{ CALL SP_QUITAR_MEDICINA(?,?)}")) {
+
+            cs.setObject(1, idMascota, Types.INTEGER);
+            cs.setObject(2, idEnfermedad, Types.INTEGER);
+
+            cs.execute();
+
+        }
+    }
+
+
 }

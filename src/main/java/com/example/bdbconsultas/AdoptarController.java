@@ -102,7 +102,7 @@ public class AdoptarController implements Initializable {
         }
         String idMascota = mascotaSeleccionada.get(0);
         String idAdoptante = adoptanteSeleccionado.get(0);
-        String createdBy = "SYSTEM";
+        String createdBy = LogInController.loggedUser;
 
         try {
             int idRequest = AdopcionesDAO.registrarRequest(idMascota, idAdoptante, createdBy);

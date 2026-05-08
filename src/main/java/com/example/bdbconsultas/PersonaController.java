@@ -187,7 +187,7 @@ public class PersonaController implements Initializable {
         Optional<ButtonType> resultado = confirm.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try {
-                PersonaDAO.reportarListaNegra(idPersona, "SYSTEM");
+                PersonaDAO.reportarListaNegra(idPersona, LogInController.loggedUser);
                 cargarDatos();
                 mostrarInfo("Persona reportada en lista negra");
             } catch (Exception e) {
@@ -263,7 +263,7 @@ public class PersonaController implements Initializable {
         if (resultadoBtn.isPresent() && resultadoBtn.get() == ButtonType.OK) {
             try {
 
-                String respuesta = PersonaDAO.makeRescatista(idPersona, "SYSTEM");
+                String respuesta = PersonaDAO.makeRescatista(idPersona, LogInController.loggedUser);
 
                 if ("EXITO".equalsIgnoreCase(respuesta)) {
                     mostrarInfo(nombrePersona + " ahora tiene el rol de Rescatista.");

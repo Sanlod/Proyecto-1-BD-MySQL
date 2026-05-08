@@ -210,7 +210,7 @@ public class CatalogosController implements Initializable {
             } else if (entidad.equals("Pregunta")) {
                 String tipo = txtDescripcion.getText().trim();
                 if (!validarCampo(tipo, "Tipo de respuesta")) return;
-                CatalogoDAO.editarPregunta(id, nuevoValor, tipo, "SYSTEM");
+                CatalogoDAO.editarPregunta(id, nuevoValor, tipo, LogInController.loggedUser);
             } else {
                 CatalogoDAO.editarCatalogo(obtenerTabla(entidad), id, nuevoValor);
             }
@@ -268,7 +268,7 @@ public class CatalogosController implements Initializable {
                     }
                     String tipo = txtDescripcion.getText().trim();
                     if (!validarCampo(tipo, "Tipo de respuesta")) return;
-                    CatalogoDAO.agregarPregunta(valor, tipo, "SYSTEM");
+                    CatalogoDAO.agregarPregunta(valor, tipo, LogInController.loggedUser);
                     break;
                 }
                 default: {

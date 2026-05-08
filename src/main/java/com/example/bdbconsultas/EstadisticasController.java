@@ -88,8 +88,8 @@ public class EstadisticasController {
             rows.forEach(r -> totalsByState.merge(r.get(1), Integer.parseInt(r.get(2)), Integer::sum));
 
             int lost     = totalsByState.getOrDefault("PERDIDA", 0);
-            int found    = totalsByState.getOrDefault("ENCONTRADA", 0);
-            int adopted  = totalsByState.getOrDefault("ADOPTADA", 0);
+            int found    = totalsByState.getOrDefault("HALLADA", 0);
+            int adopted  = totalsByState.getOrDefault("ADOPTADO", 0);
             int inAdopt  = totalsByState.getOrDefault("EN ADOPCION", 0);
 
             lblLostTotal.setText(String.valueOf(lost));

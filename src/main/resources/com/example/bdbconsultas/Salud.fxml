@@ -44,5 +44,10 @@
       <Text layoutX="716.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enfermo hasta" />
       <Text layoutX="73.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mascotas:" />
       <Label fx:id="lblTotal" layoutX="128.0" layoutY="100.0" text="0" />
+      <Button layoutX="35.0" layoutY="471.0" mnemonicParsing="false" onAction="#emliminarTratamiento" text="Eliminar tratamiento" />
+      <Button layoutX="249.0" layoutY="561.0" mnemonicParsing="false" onAction="#emliminarMedicamento" text="Eliminar medicina" />
+      <Button layoutX="458.0" layoutY="437.0" mnemonicParsing="false" onAction="#emliminarEnfermedad" text="Eliminar enfermedad" />
+      <ComboBox fx:id="seleccEnfermedad" layoutX="458.0" layoutY="393.0" prefWidth="150.0" />
+      <Text layoutX="460.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enfermedad" />
    </children>
 </AnchorPane>

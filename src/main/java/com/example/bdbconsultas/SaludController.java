@@ -34,6 +34,7 @@ public class SaludController  implements Initializable {
     public DatePicker startDate;
     public DatePicker endDate;
     public Label lblTotal;
+    public ComboBox<ObservableList<String>> seleccEnfermedad;
     private MascotasDAO mascotasDAO = MascotasDAO.getMascotasDAO();
 
     public void switchVolver(ActionEvent event) throws IOException {
@@ -48,6 +49,19 @@ public class SaludController  implements Initializable {
             ObservableList<ObservableList<String>> enfermedades = MascotasDAO.getEnfermedades();
             enfermedad.setItems(enfermedades);
             enfermedad.setConverter(new StringConverter<ObservableList<String>>() {
+                @Override
+                public String toString(ObservableList<String> fila) {
+                    return fila != null ? fila.get(1) : "";
+                }
+
+                @Override
+                public ObservableList<String> fromString(String s) {
+                    return null;
+                }
+            });
+
+            seleccEnfermedad.setItems(enfermedades);
+            seleccEnfermedad.setConverter(new StringConverter<ObservableList<String>>() {
                 @Override
                 public String toString(ObservableList<String> fila) {
                     return fila != null ? fila.get(1) : "";
@@ -204,4 +218,81 @@ public class SaludController  implements Initializable {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
+
+    public void mostrarInfo(String mensaje){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Vea lo que pasó papi");
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+
+
+    public void emliminarEnfermedad() throws SQLException, ClassNotFoundException {
+        try {
+            if (seleccEnfermedad.getValue() == null) {
+                mostrarAlerta("Por favor seleccione una enfermedad");
+                return;
+            }
+            if (tablaMascotas.getSelectionModel().getSelectedItem() == null) {
+                mostrarAlerta("Por favor seleccione una mascota");
+                return;
+            }
+
+            MascotasDAO.quitarEnfermedad(Integer.valueOf(tablaMascotas.getSelectionModel().getSelectedItem().get(0)), Integer.valueOf(seleccEnfermedad.getSelectionModel().getSelectedItem().get(0)));
+            mostrarInfo("Se eliminó correctamente la enfermedad");
+            buscar();
+        }
+        catch (Exception e) {
+            mostrarAlerta("Error al eliminar enfermedad");
+        }
+
+    }
+
+    public void emliminarTratamiento() throws SQLException, ClassNotFoundException {
+        try {
+            if (seleccTratamiento.getValue() == null) {
+                mostrarAlerta("Por favor seleccione un tratamiento");
+                return;
+            }
+            if (tablaMascotas.getSelectionModel().getSelectedItem() == null) {
+                mostrarAlerta("Por favor seleccione una tratamiento");
+                return;
+            }
+
+            MascotasDAO.quitarTratamiento(Integer.valueOf(tablaMascotas.getSelectionModel().getSelectedItem().get(0)), Integer.valueOf(seleccTratamiento.getSelectionModel().getSelectedItem().get(0)));
+            mostrarInfo("Se eliminó correctamente el tratamiento");
+            buscar();
+        }
+        catch (Exception e) {
+            mostrarAlerta("Error al eliminar tratamiento" + e.getMessage());
+        }
+
+    }
+
+    public void emliminarMedicamento() throws SQLException, ClassNotFoundException {
+        try {
+            if (seleccMedicina.getValue() == null) {
+                mostrarAlerta("Por favor seleccione un medicamento");
+                return;
+            }
+            if (tablaMascotas.getSelectionModel().getSelectedItem() == null) {
+                mostrarAlerta("Por favor seleccione una mascota");
+                return;
+            }
+
+            MascotasDAO.quitarMedicamento(Integer.valueOf(tablaMascotas.getSelectionModel().getSelectedItem().get(0)), Integer.valueOf(seleccMedicina.getSelectionModel().getSelectedItem().get(0)));
+            mostrarInfo("Se eliminó correctamente el medicamento");
+            buscar();
+        }
+        catch (Exception e) {
+            mostrarAlerta("Error al eliminar medicamento" + e.getMessage());
+        }
+
+    }
+
+
+
+
+
 }

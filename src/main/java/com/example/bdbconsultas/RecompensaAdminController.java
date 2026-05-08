@@ -111,7 +111,7 @@ public class RecompensaAdminController implements Initializable {
                 cmbRescatistas.getSelectionModel().getSelectedIndex()).get(0);
 
         try {
-            RecompensasDAO.pagarRescatista(idRescuer, idPet, "SYSTEM");
+            RecompensasDAO.pagarRescatista(idRescuer, idPet, LogInController.loggedUser);
 
             mostrarInfo("Bounty pagado.");
             cargarMascotasPerdidas();
@@ -139,8 +139,8 @@ public class RecompensaAdminController implements Initializable {
                 mostrarError("No hay bounty activo para esta mascota."); return;
             }
             String idBounty = bounties.filas.get(0).get(0);
-            RecompensasDAO.donarRecompensa(idBounty, idAsociacion, "SYSTEM");
-            RecompensasDAO.marcarHallada(idPet, "SYSTEM");
+            RecompensasDAO.donarRecompensa(idBounty, idAsociacion, LogInController.loggedUser);
+            RecompensasDAO.marcarHallada(idPet, LogInController.loggedUser);
             mostrarInfo("Bounty donado y mascota marcada como hallada.");
             cargarMascotasPerdidas();
             cmbAsociacion.setValue(null);

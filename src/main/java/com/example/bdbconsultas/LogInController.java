@@ -13,6 +13,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Hyperlink;
 
 import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class LogInController {
 
@@ -46,10 +49,12 @@ public class LogInController {
             if (tipoUsuario.first() == 1) { // Si idUserType == 1 entonces es admin
                 loggedUser = user;
                 loggedUserId = tipoUsuario.second();
+                setSessionUser(loggedUserId, loggedUser);
                 cambiarEscena("Admin.fxml", "Panel de Administración");
             } else if (tipoUsuario.first() == 2) { // Si idUserType == 2 entonces es usuario
                 loggedUser = user;
                 loggedUserId = tipoUsuario.second();
+                setSessionUser(loggedUserId, loggedUser);
                 cambiarEscena("Usuario.fxml", "Panel de Usuario");
             } else {
                 //Avisar si los datos están mal
@@ -102,5 +107,15 @@ public class LogInController {
         alert.showAndWait();
     }
 
+
+    public static void setSessionUser(int idPerson, String fullName)
+            throws SQLException, ClassNotFoundException {
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{ CALL SP_SET_SESSION_USER(?, ?) }")) {
+            cs.setInt(1, idPerson);
+            cs.setString(2, fullName);
+            cs.execute();
+        }
+    }
 
 }

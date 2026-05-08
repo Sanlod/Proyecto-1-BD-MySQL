@@ -157,12 +157,10 @@ public class AdopcionesController {
         mostrarAlerta("Seleccionar foto", "Selecciona la foto del adoptante con su mascota",
                 Alert.AlertType.INFORMATION);
         foto = seleccionarImagen();
-        System.out.println("foto: " + (foto == null ? "NULL" : foto.length + " bytes"));
 
         mostrarAlerta("Seleccionar foto", "Selecciona la foto de la nueva vida de la mascota",
                 Alert.AlertType.INFORMATION);
         fotoNew = seleccionarImagen();
-        System.out.println("fotoNew: " + (fotoNew == null ? "NULL" : fotoNew.length + " bytes"));
 
         gestionarSolicitud("APROBADA");
     }
@@ -200,7 +198,7 @@ public class AdopcionesController {
             boolean ok = AdopcionesDAO.actualizarEstadoSolicitud(
                     idSolicitud, idPet, idPerson,
                     foto, "",   // foto, notas
-                    idEstado, "SYSTEM", fotoNew);
+                    idEstado, LogInController.loggedUser, fotoNew);
 
             if (ok) {
                 mostrarAlerta("Éxito", "Estado actualizado.", Alert.AlertType.INFORMATION);
@@ -333,7 +331,7 @@ public class AdopcionesController {
                 imgNuevaVida.setImage(new Image(new ByteArrayInputStream(imagental)));
             }
         }catch(Exception e){
-            System.out.println("Error al obtener el imagen" + e.getMessage());
+            mostrarAlerta("Error pepe", "WOW", Alert.AlertType.ERROR);
         }
     }
 

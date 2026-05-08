@@ -228,11 +228,11 @@ public class MatchesController implements Initializable {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "¿Confirmar match?");
         confirm.showAndWait().filter(r -> r == ButtonType.OK).ifPresent(r -> {
             try {
-                MatchesDAO.cambiarEstadoMatch(idMatch, idEstado, "SYSTEM");
+                MatchesDAO.cambiarEstadoMatch(idMatch, idEstado, LogInController.loggedUser);
 
                 String nombreEstado = cmbNuevoEstado.getValue();
                 if (nombreEstado.equalsIgnoreCase("APROBADO")) {
-                    int resultado = MascotasDAO.marcarHallada(idLostPet, idFoundPet, "SYSTEM");
+                    int resultado = MascotasDAO.marcarHallada(idLostPet, idFoundPet, LogInController.loggedUser);
                     if (resultado > 0) {
                         mostrarInfo("Match aprobado y mascota marcada como hallada.");
                     } else {
