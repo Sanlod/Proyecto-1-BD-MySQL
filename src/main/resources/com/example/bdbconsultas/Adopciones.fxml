@@ -1,75 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import java.net.URL?>
 
-<AnchorPane prefHeight="656.0" prefWidth="1101.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.AdopcionesController">
+<AnchorPane prefHeight="750.0" prefWidth="1150.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.AdopcionesController">
+   <stylesheets><URL value="@style.css" /></stylesheets>
    <children>
-
-      <Button fx:id="btnVolver" layoutX="840.0" layoutY="10.0" onAction="#switchVolver" text="Volver" />
-
-      <Text layoutX="30.0" layoutY="45.0" text="Desde:" />
-      <DatePicker fx:id="dpDesde" layoutX="80.0" layoutY="28.0" />
-
-      <Text layoutX="270.0" layoutY="45.0" text="Hasta:" />
-      <DatePicker fx:id="dpHasta" layoutX="320.0" layoutY="28.0" />
-
-      <Text layoutX="510.0" layoutY="45.0" text="Mascota:" />
-      <ComboBox fx:id="cbMascota" layoutX="565.0" layoutY="28.0" prefWidth="150.0" />
-
-      <Text layoutX="30.0" layoutY="85.0" text="Adoptante:" />
-      <ComboBox fx:id="cbAdoptante" layoutX="100.0" layoutY="68.0" prefWidth="150.0" />
-
-      <Button layoutX="270.0" layoutY="68.0" onAction="#onBuscar" text="Buscar" />
-
-      <Text layoutX="30.0" layoutY="115.0" text="Adopciones" />
-      <TableView fx:id="tablaAdopciones" layoutX="30.0" layoutY="120.0" prefHeight="140.0" prefWidth="614.0" />
-
-      <Label fx:id="lblResultados" layoutX="30.0" layoutY="270.0" text="Total: 0" />
-
-      <Text layoutX="30.0" layoutY="295.0" text="Solicitudes" />
-      <StackPane fx:id="stackPaneSolicitudes" layoutX="30.0" layoutY="305.0" maxHeight="150.0" prefHeight="150.0" prefWidth="840.0">
+      <VBox spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
-            <TableView fx:id="tablaSolicitudes" visible="true" />
-            <AnchorPane fx:id="panelDetalleSolicitud" prefHeight="150.0" visible="false">
+
+            <HBox alignment="CENTER_LEFT" style="-fx-background-color: linear-gradient(to right, #16a085, #2ecc71); -fx-background-radius: 12; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
                <children>
-                  <Text layoutX="20" layoutY="25" style="-fx-font-weight: bold;" text="Detalle de la solicitud" />
-                  <Label layoutX="20" layoutY="50" text="ID:" />
-                  <Label fx:id="lblIdSolicitud" layoutX="100" layoutY="50" />
-                  <Label layoutX="20" layoutY="75" text="Mascota:" />
-                  <Label fx:id="lblMascota" layoutX="100" layoutY="75" />
-                  <Label layoutX="20" layoutY="100" text="Adoptante:" />
-                  <Label fx:id="lblAdoptante" layoutX="100" layoutY="100" />
-                  <Label layoutX="20" layoutY="125" text="Estado:" />
-                  <Label fx:id="lblEstado" layoutX="100" layoutY="125" />
-
-                  <Label layoutX="20" layoutY="220" text="Preguntas y respuestas:" />
-                  <ScrollPane fitToWidth="true" layoutX="20" layoutY="240" prefHeight="70" prefWidth="760">
-                     <content>
-                        <VBox fx:id="vboxPreguntasRespuestas" prefWidth="740" spacing="3" />
-                     </content>
-                  </ScrollPane>
-
-                  <Button layoutX="20" layoutY="325" onAction="#onVolverALista" text="Volver a la lista" />
+                  <VBox>
+                     <children>
+                        <Label text="Gestión de Adopciones" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" />
+                        <Label text="Administración de procesos y seguimiento de solicitudes" style="-fx-text-fill: #e8f8f5; -fx-font-size: 11px;" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnVolver" onAction="#switchVolver" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="↩ Volver" />
                </children>
-            </AnchorPane>
+            </HBox>
+
+            <HBox spacing="15.0" alignment="CENTER_LEFT" styleClass="card" style="-fx-padding: 15; -fx-background-color: #ffffff; -fx-border-color: #d1d8e0; -fx-border-width: 0 0 1 0;">
+               <children>
+                  <VBox spacing="4">
+                     <Label text="Periodo Desde:" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d; -fx-font-size: 10;" />
+                     <DatePicker fx:id="dpDesde" prefWidth="130.0" />
+                  </VBox>
+                  <VBox spacing="4">
+                     <Label text="Periodo Hasta:" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d; -fx-font-size: 10;" />
+                     <DatePicker fx:id="dpHasta" prefWidth="130.0" />
+                  </VBox>
+                  <VBox spacing="4">
+                     <Label text="Filtrar Mascota:" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d; -fx-font-size: 10;" />
+                     <ComboBox fx:id="cbMascota" prefWidth="160.0" promptText="Seleccionar..." />
+                  </VBox>
+                  <VBox spacing="4">
+                     <Label text="Filtrar Adoptante:" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d; -fx-font-size: 10;" />
+                     <ComboBox fx:id="cbAdoptante" prefWidth="160.0" promptText="Seleccionar..." />
+                  </VBox>
+                  <Button onAction="#onBuscar" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20;" text="🔍 Buscar" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" style="-fx-background-color: #f8f9fa; -fx-padding: 5; -fx-background-radius: 50; -fx-border-color: #27ae60; -fx-border-width: 2;">
+                     <children>
+                        <ImageView fx:id="imgFoto" fitHeight="55.0" fitWidth="55.0" preserveRatio="true" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+
+            <SplitPane dividerPositions="0.45" orientation="VERTICAL" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-padding: 0;">
+               <items>
+                  <VBox spacing="8.0" style="-fx-padding: 10; -fx-background-color: #ffffff; -fx-background-radius: 10;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                           <children>
+                              <Label text="📜 Historial de Adopciones" style="-fx-font-weight: bold; -fx-font-size: 15px; -fx-text-fill: #2c3e50;" />
+                              <Separator HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="tablaAdopciones" VBox.vgrow="ALWAYS" style="-fx-selection-bar: #e8f8f5;" />
+                        <HBox alignment="CENTER_RIGHT">
+                           <Label fx:id="lblResultados" text="Total: 0 registros encontrados" style="-fx-font-style: italic; -fx-text-fill: #95a5a6;" />
+                        </HBox>
+                     </children>
+                  </VBox>
+
+                  <VBox spacing="8.0" style="-fx-padding: 10; -fx-background-color: #ffffff; -fx-background-radius: 10;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                           <children>
+                              <Label text="📥 Solicitudes Pendientes de Revisión" style="-fx-font-weight: bold; -fx-font-size: 15px; -fx-text-fill: #f39c12;" />
+                              <Separator HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <StackPane fx:id="stackPaneSolicitudes" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox spacing="12.0">
+                                 <children>
+                                    <TableView fx:id="tablaSolicitudes" VBox.vgrow="ALWAYS" style="-fx-selection-bar: #fef5e7;" />
+                                    <HBox spacing="20.0" alignment="CENTER">
+                                       <children>
+                                          <Button fx:id="btnAprobar" onAction="#onAprobar" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="✔️ Aprobar Solicitud" prefWidth="180" prefHeight="40" />
+                                          <Button fx:id="btnRechazar" onAction="#onRechazar" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="❌ Rechazar Solicitud" prefWidth="180" prefHeight="40" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+
+                              <AnchorPane fx:id="panelDetalleSolicitud" visible="false" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #f39c12; -fx-border-width: 2;">
+                                 <children>
+                                    <VBox spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                                       <children>
+                                          <Label text="Ficha Detallada de la Solicitud" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #d35400;" />
+                                          <HBox spacing="30.0" style="-fx-background-color: #fffaf0; -fx-padding: 15; -fx-background-radius: 8;">
+                                             <children>
+                                                <GridPane hgap="20" vgap="8" HBox.hgrow="ALWAYS">
+                                                   <columnConstraints>
+                                                      <ColumnConstraints prefWidth="120" />
+                                                      <ColumnConstraints hgrow="ALWAYS" />
+                                                   </columnConstraints>
+                                                   <children>
+                                                      <Label text="ID Referencia:" style="-fx-text-fill: #7f8c8d;" />
+                                                      <Label fx:id="lblIdSolicitud" style="-fx-font-weight: bold; -fx-font-size: 14px;" GridPane.columnIndex="1" />
+                                                      <Label text="Mascota:" style="-fx-text-fill: #7f8c8d;" GridPane.rowIndex="1" />
+                                                      <Label fx:id="lblMascota" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2980b9;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                      <Label text="Adoptante:" style="-fx-text-fill: #7f8c8d;" GridPane.rowIndex="2" />
+                                                      <Label fx:id="lblAdoptante" style="-fx-font-weight: bold; -fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                      <Label text="Estado Actual:" style="-fx-text-fill: #7f8c8d;" GridPane.rowIndex="3" />
+                                                      <Label fx:id="lblEstado" style="-fx-font-weight: bold; -fx-text-fill: #f39c12;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                   </children>
+                                                </GridPane>
+                                             </children>
+                                          </HBox>
+                                          <VBox spacing="8" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Cuestionario de Evaluación:" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                                                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: #ecf0f1; -fx-border-radius: 5;" VBox.vgrow="ALWAYS">
+                                                   <VBox fx:id="vboxPreguntasRespuestas" spacing="10" style="-fx-padding: 15; -fx-background-color: white;" />
+                                                </ScrollPane>
+                                             </children>
+                                          </VBox>
+                                          <HBox alignment="CENTER_LEFT">
+                                             <Button onAction="#onVolverALista" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;" text="⬅ Volver al listado" />
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </VBox>
+               </items>
+            </SplitPane>
          </children>
-      </StackPane>
-
-      <Button fx:id="btnAprobar" layoutX="30.0" layoutY="475.0" onAction="#onAprobar" text="Aprobar seleccionada" />
-      <Button fx:id="btnRechazar" layoutX="180.0" layoutY="475.0" onAction="#onRechazar" text="Rechazar seleccionada" />
-      <ImageView fx:id="imgFoto" fitHeight="105.0" fitWidth="191.0" layoutX="653.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgNuevaVida" fitHeight="105.0" fitWidth="200.0" layoutX="654.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="337.0" layoutY="68.0" onAction="#verFotos" text="Ver fotos" />
-
+      </VBox>
    </children>
 </AnchorPane>

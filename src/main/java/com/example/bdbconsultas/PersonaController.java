@@ -36,7 +36,6 @@ public class PersonaController implements Initializable {
     @FXML private CheckBox chkListaNegra;
 
     @FXML private Button btnEditar;
-    @FXML private Button btnEliminar;
     @FXML private Button btnGuardar;
     @FXML private Button btnCancelar;
     @FXML private Button btnReportarListaNegra;
@@ -109,9 +108,16 @@ public class PersonaController implements Initializable {
         if (!modoEdicion) return;
         String primerNombre = txtPrimerNombre.getText().trim();
         String primerApellido = txtPrimerApellido.getText().trim();
+        String segundoNombre = txtSegundoNombre.getText().trim();
+        String segundoApellido = txtSegundoApellido.getText().trim();
 
         if (primerNombre.isEmpty() || primerApellido.isEmpty()) {
             mostrarError("Primer nombre y primer apellido son obligatorios");
+            return;
+        }
+        if (segundoApellido.isEmpty() || segundoNombre.isEmpty()) {
+            segundoApellido.equals(null);
+            txtSegundoNombre.equals(null);
             return;
         }
 /// Cambié el parámetro a Integer para que pueda ser null y no se tenga que actualizar siempre
@@ -120,9 +126,9 @@ public class PersonaController implements Initializable {
                 PersonaDAO.actualizarPersona(
                         Integer.valueOf(txtId.getText()),
                         primerNombre,
-                        txtSegundoNombre.getText().trim(),
+                        segundoNombre,
                         primerApellido,
-                        txtSegundoApellido.getText().trim(),
+                        segundoApellido,
                         txtNotas.getText().trim(),
                         null,
                         null,
@@ -140,33 +146,6 @@ public class PersonaController implements Initializable {
         }
     }
 
-    @FXML
-    private void onEliminar() {
-        ObservableList<String> seleccion = tblDatos.getSelectionModel().getSelectedItem();
-        if (seleccion == null) {
-            mostrarError("Seleccione una persona para eliminar");
-            return;
-        }
-
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Confirmar eliminación");
-        confirm.setHeaderText(null);
-        confirm.setContentText("¿Está seguro de eliminar esta persona?");
-
-        Optional<ButtonType> resultado = confirm.showAndWait();
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            try {
-                PersonaDAO.eliminarPersona(Integer.parseInt(seleccion.get(0)));
-                cargarDatos();
-                limpiarFormulario();
-                btnGuardar.setDisable(true);
-                deshabilitarBotonesAccion();
-                mostrarInfo("Persona eliminada correctamente");
-            } catch (Exception e) {
-                mostrarError("Error al eliminar: " + e.getMessage());
-            }
-        }
-    }
 
     @FXML
     private void onReportarListaNegra() {
@@ -301,13 +280,11 @@ public class PersonaController implements Initializable {
 
     private void habilitarBotonesAccion() {
         btnEditar.setDisable(false);
-        btnEliminar.setDisable(false);
         btnReportarListaNegra.setDisable(false);
     }
 
     private void deshabilitarBotonesAccion() {
         btnEditar.setDisable(true);
-        btnEliminar.setDisable(true);
         btnReportarListaNegra.setDisable(true);
     }
 

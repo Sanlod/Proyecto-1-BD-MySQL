@@ -1,6 +1,7 @@
 package com.example.bdbconsultas;
 
 import com.example.bdbconsultas.DAOs.AdopcionesDAO;
+import com.example.bdbconsultas.DAOs.MascotasDAO;
 import com.example.bdbconsultas.DAOs.PersonaDAO;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.*;
@@ -29,6 +30,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AdopcionesController {
 
@@ -59,6 +61,7 @@ public class AdopcionesController {
 
     @FXML
     public void initialize() {
+        configurarEventos();
         dpDesde.setValue(LocalDate.now().withDayOfYear(1));
         dpHasta.setValue(LocalDate.now());
         btnAprobar.setVisible(true);
@@ -334,6 +337,45 @@ public class AdopcionesController {
             mostrarAlerta("Error pepe", "WOW", Alert.AlertType.ERROR);
         }
     }
+
+    private void configurarEventos() {
+        btnAprobar.setOnAction(e -> {
+            if (validarSolicitudParaGestion()) {
+                onAprobar();
+            }
+        });
+
+        btnRechazar.setOnAction(e -> {
+            if (validarSolicitudParaGestion()) {
+                onRechazar();
+            }
+        });
+    }
+
+
+    private boolean validarSolicitudParaGestion() {
+        ObservableList<String> seleccion = tablaSolicitudes.getSelectionModel().getSelectedItem();
+
+        if (seleccion == null) {
+            mostrarAlerta("Atención", "Seleccione una solicitud de la tabla.", Alert.AlertType.WARNING);
+            return false;
+        }
+
+        String estadoActual = seleccion.get(6);
+
+        if ("APROBADA".equalsIgnoreCase(estadoActual)) {
+            mostrarAlerta("Error", "Esta solicitud ya ha sido aprobada y no puede modificarse.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if ("RECHAZADA".equalsIgnoreCase(estadoActual)) {
+            mostrarAlerta("Error", "Esta solicitud ya ha sido rechazada anteriormente.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
 
 
 }

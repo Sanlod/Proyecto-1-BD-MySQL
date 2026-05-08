@@ -1,179 +1,251 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
 
-<AnchorPane prefHeight="600.0" prefWidth="945.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.BuscarMascotasController">
+<AnchorPane prefHeight="700.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.BuscarMascotasController">
+   <stylesheets>
+      <URL value="@style.css" />
+   </stylesheets>
    <children>
-      <StackPane prefHeight="600.0" prefWidth="933.0">
+      <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <!-- PÁGINA 2: DETALLE-->
-            <AnchorPane fx:id="paginaDetalle" prefHeight="601.0" prefWidth="933.0" visible="false">
+
+            <AnchorPane fx:id="paginaBusqueda" style="-fx-background-color: #f4f7f6;">
                <children>
-                  <Button fx:id="btnVolverBusqueda" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onVolverBusqueda" text="← Volver a resultados" />
+                  <VBox spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                     <children>
 
-                  <Text layoutX="50.0" layoutY="80.0" text="Detalle de Mascota">
-                     <font><Font name="System Bold" size="18.0" /></font>
-                  </Text>
+                        <HBox alignment="CENTER_LEFT" style="-fx-background-color: linear-gradient(to right, #16a085, #2ecc71); -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <Label text="Explorador de Mascotas" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                                    <Label text="Consulta avanzada del registro centralizado" style="-fx-text-fill: #e8f8f5; -fx-font-size: 11px;" />
+                                 </children>
+                              </VBox>
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btnVolver" onAction="#switchVolver" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="↩ Volver al Menú" />
+                           </children>
+                        </HBox>
 
-                  <!-- Columna izquierda - Datos básicos -->
-                  <Text layoutX="50.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:" />
-                  <Label fx:id="lblDetalleNombre" layoutX="150.0" layoutY="120.0" />
+                        <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox prefWidth="300.0" spacing="10.0" styleClass="card" style="-fx-padding: 15; -fx-background-color: white; -fx-background-radius: 10;">
+                                 <children>
+                                    <Label text="Filtros de Búsqueda" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14px;" />
+                                    <Separator />
+                                    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: white;">
+                                       <content>
+                                          <VBox spacing="8.0" style="-fx-background-color: white;">
+                                             <children>
+                                                <Label text="Estado Registro" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;" />
+                                                <ComboBox fx:id="cmbEstado" maxWidth="Infinity" />
 
-                  <Text layoutX="50.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo:" />
-                  <Label fx:id="lblDetalleTipo" layoutX="150.0" layoutY="150.0" />
+                                                <Label text="Raza" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;" />
+                                                <ComboBox fx:id="cmbRaza" maxWidth="Infinity" />
 
-                  <Text layoutX="50.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raza:" />
-                  <Label fx:id="lblDetalleRaza" layoutX="150.0" layoutY="180.0" />
+                                                <Label text="Color" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;" />
+                                                <ComboBox fx:id="cmbColor" maxWidth="Infinity" />
 
-                  <Text layoutX="50.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color:" />
-                  <Label fx:id="lblDetalleColor" layoutX="150.0" layoutY="210.0" />
+                                                <Label text="Rescatista / Asociación" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;" />
+                                                <ComboBox fx:id="cmbRescatista" maxWidth="Infinity" />
+                                                <ComboBox fx:id="cmbAsociacion" maxWidth="Infinity" />
 
-                  <Text layoutX="50.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chip:" />
-                  <Label fx:id="lblDetalleChip" layoutX="150.0" layoutY="240.0" />
+                                                <Label text="Tipo de Mascota" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;" />
+                                                <ComboBox fx:id="cmbTipo" maxWidth="Infinity" />
 
-                  <Text layoutX="50.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estado:" />
-                  <Label fx:id="lblDetalleEstado" layoutX="150.0" layoutY="270.0" />
+                                                <Separator style="-fx-padding: 5 0;" />
+                                                <Label text="Ubicación" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #27ae60;" />
+                                                <ComboBox fx:id="cmbProvincia" maxWidth="Infinity" promptText="Provincia" />
+                                                <ComboBox fx:id="cmbCanton" maxWidth="Infinity" promptText="Cantón" />
+                                                <ComboBox fx:id="cmbDistrito" maxWidth="Infinity" promptText="Distrito" />
 
-                  <Text layoutX="50.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Severidad:" />
-                  <Label fx:id="lblDetalleSeveridad" layoutX="150.0" layoutY="300.0" />
+                                                <Separator style="-fx-padding: 5 0;" />
+                                                <TextField fx:id="txtNombre" promptText="Nombre de mascota..." />
+                                                <TextField fx:id="txtNumChip" promptText="Número de Chip..." />
 
-                  <Text layoutX="50.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nivel energía:" />
-                  <Label fx:id="lblDetalleEnergia" layoutX="150.0" layoutY="330.0" />
+                                                <Label text="Rango de Fechas (Registro)" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;" />
+                                                <DatePicker fx:id="dtDesde" maxWidth="Infinity" promptText="Desde" />
+                                                <DatePicker fx:id="dtHasta" maxWidth="Infinity" promptText="Hasta" />
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </ScrollPane>
+                                    <VBox spacing="8" style="-fx-padding: 10 0 0 0;">
+                                       <children>
+                                          <Button fx:id="btnBuscar" maxWidth="Infinity" onAction="#onBuscar" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="🔍 Realizar Búsqueda" />
+                                          <Button fx:id="btnLimpiar" maxWidth="Infinity" onAction="#onLimpiar" styleClass="button-secondary" style="-fx-background-radius: 8;" text="Limpiar Filtros" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
 
-                  <Text layoutX="50.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tamaño:" />
-                  <Label fx:id="lblDetalleTamanio" layoutX="150.0" layoutY="360.0" />
+                              <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TableView fx:id="tblDatos" VBox.vgrow="ALWAYS" style="-fx-selection-bar: #e8f8f5;">
+                                       <columns>
+                                          <TableColumn fx:id="colNombre" text="Nombre" prefWidth="100" />
+                                          <TableColumn fx:id="colTipo" text="Tipo" prefWidth="80" />
+                                          <TableColumn fx:id="colRaza" text="Raza" prefWidth="100" />
+                                          <TableColumn fx:id="colColor" text="Color" prefWidth="80" />
+                                          <TableColumn fx:id="colEstado" text="Estado" prefWidth="100" />
+                                          <TableColumn fx:id="colUbicacion" text="Ubicación" prefWidth="120" />
+                                          <TableColumn fx:id="colFecha" text="Registro" prefWidth="100" />
+                                       </columns>
+                                       <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
+                                    </TableView>
 
-                  <Text layoutX="50.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Requiere espacio:" />
-                  <Label fx:id="lblDetalleEspacio" layoutX="180.0" layoutY="390.0" />
-
-                  <!-- Columna derecha - Contacto y ubicación -->
-                  <Text layoutX="350.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teléfono:" />
-                  <Label fx:id="lblDetalleTelefono" layoutX="450.0" layoutY="120.0" />
-
-                  <Text layoutX="350.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" />
-                  <Label fx:id="lblDetalleEmail" layoutX="450.0" layoutY="150.0" />
-
-                  <Text layoutX="350.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ubicación:" />
-                  <Label fx:id="lblDetalleUbicacion" layoutX="450.0" layoutY="180.0" />
-
-                  <Text layoutX="350.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rescatista:" />
-                  <Label fx:id="lblDetalleRescatista" layoutX="450.0" layoutY="210.0" />
-
-                  <Text layoutX="350.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación:" />
-                  <Label fx:id="lblDetalleAsociacion" layoutX="450.0" layoutY="240.0" />
-
-                  <Text layoutX="350.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Veterinario:" />
-                  <Label fx:id="lblDetalleVeterinario" layoutX="450.0" layoutY="270.0" />
-
-                  <Text layoutX="350.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Casa Cuna:" />
-                  <Label fx:id="lblDetalleCasaCuna" layoutX="450.0" layoutY="300.0" />
-
-                  <Text layoutX="350.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dificultad entrenamiento:" />
-                  <Label fx:id="lblDetalleDificultad" layoutX="520.0" layoutY="330.0" />
-
-                  <Text layoutX="350.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha pérdida:" />
-                  <Label fx:id="lblDetalleFechaPerdida" layoutX="450.0" layoutY="360.0" />
-
-                  <Text layoutX="350.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha hallazgo:" />
-                  <Label fx:id="lblDetalleFechaHallazgo" layoutX="450.0" layoutY="390.0" />
-
-                  <!-- Descripciones -->
-                  <Text layoutX="50.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción abandono:" />
-                  <Label fx:id="lblDetalleDescAbandono" layoutX="200.0" layoutY="440.0" maxWidth="250.0" wrapText="true" />
-
-                  <Text layoutX="50.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Notas:" />
-                  <Label fx:id="lblDetalleNotas" layoutX="200.0" layoutY="480.0" maxWidth="250.0" wrapText="true" />
-
-                  <!-- Imágenes -->
-                  <Text layoutX="600.0" layoutY="120.0" text="Foto ANTES:" />
-                  <ImageView fx:id="imvDetalleAntes" fitHeight="150.0" fitWidth="200.0" layoutX="600.0" layoutY="130.0" preserveRatio="true" />
-
-                  <Text layoutX="600.0" layoutY="300.0" text="Foto DESPUÉS:" />
-                  <ImageView fx:id="imvDetalleDespues" fitHeight="150.0" fitWidth="200.0" layoutX="600.0" layoutY="310.0" preserveRatio="true" />
+                                    <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="card" style="-fx-padding: 12; -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #27ae60; -fx-border-width: 2 0 0 0;">
+                                       <children>
+                                          <VBox alignment="CENTER" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-padding: 5; -fx-background-color: #f8f9fa;">
+                                             <ImageView fx:id="imvMascota" fitHeight="70.0" fitWidth="100.0" preserveRatio="true" />
+                                          </VBox>
+                                          <VBox spacing="5">
+                                             <children>
+                                                <Label fx:id="lblTotal" text="Total: 0 resultados" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2c3e50;" />
+                                                <Label text="Seleccione una fila para ver previsualización" style="-fx-font-size: 10px; -fx-text-fill: #95a5a6; -fx-font-style: italic;" />
+                                             </children>
+                                          </VBox>
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="btnVerDetalle" onAction="#onVerDetalle" style="-fx-background-color: #16a085; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 25; -fx-background-radius: 20;" text="📄 Ver Detalle Completo" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
 
-            <!-- PÁGINA 1: BÚSQUEDA -->
-            <AnchorPane fx:id="paginaBusqueda" prefHeight="599.0" prefWidth="932.0">
+            <AnchorPane fx:id="paginaDetalle" visible="false" style="-fx-background-color: #f4f7f6;">
                <children>
-                  <Text layoutX="14.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estado" />
-                  <ComboBox fx:id="cmbEstado" layoutX="14.0" layoutY="83.0" prefWidth="150.0" />
+                  <VBox spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Button fx:id="btnVolverBusqueda" onAction="#onVolverBusqueda" styleClass="button-secondary" style="-fx-background-radius: 8;" text="⬅ Volver a los resultados" />
+                              <Region HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
 
-                  <Text layoutX="177.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Raza" />
-                  <ComboBox fx:id="cmbRaza" layoutX="177.0" layoutY="83.0" prefWidth="150.0" />
+                        <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox spacing="15.0" prefWidth="420.0" styleClass="card" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #16a085; -fx-border-width: 0 0 0 5;">
+                                 <children>
+                                    <Label text="Ficha Técnica de la Mascota" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #16a085;" />
+                                    <Separator />
+                                    <GridPane vgap="8" hgap="10">
+                                       <columnConstraints>
+                                          <ColumnConstraints prefWidth="130" />
+                                          <ColumnConstraints hgrow="ALWAYS" />
+                                       </columnConstraints>
+                                       <children>
+                                          <Label text="Nombre:" GridPane.rowIndex="0" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                                          <Label fx:id="lblDetalleNombre" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2c3e50;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                  <Text layoutX="14.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
-                  <ComboBox fx:id="cmbColor" layoutX="14.0" layoutY="144.0" prefWidth="150.0" />
+                                          <Label text="Tipo / Raza:" GridPane.rowIndex="1" style="-fx-text-fill: #7f8c8d;" />
+                                          <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <children>
+                                                <Label fx:id="lblDetalleTipo" style="-fx-font-weight: bold;" />
+                                                <Label text="-" />
+                                                <Label fx:id="lblDetalleRaza" style="-fx-font-weight: bold;" />
+                                             </children>
+                                          </HBox>
 
-                  <Text layoutX="177.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rescatista" />
-                  <ComboBox fx:id="cmbRescatista" layoutX="177.0" layoutY="144.0" prefWidth="150.0" />
+                                          <Label text="Color:" GridPane.rowIndex="2" style="-fx-text-fill: #7f8c8d;" />
+                                          <Label fx:id="lblDetalleColor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                  <Text layoutX="14.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación" />
-                  <ComboBox fx:id="cmbAsociacion" layoutX="14.0" layoutY="204.0" prefWidth="150.0" />
+                                          <Label text="Chip ID:" GridPane.rowIndex="3" style="-fx-text-fill: #7f8c8d;" />
+                                          <Label fx:id="lblDetalleChip" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                  <Text layoutX="177.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo" />
-                  <ComboBox fx:id="cmbTipo" layoutX="177.0" layoutY="204.0" prefWidth="150.0" />
+                                          <Label text="Estado Registro:" GridPane.rowIndex="4" style="-fx-text-fill: #7f8c8d;" />
+                                          <Label fx:id="lblDetalleEstado" style="-fx-text-fill: #d35400; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                  <Text layoutX="14.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lugar">
-                     <font><Font size="14.0" /></font>
-                  </Text>
+                                          <Label text="Nivel de Energía:" GridPane.rowIndex="5" style="-fx-text-fill: #7f8c8d;" />
+                                          <Label fx:id="lblDetalleEnergia" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                       </children>
+                                    </GridPane>
 
-                  <Text layoutX="14.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Provincia" />
-                  <ComboBox fx:id="cmbProvincia" layoutX="14.0" layoutY="299.0" prefWidth="150.0" />
+                                    <Separator />
+                                    <VBox spacing="5" style="-fx-background-color: #e8f8f5; -fx-padding: 10; -fx-background-radius: 5;">
+                                       <children>
+                                          <Label text="Descripción Abandono:" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #16a085;" />
+                                          <Label fx:id="lblDetalleDescAbandono" wrapText="true" style="-fx-text-fill: #2c3e50;" />
+                                       </children>
+                                    </VBox>
+                                    <VBox spacing="5" style="-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-background-radius: 5;">
+                                       <children>
+                                          <Label text="Notas Adicionales:" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+                                          <Label fx:id="lblDetalleNotas" wrapText="true" style="-fx-text-fill: #555;" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
 
-                  <Text layoutX="177.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantón" />
-                  <ComboBox fx:id="cmbCanton" layoutX="177.0" layoutY="299.0" prefWidth="150.0" />
+                              <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <HBox spacing="15.0" prefHeight="260.0">
+                                       <children>
+                                          <VBox alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS" styleClass="card" style="-fx-background-color: white; -fx-background-radius: 10;">
+                                             <children>
+                                                <Label text="Foto al Ingreso" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d;" />
+                                                <ImageView fx:id="imvDetalleAntes" fitHeight="190.0" fitWidth="230.0" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);" />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS" styleClass="card" style="-fx-background-color: white; -fx-background-radius: 10;">
+                                             <children>
+                                                <Label text="Foto Actual" style="-fx-font-weight: bold; -fx-text-fill: #27ae60;" />
+                                                <ImageView fx:id="imvDetalleDespues" fitHeight="190.0" fitWidth="230.0" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
 
-                  <Text layoutX="14.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Distrito" />
-                  <ComboBox fx:id="cmbDistrito" layoutX="14.0" layoutY="359.0" prefWidth="150.0" />
+                                    <VBox spacing="10.0" styleClass="card" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 10;" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label text="🌐 Información de Ubicación y Contacto" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                                          <Separator />
+                                          <GridPane vgap="10" hgap="20">
+                                             <children>
+                                                <Label text="Ubicación Registrada:" GridPane.rowIndex="0" style="-fx-text-fill: #7f8c8d;" />
+                                                <Label fx:id="lblDetalleUbicacion" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                  <Text layoutX="177.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" />
-                  <TextField fx:id="txtNombre" layoutX="177.0" layoutY="359.0" prefWidth="150.0" />
+                                                <Label text="Teléfono Contacto:" GridPane.rowIndex="1" style="-fx-text-fill: #7f8c8d;" />
+                                                <Label fx:id="lblDetalleTelefono" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                  <Text layoutX="14.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Número chip" />
-                  <TextField fx:id="txtNumChip" layoutX="14.0" layoutY="419.0" prefWidth="150.0" />
+                                                <Label text="E-mail:" GridPane.rowIndex="2" style="-fx-text-fill: #7f8c8d;" />
+                                                <Label fx:id="lblDetalleEmail" style="-fx-text-fill: #2980b9; -fx-underline: true;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                  <Text layoutX="14.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resultados:" />
+                                                <Label text="Rescatista Asociado:" GridPane.rowIndex="3" style="-fx-text-fill: #7f8c8d;" />
+                                                <Label fx:id="lblDetalleRescatista" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                  <Text layoutX="14.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Desde" />
-                  <DatePicker fx:id="dtDesde" layoutX="14.0" layoutY="505.0" prefWidth="150.0" />
+                                                <Label text="Dificultad Entrenamiento:" GridPane.rowIndex="0" GridPane.columnIndex="2" style="-fx-text-fill: #7f8c8d;" />
+                                                <Label fx:id="lblDetalleDificultad" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                                             </children>
+                                          </GridPane>
 
-                  <Text layoutX="177.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hasta" />
-                  <DatePicker fx:id="dtHasta" layoutX="177.0" layoutY="505.0" prefWidth="150.0" />
-
-                  <Button fx:id="btnBuscar" layoutX="14.0" layoutY="555.0" mnemonicParsing="false" onAction="#onBuscar" prefWidth="100.0" text="Buscar" />
-                  <Button fx:id="btnLimpiar" layoutX="130.0" layoutY="555.0" mnemonicParsing="false" onAction="#onLimpiar" prefWidth="100.0" text="Limpiar" />
-
-                  <TableView fx:id="tblDatos" layoutX="332.0" layoutY="80.0" prefHeight="350.0" prefWidth="594.0">
-                     <columns>
-                        <TableColumn fx:id="colNombre" prefWidth="90.0" text="Nombre" />
-                        <TableColumn fx:id="colTipo" prefWidth="70.0" text="Tipo" />
-                        <TableColumn fx:id="colRaza" prefWidth="90.0" text="Raza" />
-                        <TableColumn fx:id="colColor" prefWidth="70.0" text="Color" />
-                        <TableColumn fx:id="colEstado" prefWidth="80.0" text="Estado" />
-                        <TableColumn fx:id="colUbicacion" prefWidth="100.0" text="Ubicación" />
-                        <TableColumn fx:id="colFecha" prefWidth="100.0" text="Fecha registro" />
-                     </columns>
-                  </TableView>
-
-                  <Label fx:id="lblTotal" layoutX="350.0" layoutY="440.0" text="Total: 0 resultados" />
-
-                  <ImageView fx:id="imvMascota" fitHeight="100.0" fitWidth="130.0" layoutX="350.0" layoutY="465.0" preserveRatio="true" />
-
-                  <Button fx:id="btnVerDetalle" layoutX="838.0" layoutY="553.0" mnemonicParsing="false" onAction="#onVerDetalle" text="Ver detalle" />
-
-                  <Button fx:id="btnVolver" layoutX="861.0" layoutY="23.0" mnemonicParsing="false" onAction="#switchVolver" text="Volver" />
+                                          <Label fx:id="lblDetalleSeveridad" visible="false" managed="false" />
+                                          <Label fx:id="lblDetalleTamanio" visible="false" managed="false" />
+                                          <Label fx:id="lblDetalleEspacio" visible="false" managed="false" />
+                                          <Label fx:id="lblDetalleAsociacion" visible="false" managed="false" />
+                                          <Label fx:id="lblDetalleVeterinario" visible="false" managed="false" />
+                                          <Label fx:id="lblDetalleCasaCuna" visible="false" managed="false" />
+                                          <Label fx:id="lblDetalleFechaPerdida" visible="false" managed="false" />
+                                          <Label fx:id="lblDetalleFechaHallazgo" visible="false" managed="false" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
 

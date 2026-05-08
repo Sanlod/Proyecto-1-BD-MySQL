@@ -60,7 +60,7 @@ public class RegistrarMascotasController implements Initializable {
     @FXML private TextField txtCorreo;
     @FXML private ComboBox<String> cmbDificultadEntrenamiento;
     @FXML private DatePicker dpFechaperdida;
-    @FXML private ComboBox<String> cmbVeterinario;
+    @FXML private TextField txtVeterinario;
     @FXML private ComboBox<String> cmbRescatista;
     @FXML private ComboBox<String> cmbAsociacion;
 
@@ -152,12 +152,6 @@ public class RegistrarMascotasController implements Initializable {
             // Rescatistas
             datosRescatistaActuales = MascotasDAO.getRescatistas();
             cmbRescatista.setItems(datosRescatistaActuales.stream()
-                    .map(row -> row.get(1))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-
-            // Veterinarios
-            datosVeterinariosActuales = MascotasDAO.getVeterinarios();
-            cmbVeterinario.setItems(datosVeterinariosActuales.stream()
                     .map(row -> row.get(1))
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
 
@@ -269,8 +263,7 @@ public class RegistrarMascotasController implements Initializable {
             String idSeveridad = obtenerIdSeleccionado(cmbIdSeveridad1, datosSeveridadesActuales);
             String idNivelEnergia = obtenerIdSeleccionado(cmbIdNivEnergia1, datosNivelesEnergiaActuales);
             String idDistrito = obtenerIdSeleccionado(cmbIdDistrito1, datosDistritosActuales);
-            String idVeterinario = obtenerIdSeleccionado(cmbVeterinario, datosVeterinariosActuales);
-            String idAsociacion = obtenerIdSeleccionado(cmbAsociacion, datosAsociacionesActuales);
+            String nombreVeterinario = txtVeterinario.getText().trim().isEmpty() ? null : txtVeterinario.getText().trim();            String idAsociacion = obtenerIdSeleccionado(cmbAsociacion, datosAsociacionesActuales);
             String idDificultad = obtenerIdSeleccionado(cmbDificultadEntrenamiento, datosDificultadActuales);
             String idRescatista = obtenerIdSeleccionado(cmbRescatista, datosRescatistaActuales);
 
@@ -285,7 +278,7 @@ public class RegistrarMascotasController implements Initializable {
                     txtTelefono.getText(), txtCorreo.getText(),
                     txtDescripcion1.getText(), txtNotasAbandono.getText(),
                     idDificultad, lossDate, foundDate,
-                    idVeterinario, null, idRescatista, idAsociacion,
+                    nombreVeterinario, null, idRescatista, idAsociacion,
                     imagenAntesBytes, imagenDespuesBytes, LogInController.loggedUser,birthDate
             );
 
@@ -320,6 +313,14 @@ public class RegistrarMascotasController implements Initializable {
         String monedaSel = (cmbIdMoneda1 != null) ? cmbIdMoneda1.getValue() : null;
         String estadoSel = (cmbIdEstado1 != null) ? cmbIdEstado1.getValue() : null;
         String rescSel = (cmbRescatista != null) ? cmbRescatista.getValue() : null;
+
+        String veterinario = txtVeterinario.getText().trim();
+        if (!veterinario.isEmpty()) {
+            if (veterinario.matches(".*\\d.*")) {
+                mostrarError("El nombre del veterinario no puede contener números.");
+                return false;
+            }
+        }
 
         if (txtChip1.getText() != null && !txtChip1.getText().isEmpty()) {
             try {
@@ -398,7 +399,7 @@ public class RegistrarMascotasController implements Initializable {
         txtCorreo.clear();
         cmbDificultadEntrenamiento.setValue(null);
         dpFechaperdida.setValue(null);
-        cmbVeterinario.setValue(null);
+        txtVeterinario.clear();
         cmbRescatista.setValue(null);
         cmbAsociacion.setValue(null);
         imvFotoAntes.setImage(null);

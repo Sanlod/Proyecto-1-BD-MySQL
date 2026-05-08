@@ -1,25 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.DonarController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.DonarController">
    <children>
-      <Text layoutX="41.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donar" />
-      <ComboBox fx:id="aso1" layoutX="41.0" layoutY="94.0" prefWidth="150.0" />
-      <Text layoutX="41.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación1" />
-      <ComboBox fx:id="aso2" layoutX="41.0" layoutY="142.0" prefWidth="150.0" />
-      <Text layoutX="41.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación2" />
-      <ComboBox fx:id="aso3" layoutX="41.0" layoutY="186.0" prefWidth="150.0" />
-      <Text layoutX="42.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asociación3" />
-      <Spinner fx:id="monto" layoutX="254.0" layoutY="101.0" />
-      <Text layoutX="253.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monto" />
-      <Text layoutX="255.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Divisa" />
-      <ComboBox fx:id="divisa" layoutX="253.0" layoutY="149.0" prefWidth="150.0" />
-      <Button fx:id="donar" layoutX="253.0" layoutY="183.0" mnemonicParsing="false" onAction="#donar" text="Donar" />
-      <Button layoutX="537.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchVolver" text="Volver" />
+      <VBox spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <children>
+
+            <HBox alignment="CENTER_LEFT" prefHeight="80.0" style="-fx-background-color: linear-gradient(to right, #16a085, #2ecc71); -fx-background-radius: 12; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 5);">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label text="Realizar Donación" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" />
+                        <Label text="Apoya a las asociaciones registradas" style="-fx-text-fill: #e8f8f5; -fx-font-size: 12px;" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button onAction="#switchVolver" prefWidth="100.0" style="-fx-background-color: rgba(255,255,255,0.25); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" text="↩ Volver" />
+               </children>
+            </HBox>
+
+            <StackPane VBox.vgrow="ALWAYS">
+               <children>
+                  <AnchorPane maxWidth="600.0" prefHeight="350.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 15, 0, 0, 5); -fx-padding: 30;">
+                     <children>
+
+                        <VBox layoutX="40.0" layoutY="40.0" spacing="15.0">
+                           <children>
+                              <Label text="Selección de Asociaciones" style="-fx-font-weight: bold; -fx-text-fill: #16a085; -fx-font-size: 15px;" />
+                              <VBox spacing="5">
+                                 <children>
+                                    <Label text="Asociación Principal" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11px;" />
+                                    <ComboBox fx:id="aso1" prefWidth="220.0" promptText="Seleccionar..." />
+                                 </children>
+                              </VBox>
+                              <VBox spacing="5">
+                                 <children>
+                                    <Label text="Segunda Opción" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11px;" />
+                                    <ComboBox fx:id="aso2" prefWidth="220.0" />
+                                 </children>
+                              </VBox>
+                              <VBox spacing="5">
+                                 <children>
+                                    <Label text="Tercera Opción" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11px;" />
+                                    <ComboBox fx:id="aso3" prefWidth="220.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+
+                        <VBox layoutX="320.0" layoutY="40.0" spacing="15.0">
+                           <children>
+                              <Label text="Detalles del Aporte" style="-fx-font-weight: bold; -fx-text-fill: #16a085; -fx-font-size: 15px;" />
+                              <VBox spacing="5">
+                                 <children>
+                                    <Label text="Monto a Donar" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11px;" />
+                                    <Spinner fx:id="monto" editable="true" prefWidth="220.0" />
+                                 </children>
+                              </VBox>
+                              <VBox spacing="5">
+                                 <children>
+                                    <Label text="Divisa" style="-fx-text-fill: #7f8c8d; -fx-font-size: 11px;" />
+                                    <ComboBox fx:id="divisa" prefWidth="220.0" />
+                                 </children>
+                              </VBox>
+
+                              <Region prefHeight="20.0" />
+
+                              <Button fx:id="donar" onAction="#donar" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 10; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(39, 174, 96, 0.3), 10, 0, 0, 4);" text="❤ EFECTUAR DONACIÓN" />
+                           </children>
+                        </VBox>
+
+                     </children>
+                  </AnchorPane>
+               </children>
+            </StackPane>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

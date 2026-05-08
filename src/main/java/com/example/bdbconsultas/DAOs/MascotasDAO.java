@@ -94,12 +94,7 @@ public class MascotasDAO {
             throws SQLException, ClassNotFoundException {
         return listadosCatalogo("SP_LISTAR_RESCATISTAS");
     }
-
-    public static ObservableList<ObservableList<String>> getVeterinarios()
-            throws SQLException, ClassNotFoundException {
-        return listadosCatalogo("SP_LISTAR_VETERINARIOS");
-    }
-
+    
     public static ObservableList<ObservableList<String>> getCasasCuna()
             throws SQLException, ClassNotFoundException {
         return listadosCatalogo("SP_LISTAR_CASASCUNA");
@@ -415,8 +410,7 @@ public class MascotasDAO {
                 cs.setDate(17, Date.valueOf(foundDate));
             }
 
-            cs.setString(18, idVeterinarian == null || idVeterinarian.isEmpty() ? null : idVeterinarian);
-            cs.setString(19, idCribHouse == null || idCribHouse.isEmpty() ? null : idCribHouse);
+            cs.setString(18, idVeterinarian == null || idVeterinarian.trim().isEmpty() ? null : idVeterinarian);            cs.setString(19, idCribHouse == null || idCribHouse.isEmpty() ? null : idCribHouse);
             cs.setString(20, idRescuer == null || idRescuer.isEmpty() ? null : idRescuer);
             cs.setString(21, idAssociation == null || idAssociation.isEmpty() ? null : idAssociation);
 

@@ -1,75 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
 
-<AnchorPane prefHeight="680.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.MatchesController">
+<AnchorPane prefHeight="750.0" prefWidth="1100.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.MatchesController">
    <children>
+      <VBox spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <children>
 
-      <Button fx:id="btnVolver" layoutX="920.0" layoutY="10.0" onAction="#switchVolver" text="Volver" />
+            <HBox alignment="CENTER_LEFT" style="-fx-background-color: linear-gradient(to right, #16a085, #2ecc71); -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label text="Panel de Matches" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" />
+                        <Label text="Resultados de vinculación de mascotas" style="-fx-text-fill: #e8f8f5; -fx-font-size: 12px;" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnVolver" onAction="#switchVolver" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="↩ Volver" />
+               </children>
+            </HBox>
 
-      <Text layoutX="20.0" layoutY="45.0" text="Mascota perdida:" />
-      <ComboBox fx:id="cmbMascotaPerdida" layoutX="120.0" layoutY="28.0" prefWidth="150.0" />
+            <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+               <children>
+                  <Label text="Filtros de Búsqueda" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                  <Separator />
+                  <GridPane hgap="15.0" vgap="12.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                     </columnConstraints>
+                     <children>
+                        <VBox spacing="3" GridPane.columnIndex="0">
+                           <Label text="Mascota Perdida" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <ComboBox fx:id="cmbMascotaPerdida" maxWidth="Infinity" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.columnIndex="1">
+                           <Label text="Tipo" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <ComboBox fx:id="cmbTipo" maxWidth="Infinity" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.columnIndex="2">
+                           <Label text="Raza" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <ComboBox fx:id="cmbRaza" maxWidth="Infinity" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.columnIndex="3">
+                           <Label text="Color" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <ComboBox fx:id="cmbColor" maxWidth="Infinity" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.rowIndex="1">
+                           <Label text="Nombre" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <TextField fx:id="txtNombre" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <Label text="Chip" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <TextField fx:id="txtChip" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <Label text="Estado Match" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <ComboBox fx:id="cmbMatchState" maxWidth="Infinity" />
+                        </VBox>
+                        <HBox alignment="BOTTOM_CENTER" spacing="10" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <Button fx:id="btnBuscar" onAction="#onBuscar" maxWidth="Infinity" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;" text="🔍 Buscar" HBox.hgrow="ALWAYS" />
+                           <Button fx:id="btnLimpiar" onAction="#onLimpiar" style="-fx-background-color: #bdc3c7; -fx-text-fill: white;" text="Limpiar" />
+                        </HBox>
+                        <VBox spacing="3" GridPane.rowIndex="2">
+                           <Label text="Provincia" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <ComboBox fx:id="cmbProvincia" maxWidth="Infinity" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <Label text="Cantón" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <ComboBox fx:id="cmbCanton" maxWidth="Infinity" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                           <Label text="Distrito" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <ComboBox fx:id="cmbDistrito" maxWidth="Infinity" />
+                        </VBox>
+                        <VBox alignment="BOTTOM_CENTER" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                           <Button fx:id="btnEjecutarMatch" maxWidth="Infinity" onAction="#onEjecutarMatch" style="-fx-background-color: #16a085; -fx-text-fill: white; -fx-font-weight: bold;" text="⚙️ Ejecutar Match" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.rowIndex="3">
+                           <Label text="Rescatista" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <ComboBox fx:id="cmbRescatista" maxWidth="Infinity" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <Label text="Asociación" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <ComboBox fx:id="cmbAsociacion" maxWidth="Infinity" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                           <Label text="Desde" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <DatePicker fx:id="dtDesde" maxWidth="Infinity" />
+                        </VBox>
+                        <VBox spacing="3" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                           <Label text="Hasta" style="-fx-font-size: 11px; -fx-text-fill: #7f8c8d;" />
+                           <DatePicker fx:id="dtHasta" maxWidth="Infinity" />
+                        </VBox>
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
 
-      <Text layoutX="285.0" layoutY="45.0" text="Tipo:" />
-      <ComboBox fx:id="cmbTipo" layoutX="315.0" layoutY="28.0" prefWidth="130.0" />
+            <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <TableView fx:id="tblMatches" style="-fx-selection-bar: #e8f8f5;" VBox.vgrow="ALWAYS">
+                     <columnResizePolicy>
+                        <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <Label fx:id="lblTotal" text="Total: 0 resultados" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+               </children>
+            </VBox>
 
-      <Text layoutX="460.0" layoutY="45.0" text="Raza:" />
-      <ComboBox fx:id="cmbRaza" layoutX="490.0" layoutY="28.0" prefWidth="130.0" />
-
-      <Text layoutX="635.0" layoutY="45.0" text="Color:" />
-      <ComboBox fx:id="cmbColor" layoutX="670.0" layoutY="28.0" prefWidth="130.0" />
-
-      <Text layoutX="20.0" layoutY="85.0" text="Nombre:" />
-      <TextField fx:id="txtNombre" layoutX="80.0" layoutY="68.0" prefWidth="150.0" />
-
-      <Text layoutX="245.0" layoutY="85.0" text="Chip:" />
-      <TextField fx:id="txtChip" layoutX="275.0" layoutY="68.0" prefWidth="150.0" />
-
-      <Text layoutX="440.0" layoutY="85.0" text="Estado match:" />
-      <ComboBox fx:id="cmbMatchState" layoutX="530.0" layoutY="68.0" prefWidth="130.0" />
-
-      <Text layoutX="20.0" layoutY="125.0" text="Provincia:" />
-      <ComboBox fx:id="cmbProvincia" layoutX="85.0" layoutY="108.0" prefWidth="140.0" />
-
-      <Text layoutX="240.0" layoutY="125.0" text="Cantón:" />
-      <ComboBox fx:id="cmbCanton" layoutX="290.0" layoutY="108.0" prefWidth="140.0" />
-
-      <Text layoutX="445.0" layoutY="125.0" text="Distrito:" />
-      <ComboBox fx:id="cmbDistrito" layoutX="495.0" layoutY="108.0" prefWidth="140.0" />
-
-      <Text layoutX="20.0" layoutY="165.0" text="Rescatista:" />
-      <ComboBox fx:id="cmbRescatista" layoutX="90.0" layoutY="148.0" prefWidth="140.0" />
-
-      <Text layoutX="245.0" layoutY="165.0" text="Asociación:" />
-      <ComboBox fx:id="cmbAsociacion" layoutX="315.0" layoutY="148.0" prefWidth="140.0" />
-
-      <Text layoutX="470.0" layoutY="165.0" text="Desde:" />
-      <DatePicker fx:id="dtDesde" layoutX="515.0" layoutY="148.0" prefWidth="120.0" />
-
-      <Text layoutX="650.0" layoutY="165.0" text="Hasta:" />
-      <DatePicker fx:id="dtHasta" layoutX="695.0" layoutY="148.0" prefWidth="120.0" />
-
-      <Button fx:id="btnBuscar" layoutX="830.0" layoutY="148.0" onAction="#onBuscar" text="Buscar" />
-
-      <Button fx:id="btnLimpiar" layoutX="890.0" layoutY="148.0" onAction="#onLimpiar" text="Limpiar" />
-
-      <Button fx:id="btnEjecutarMatch" layoutX="20.0" layoutY="190.0" onAction="#onEjecutarMatch" text="Ejecutar Match" />
-
-      <TableView fx:id="tblMatches" layoutX="20.0" layoutY="225.0" prefHeight="380.0" prefWidth="940.0" />
-
-      <Label fx:id="lblTotal" layoutX="20.0" layoutY="615.0" text="Total: 0 resultados" />
-
-      <Text layoutX="20.0" layoutY="655.0" text="Nuevo estado:" />
-      <ComboBox fx:id="cmbNuevoEstado" layoutX="110.0" layoutY="638.0" prefWidth="150.0" />
-
-      <Button fx:id="btnCambiarEstado" layoutX="275.0" layoutY="638.0" onAction="#onCambiarEstado" text="Cambiar estado" />
-
+            <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-border-color: #16a085; -fx-border-width: 2 0 0 0;">
+               <children>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label text="Cambiar Estado del Match" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                        <HBox spacing="10.0">
+                           <children>
+                              <ComboBox fx:id="cmbNuevoEstado" prefWidth="220.0" promptText="Seleccione nuevo estado..." />
+                              <Button fx:id="btnCambiarEstado" onAction="#onCambiarEstado" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold;" text="💾 Actualizar" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

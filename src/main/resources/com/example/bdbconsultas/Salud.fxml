@@ -1,53 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="609.0" prefWidth="915.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.SaludController">
+<AnchorPane prefHeight="680.0" prefWidth="1050.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.SaludController">
    <children>
-      <TextField fx:id="nombre" layoutX="14.0" layoutY="47.0" />
-      <TextField fx:id="chip" layoutX="180.0" layoutY="47.0" />
-      <ComboBox fx:id="buscMedicina" layoutX="347.0" layoutY="47.0" prefWidth="150.0" />
-      <ComboBox fx:id="buscTratamiento" layoutX="526.0" layoutY="47.0" prefWidth="150.0" />
-      <ComboBox fx:id="enfermedad" layoutX="701.0" layoutY="47.0" prefWidth="150.0" />
-      <Text layoutX="14.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" />
-      <Text layoutX="186.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chip" />
-      <Text layoutX="354.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicina" />
-      <Text layoutX="526.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tratamiento" />
-      <Text layoutX="701.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enfermedad" />
-      <TableView fx:id="tablaMascotas" layoutX="16.0" layoutY="123.0" prefHeight="234.0" prefWidth="883.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
-        </columns>
-      </TableView>
-      <Button layoutX="36.0" layoutY="432.0" mnemonicParsing="false" onAction="#asignarTratamiento" text="Agregar tratamiento" />
-      <ComboBox fx:id="seleccTratamiento" layoutX="36.0" layoutY="393.0" prefWidth="150.0" />
-      <Text layoutX="33.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tratamiento" />
-      <Text layoutX="254.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicina" />
-      <ComboBox fx:id="seleccMedicina" layoutX="254.0" layoutY="393.0" prefWidth="150.0" />
-      <Button layoutX="254.0" layoutY="522.0" mnemonicParsing="false" onAction="#asignarMedicina" text="Agregar tratamiento" />
-      <Text layoutX="254.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dosis" />
-      <TextField fx:id="dosis" layoutX="255.0" layoutY="458.0" />
-      <Button layoutX="789.0" layoutY="548.0" mnemonicParsing="false" onAction="#switchVolver" text="Volver" />
-      <Button layoutX="16.0" layoutY="96.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
-      <DatePicker fx:id="startDate" layoutX="526.0" layoutY="96.0" />
-      <DatePicker fx:id="endDate" layoutX="716.0" layoutY="96.0" />
-      <Text layoutX="526.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enfermo desde" />
-      <Text layoutX="716.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enfermo hasta" />
-      <Text layoutX="73.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mascotas:" />
-      <Label fx:id="lblTotal" layoutX="128.0" layoutY="100.0" text="0" />
-      <Button layoutX="35.0" layoutY="471.0" mnemonicParsing="false" onAction="#emliminarTratamiento" text="Eliminar tratamiento" />
-      <Button layoutX="249.0" layoutY="561.0" mnemonicParsing="false" onAction="#emliminarMedicamento" text="Eliminar medicina" />
-      <Button layoutX="458.0" layoutY="437.0" mnemonicParsing="false" onAction="#emliminarEnfermedad" text="Eliminar enfermedad" />
-      <ComboBox fx:id="seleccEnfermedad" layoutX="458.0" layoutY="393.0" prefWidth="150.0" />
-      <Text layoutX="460.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enfermedad" />
+      <VBox spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <children>
+
+            <HBox alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: linear-gradient(to right, #16a085, #2ecc71); -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="Gestión de Salud Animal" />
+                        <Label style="-fx-text-fill: #e8f8f5; -fx-font-size: 11px;" text="Control de tratamientos, medicinas y diagnósticos" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Button onAction="#switchVolver" prefWidth="90.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" text="↩ Volver" />
+               </children>
+            </HBox>
+
+            <VBox spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 8, 0, 0, 2);">
+               <children>
+                  <GridPane hgap="10.0" vgap="8.0">
+                     <columnConstraints>
+                        <ColumnConstraints percentWidth="20.0" />
+                        <ColumnConstraints percentWidth="20.0" />
+                        <ColumnConstraints percentWidth="20.0" />
+                        <ColumnConstraints percentWidth="20.0" />
+                        <ColumnConstraints percentWidth="20.0" />
+                     </columnConstraints>
+                     <children>
+                        <VBox spacing="2">
+                           <Label style="-fx-font-size: 10px; -fx-text-fill: #7f8c8d;" text="Nombre" />
+                           <TextField fx:id="nombre" promptText="Nombre..." />
+                        </VBox>
+                        <VBox spacing="2" GridPane.columnIndex="1">
+                           <Label style="-fx-font-size: 10px; -fx-text-fill: #7f8c8d;" text="Chip" />
+                           <TextField fx:id="chip" promptText="N° Chip..." />
+                        </VBox>
+                        <VBox spacing="2" GridPane.columnIndex="2">
+                           <Label style="-fx-font-size: 10px; -fx-text-fill: #7f8c8d;" text="Medicina" />
+                           <ComboBox fx:id="buscMedicina" maxWidth="1.7976931348623157E308" />
+                        </VBox>
+                        <VBox spacing="2" GridPane.columnIndex="3">
+                           <Label style="-fx-font-size: 10px; -fx-text-fill: #7f8c8d;" text="Tratamiento" />
+                           <ComboBox fx:id="buscTratamiento" maxWidth="1.7976931348623157E308" />
+                        </VBox>
+                        <VBox spacing="2" GridPane.columnIndex="4">
+                           <Label style="-fx-font-size: 10px; -fx-text-fill: #7f8c8d;" text="Enfermedad" />
+                           <ComboBox fx:id="enfermedad" maxWidth="1.7976931348623157E308" />
+                        </VBox>
+                     </children>
+                  </GridPane>
+                  <HBox alignment="CENTER_LEFT" spacing="15.0">
+                     <children>
+                        <Button onAction="#buscar" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🔍 Buscar" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label style="-fx-font-size: 11px;" text="Desde:" />
+                        <DatePicker fx:id="startDate" prefWidth="130.0" />
+                        <Label style="-fx-font-size: 11px;" text="Hasta:" />
+                        <DatePicker fx:id="endDate" prefWidth="130.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+
+            <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox spacing="10">
+                     <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Listado de Mascotas Bajo Tratamiento" />
+                     <Region HBox.hgrow="ALWAYS" />
+                     <Label text="Total:" style="-fx-text-fill: #7f8c8d;" />
+                     <Label fx:id="lblTotal" style="-fx-font-weight: bold;" text="0" />
+                  </HBox>
+                  <TableView fx:id="tablaMascotas" prefHeight="200.0" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn prefWidth="50.0" text="ID" />
+                        <TableColumn prefWidth="120.0" text="NOMBRE" />
+                        <TableColumn prefWidth="100.0" text="CHIP" />
+                        <TableColumn prefWidth="180.0" text="MEDICINAS" />
+                        <TableColumn prefWidth="180.0" text="TRATAMIENTOS" />
+                        <TableColumn prefWidth="200.0" text="ENFERMEDADES" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </VBox>
+
+            <HBox spacing="15.0">
+               <children>
+                  <VBox spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px; -fx-text-fill: #16a085;" text="TRATAMIENTOS" />
+                        <ComboBox fx:id="seleccTratamiento" maxWidth="1.7976931348623157E308" promptText="Seleccionar..." />
+                        <HBox spacing="5">
+                           <children>
+                              <Button onAction="#asignarTratamiento" maxWidth="1.7976931348623157E308" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold;" text="Agregar" HBox.hgrow="ALWAYS" />
+                              <Button onAction="#emliminarTratamiento" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 11px;" text="Eliminar" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+
+                  <VBox spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px; -fx-text-fill: #16a085;" text="MEDICINAS" />
+                        <HBox spacing="5">
+                           <children>
+                              <ComboBox fx:id="seleccMedicina" maxWidth="1.7976931348623157E308" promptText="Medicina..." HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="dosis" prefWidth="80.0" promptText="Dosis" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="5">
+                           <children>
+                              <Button onAction="#asignarMedicina" maxWidth="1.7976931348623157E308" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold;" text="Agregar" HBox.hgrow="ALWAYS" />
+                              <Button onAction="#emliminarMedicamento" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 11px;" text="Eliminar" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+
+                  <VBox spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px; -fx-text-fill: #16a085;" text="ENFERMEDAD" />
+                        <ComboBox fx:id="seleccEnfermedad" maxWidth="1.7976931348623157E308" promptText="Enfermedad..." />
+                        <Button onAction="#emliminarEnfermedad" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 11px;" text="Eliminar Registro" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
