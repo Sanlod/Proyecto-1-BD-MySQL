@@ -321,7 +321,10 @@ public class RegistrarMascotasController implements Initializable {
                 return false;
             }
         }
-
+        if (cmbTamanio.getValue() == null) {
+            mostrarError("El tamaño de la mascota es obligatorio");
+            return false;
+        }
         if (txtChip1.getText() != null && !txtChip1.getText().isEmpty()) {
             try {
                 Long.parseLong(txtChip1.getText());

@@ -5,71 +5,99 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.RegistrarController">
+<AnchorPane prefHeight="650.0" prefWidth="550.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.RegistrarController">
     <children>
-        <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="20.0" prefWidth="400.0" spacing="20.0">
+        <VBox alignment="TOP_CENTER" spacing="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Registro de Usuario">
-                    <font>
-                        <Font name="System Bold" size="24.0" />
-                    </font>
-                </Text>
 
-                <GridPane hgap="10.0" vgap="15.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="130.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="10.0" prefWidth="250.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                <VBox alignment="CENTER" prefHeight="100.0" spacing="5.0" style="-fx-background-color: #16a085;">
                     <children>
-                        <Label text="Primer Nombre:" GridPane.rowIndex="0" />
-                        <TextField fx:id="txtFirstName" promptText="Ej: Juan" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                        <Label text="Segundo Nombre:" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtSecondName" promptText="(Opcional)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                        <Label text="Primer Apellido:" GridPane.rowIndex="2" />
-                        <TextField fx:id="txtFirstSurname" promptText="Ej: Pérez" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                        <Label text="Segundo Apellido:" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtSecondSurname" promptText="Lopez" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                        <Separator prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-
-                        <Label text="Correo:" GridPane.rowIndex="5" />
-                        <TextField fx:id="txtEmail" promptText="usuario@correo.com" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-
-                        <Label text="Usuario:" GridPane.rowIndex="6" />
-                        <TextField fx:id="txtUsername" promptText="juanperez123" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-
-                        <Label text="Contraseña:" GridPane.rowIndex="7" />
-                        <PasswordField fx:id="txtPassword" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-
-                        <Label text="Confirmar Contraseña:" GridPane.rowIndex="8" />
-                        <PasswordField fx:id="txtConfirmPassword" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" text="Registro de Usuario" />
+                        <Label style="-fx-text-fill: #e8f8f5; -fx-font-size: 12px;" text="Crea tu cuenta para acceder al sistema" />
                     </children>
-                </GridPane>
+                </VBox>
 
-                <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#onRegistrar" prefHeight="40.0" prefWidth="220.0" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" text="Crear Cuenta">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Button>
+                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #f4f7f6;" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox spacing="20.0" style="-fx-padding: 30;">
+                            <children>
 
-                <Button fx:id="btnVolver" layoutX="150.0" layoutY="520.0" onAction="#onVolverClick" prefWidth="200.0" text="Volver al Login" style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold;" />
+                                <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                                    <children>
+                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #16a085;" text="Información Personal" />
+                                        <GridPane hgap="15.0" vgap="15.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <children>
+                                                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                    <Label text="Primer Nombre" />
+                                                    <TextField fx:id="txtFirstName" prefHeight="35.0" promptText="Ej: Juan" />
+                                                </VBox>
+                                                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                                    <Label text="Segundo Nombre" />
+                                                    <TextField fx:id="txtSecondName" prefHeight="35.0" promptText="(Opcional)" />
+                                                </VBox>
+                                                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                    <Label text="Primer Apellido" />
+                                                    <TextField fx:id="txtFirstSurname" prefHeight="35.0" promptText="Ej: Pérez" />
+                                                </VBox>
+                                                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                    <Label text="Segundo Apellido" />
+                                                    <TextField fx:id="txtSecondSurname" prefHeight="35.0" promptText="Lopez" />
+                                                </VBox>
+                                            </children>
+                                            <rowConstraints>
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                            </rowConstraints>
+                                        </GridPane>
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                                    <children>
+                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #2980b9;" text="Cuenta y Seguridad" />
+                                        <VBox spacing="10">
+                                            <children>
+                                                <Label text="Correo Electrónico" />
+                                                <TextField fx:id="txtEmail" prefHeight="35.0" promptText="usuario@correo.com" />
+
+                                                <Label text="Nombre de Usuario" />
+                                                <TextField fx:id="txtUsername" prefHeight="35.0" promptText="juanperez123" />
+
+                                                <HBox spacing="15">
+                                                    <children>
+                                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                                            <Label text="Contraseña" />
+                                                            <PasswordField fx:id="txtPassword" prefHeight="35.0" />
+                                                        </VBox>
+                                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                                            <Label text="Confirmar" />
+                                                            <PasswordField fx:id="txtConfirmPassword" prefHeight="35.0" />
+                                                        </VBox>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+
+                                <VBox alignment="CENTER" spacing="15.0">
+                                    <children>
+                                        <Button fx:id="btnRegistrar" maxWidth="Infinity" mnemonicParsing="false" onAction="#onRegistrar" prefHeight="45.0" style="-fx-background-color: #16a085; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8; -fx-cursor: hand;" text="CREAR MI CUENTA" />
+                                        <Button fx:id="btnVolver" onAction="#onVolverClick" style="-fx-background-color: transparent; -fx-text-fill: #7f8c8d; -fx-font-weight: bold; -fx-cursor: hand;" text="← Volver al Login" underline="true" />
+                                    </children>
+                                    <padding>
+                                        <Insets top="10.0" />
+                                    </padding>
+                                </VBox>
+                            </children>
+                        </VBox>
+                    </content>
+                </ScrollPane>
             </children>
-            <padding>
-                <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
-            </padding>
         </VBox>
     </children>
 </AnchorPane>

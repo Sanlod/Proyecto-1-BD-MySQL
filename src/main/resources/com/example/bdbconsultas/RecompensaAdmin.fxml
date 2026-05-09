@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -13,28 +14,26 @@
                     <children>
                         <VBox>
                             <children>
-                                <Label text="Administración de Recompensas" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" />
-                                <Label text="Gestión de bounties activos y transferencias" style="-fx-text-fill: #e8f8f5; -fx-font-size: 12px;" />
+                                <Label style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="Administración de Recompensas" />
+                                <Label style="-fx-text-fill: #e8f8f5; -fx-font-size: 12px;" text="Gestión de pagos y donaciones de bounties" />
                             </children>
                         </VBox>
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btnVolver" onAction="#switchVolver" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="↩ Volver" />
+                        <Button fx:id="btnVolver" onAction="#switchVolver" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" text="↩ Volver" />
                     </children>
                 </HBox>
 
-                <VBox spacing="10.0" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);" VBox.vgrow="ALWAYS">
                     <children>
-                        <Label text="Mascotas perdidas con bounty activo" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-                        <TableView fx:id="tblMascotasPerdidas" style="-fx-selection-bar: #e8f8f5;" VBox.vgrow="ALWAYS">
+                        <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Mascotas con Recompensa Pendiente" />
+                        <TableView fx:id="tblMascotasPerdidas" VBox.vgrow="ALWAYS">
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
                         </TableView>
-                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #f8f9f9; -fx-padding: 10; -fx-background-radius: 5;">
                             <children>
-                                <Label fx:id="lblTotal" text="Total: 0" style="-fx-font-weight: bold; -fx-text-fill: #16a085;" />
-                                <Separator orientation="VERTICAL" prefHeight="20.0" />
-                                <Label fx:id="lblRescatista" text="Rescatista: —" style="-fx-text-fill: #7f8c8d;" />
+                                <Label fx:id="lblTotal" style="-fx-font-weight: bold; -fx-text-fill: #16a085; -fx-font-size: 14px;" text="Monto a liquidar: $0.00" />
                             </children>
                         </HBox>
                     </children>
@@ -42,33 +41,35 @@
 
                 <HBox spacing="15.0">
                     <children>
-                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-border-color: #27ae60; -fx-border-width: 0 0 0 4;" HBox.hgrow="ALWAYS">
+
+                        <VBox spacing="12.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-border-color: #27ae60; -fx-border-width: 0 0 0 4; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
                             <children>
-                                <Label text="Pago Directo" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-                                <Text text="Liquidar la recompensa al rescatista que realizó el match exitoso." wrappingWidth="250.0" style="-fx-fill: #7f8c8d; -fx-font-size: 11px;" />
-                                <Button fx:id="btnPagarRescatista" maxWidth="Infinity" onAction="#onPagarRescatista" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;" text="💰 Pagar Bounty al Rescatista" />
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14px;" text="Opción 1: Liquidar a Rescatista" />
+
+                                <VBox spacing="5">
+                                    <Label style="-fx-font-size: 11px; -fx-text-fill: #34495e;" text="Seleccionar Rescatista Beneficiario:" />
+                                    <ComboBox fx:id="cmbRescatistas" maxWidth="Infinity" promptText="Seleccionar rescatista..." />
+                                </VBox>
+
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Button fx:id="btnPagarRescatista" maxWidth="Infinity" onAction="#onPagarRescatista" prefHeight="40.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="💰 Pagar Recompensa" />
                             </children>
                         </VBox>
 
-                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-border-color: #2980b9; -fx-border-width: 0 0 0 4;" HBox.hgrow="ALWAYS">
+                        <VBox spacing="12.0" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-border-color: #2980b9; -fx-border-width: 0 0 0 4; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);" HBox.hgrow="ALWAYS">
                             <children>
-                                <Label text="Donar a Asociación" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-                                <GridPane hgap="10.0" vgap="10.0">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" />
-                                        <ColumnConstraints hgrow="ALWAYS" />
-                                    </columnConstraints>
-                                    <children>
-                                        <Label text="Asociación:" />
-                                        <ComboBox fx:id="cmbAsociacion" maxWidth="Infinity" GridPane.columnIndex="1" promptText="Seleccionar asociación..." />
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-font-size: 14px;" text="Opción 2: Donación a Asociación" />
 
-                                        <Label text="Rescatista:" GridPane.rowIndex="1" />
-                                        <ComboBox fx:id="cmbRescatistas" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="Seleccionar rescatista..." />
-                                    </children>
-                                </GridPane>
-                                <Button fx:id="btnDonarAsociacion" maxWidth="Infinity" onAction="#onDonarAsociacion" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold;" text="🤝 Donar Bounty a Asociación" />
+                                <VBox spacing="5">
+                                    <Label style="-fx-font-size: 11px; -fx-text-fill: #34495e;" text="Seleccionar Asociación Destino:" />
+                                    <ComboBox fx:id="cmbAsociacion" maxWidth="Infinity" promptText="Seleccionar asociación..." />
+                                </VBox>
+
+                                <Region VBox.vgrow="ALWAYS" />
+                                <Button fx:id="btnDonarAsociacion" maxWidth="Infinity" onAction="#onDonarAsociacion" prefHeight="40.0" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🤝 Donar a Asociación" />
                             </children>
                         </VBox>
+
                     </children>
                 </HBox>
 

@@ -1,26 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.AdminController">
+<AnchorPane prefHeight="550.0" prefWidth="850.0" style="-fx-background-color: #f4f7f6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.AdminController">
     <children>
-        <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Panel de Administración" />
+        <VBox spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <children>
 
-        <Button layoutX="50.0" layoutY="80.0" mnemonicParsing="false" onAction="#switchRegistrarMascota" text="Registrar mascota" />
-        <Button layoutX="200.0" layoutY="80.0" mnemonicParsing="false" onAction="#switchAdopciones" text="Adopciones" />
-        <Button layoutX="350.0" layoutY="80.0" mnemonicParsing="false" onAction="#switchDonaciones" text="Donaciones" />
+                <HBox alignment="CENTER_LEFT" prefHeight="70.0" style="-fx-background-color: linear-gradient(to right, #2c3e50, #34495e); -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 4);">
+                    <children>
+                        <VBox>
+                            <children>
+                                <Label style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;" text="Panel de Administración" />
+                                <Label style="-fx-text-fill: #bdc3c7; -fx-font-size: 12px;" text="Gestión central del sistema" />
+                            </children>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button onAction="#switchVolver" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" text="🚪 Cerrar sesión" />
+                    </children>
+                </HBox>
 
-        <Button layoutX="50.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchMatches" text="Matches" />
-        <Button layoutX="150.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchPersonas" text="Personas" />
-        <Button layoutX="250.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchBitacora" text="Bitácoras" />
-        <Button layoutX="350.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchCatalogos" text="Catálogos" />
-        <Button layoutX="350.0" layoutY="150.0" mnemonicParsing="false" onAction="#Recompensas" text="Recompensas" />
+                <GridPane hgap="20.0" vgap="20.0" VBox.vgrow="ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                    </rowConstraints>
+                    <children>
 
-        <Button layoutX="480.0" layoutY="10.0" mnemonicParsing="false" onAction="#switchVolver" text="Cerrar sesión" />
-        <Button layoutX="55.0" layoutY="210.0" mnemonicParsing="false" onAction="#switchCatalogos" text="Catálogos" />
-        <Button layoutX="180.0" layoutY="210.0" mnemonicParsing="false" onAction="#switchRegistrarCasaCuna" text="Registrar Casa Cuna" />
+                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4);">
+                            <children>
+                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #16a085;" text="🐾 Gestión de Mascotas" />
+                                <Separator prefWidth="200.0" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#switchRegistrarMascota" prefHeight="45.0" style="-fx-background-color: #f8f9f9; -fx-border-color: #dcdde1; -fx-border-radius: 5; -fx-cursor: hand;" text="Registrar Mascota" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#switchAdopciones" prefHeight="45.0" style="-fx-background-color: #f8f9f9; -fx-border-color: #dcdde1; -fx-border-radius: 5; -fx-cursor: hand;" text="Control de Adopciones" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#switchMatches" prefHeight="45.0" style="-fx-background-color: #f8f9f9; -fx-border-color: #dcdde1; -fx-border-radius: 5; -fx-cursor: hand;" text="Algoritmo de Matches" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4);" GridPane.columnIndex="1">
+                            <children>
+                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2980b9;" text="💰 Finanzas y Apoyo" />
+                                <Separator prefWidth="200.0" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#switchDonaciones" prefHeight="45.0" style="-fx-background-color: #f8f9f9; -fx-border-color: #dcdde1; -fx-border-radius: 5; -fx-cursor: hand;" text="Donaciones" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#Recompensas" prefHeight="45.0" style="-fx-background-color: #f8f9f9; -fx-border-color: #dcdde1; -fx-border-radius: 5; -fx-cursor: hand;" text="Recompensas" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#switchRegistrarCasaCuna" prefHeight="45.0" style="-fx-background-color: #f8f9f9; -fx-border-color: #dcdde1; -fx-border-radius: 5; -fx-cursor: hand;" text="Casas Cuna" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4);" GridPane.rowIndex="1">
+                            <children>
+                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #8e44ad;" text="👥 Personas y Logs" />
+                                <Separator prefWidth="200.0" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#switchPersonas" prefHeight="45.0" style="-fx-background-color: #f8f9f9; -fx-border-color: #dcdde1; -fx-border-radius: 5; -fx-cursor: hand;" text="Personas" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#switchBitacora" prefHeight="45.0" style="-fx-background-color: #f8f9f9; -fx-border-color: #dcdde1; -fx-border-radius: 5; -fx-cursor: hand;" text="Bitácoras de Sistema" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4);" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <children>
+                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #d35400;" text="⚙ Parámetros" />
+                                <Separator prefWidth="200.0" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#switchCatalogos" prefHeight="45.0" style="-fx-background-color: #f8f9f9; -fx-border-color: #dcdde1; -fx-border-radius: 5; -fx-cursor: hand;" text="Catálogos Generales" />
+                            </children>
+                        </VBox>
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
         <Button layoutX="350.0" layoutY="210.0" mnemonicParsing="false" onAction="#switchAsignarCasaCuna" text="Asignar Mascota" />
     </children>
 </AnchorPane>
