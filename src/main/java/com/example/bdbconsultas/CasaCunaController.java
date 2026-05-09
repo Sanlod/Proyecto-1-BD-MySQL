@@ -1,8 +1,10 @@
 package com.example.bdbconsultas;
 
 import com.example.bdbconsultas.DAOs.CasaCunaDAO;
+import com.example.bdbconsultas.DAOs.PersonaDAO;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,6 +27,9 @@ import java.util.stream.Collectors;
 
 public class CasaCunaController implements Initializable {
 
+    @FXML private TableView<ObservableList<String>> tblDatos;
+    @FXML private TableColumn<ObservableList<String>, String> colId;
+    @FXML private TableColumn<ObservableList<String>, String> colNombreCompleto;
     @FXML private TextField txtIdPerson;
     @FXML private CheckBox checkRequiresFood;
     @FXML private ListView<String> listPetTypes;
@@ -47,6 +52,14 @@ public class CasaCunaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         configurarListViews();
         cargarDatos();
+        configurarTabla();
+    }
+
+    private void configurarTabla() {
+        colId.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().get(0)));
+        colNombreCompleto.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().get(1)));
     }
 
     private void configurarListViews() {
@@ -64,6 +77,9 @@ public class CasaCunaController implements Initializable {
     private void cargarDatos() {
         try {
             // Cargar datos desde el DAO
+            ObservableList<ObservableList<String>> datos = PersonaDAO.getPersonasCRUD();
+            tblDatos.setItems(datos);
+
             datosTipos = casaCunaDAO.getTiposMascotas();
             listPetTypes.setItems(datosTipos.stream().map(row -> row.get(1))
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
@@ -91,32 +107,54 @@ public class CasaCunaController implements Initializable {
 
             int idPersona = Integer.parseInt(txtIdPerson.getText());
             int requiereComida = checkRequiresFood.isSelected() ? 1 : 0;
-
-            String idDistritoStr = obtenerIdSeleccionado(comboDistrict, datosDistritos);
-            int idDistrito = Integer.parseInt(idDistritoStr);
-
-            // Obtener strings separados por coma de los mapas de selección
-            String tipos = obtenerSeleccionados(seleccionTipos);
+            int idDistrito = Integer.parseInt(obtenerIdSeleccionado(comboDistrict, datosDistritos));
             String tamanios = obtenerSeleccionados(seleccionTamanos);
-            String nivelesEnergia = obtenerSeleccionados(seleccionEnergia);
 
-            // Llamada al DAO
-            int resultadoId = casaCunaDAO.CasaCuna(
-                    idPersona, requiereComida, tipos, tamanios, idDistrito, nivelesEnergia
+            int idCasaGenerada = casaCunaDAO.registrarCasaCuna(
+                    idPersona, requiereComida, tamanios, idDistrito
             );
 
-            if (resultadoId != -1) {
-                mostrarInfo("Casa Cuna registrada correctamente. ID: " + resultadoId);
-                limpiarFormulario();
-            } else {
-                mostrarError("No se pudo completar el registro en la base de datos.");
+            System.out.println("ID generado: " + idCasaGenerada); // para debug
+
+            if (idCasaGenerada == -1) {
+                mostrarError("El SP retornó -1. Revisa la consola.");
+                return;
             }
 
-        } catch (NumberFormatException e) {
-            mostrarError("El ID de la persona debe ser un número válido.");
+            if (idCasaGenerada != -1) {
+                // Aqui se guardan los tipos de mascotas
+                for (Map.Entry<String, BooleanProperty> entry : seleccionTipos.entrySet()) {
+                    if (entry.getValue().get()) { // Si está marcado
+                        int idTipo = buscarIdPorNombre(entry.getKey(), datosTipos);
+                        casaCunaDAO.insertarRelacionPetType(idCasaGenerada, idTipo);
+                    }
+                }
+
+                // Aqui se guardan los niveles de energia
+                for (Map.Entry<String, BooleanProperty> entry : seleccionEnergia.entrySet()) {
+                    if (entry.getValue().get()) { // Si está marcado
+                        int idNivel = buscarIdPorNombre(entry.getKey(), datosNivelesEnergia);
+                        casaCunaDAO.insertarRelacionEnergy(idCasaGenerada, idNivel);
+                    }
+                }
+
+                mostrarInfo("¡Éxito! Casa Cuna y sus relaciones registradas.");
+                limpiarFormulario();
+            }
+
         } catch (Exception e) {
-            mostrarError("Error al guardar: " + e.getMessage());
+            mostrarError("Error crítico al procesar: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    private int buscarIdPorNombre(String nombre, ObservableList<ObservableList<String>> datos) {
+        for (ObservableList<String> fila : datos) {
+            if (fila.get(1).equals(nombre)) {
+                return Integer.parseInt(fila.get(0));
+            }
+        }
+        return -1; // Si no lo encuentra, devuelve un error
     }
 
     // Filtra el mapa para obtener solo los nombres que tienen el check marcado

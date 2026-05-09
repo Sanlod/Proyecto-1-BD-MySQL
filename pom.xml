@@ -39,6 +39,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>at.gadermaier</groupId>
+            <artifactId>argon2</artifactId>
+            <version>0.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

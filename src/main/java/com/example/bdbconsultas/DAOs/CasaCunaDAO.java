@@ -67,30 +67,51 @@ public class CasaCunaDAO {
         return listadosCatalogo("SP_LISTAR_NIV_ENERGIA");
     }
 
-    public int CasaCuna(int idPersona, int requiereComida, String tipos, String tamanios, int idDistrito, String nivelesEnergia) {
-        String sql = "{ CALL SP_REGISTRAR_CASACUNA(?, ?, ?, ?, ?, ?, ?) }";
-        int idGenerado = -1;
+    public int registrarCasaCuna(int idPersona, int requiereComida, String tamanio, int idDistrito)
+            throws SQLException, ClassNotFoundException {
+        String sql = "{ CALL SP_REGISTRAR_CASACUNA(?, ?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
 
             cs.setInt(1, requiereComida);
-            cs.setString(2, tipos);
-            cs.setString(3, tamanios);
-            cs.setInt(4, idDistrito);
-            cs.setInt(5, idPersona);
-            cs.setString(6, nivelesEnergia);
-
-            cs.registerOutParameter(7, java.sql.Types.NUMERIC);
+            cs.setInt(2, idDistrito);
+            cs.setInt(3, idPersona);
+            cs.setString(4, tamanio);
+            cs.registerOutParameter(5, java.sql.Types.INTEGER);
 
             cs.execute();
-            idGenerado = cs.getInt(7);
+            int idGenerado = cs.getInt(5);
+            System.out.println(">>> ID generado por SP: " + idGenerado);
+            return idGenerado;
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            // Imprime el error COMPLETO de Oracle
+            System.err.println(">>> SQL Error Code: " + e.getErrorCode());
+            System.err.println(">>> SQL State: " + e.getSQLState());
+            System.err.println(">>> Mensaje: " + e.getMessage());
             e.printStackTrace();
+            return -1;
         }
+    }
+    public void insertarRelacionPetType(int idCasa, int idPetType) throws SQLException, ClassNotFoundException {
+        String sql = "{ CALL SP_Insertar_Tipos_Crib(?, ?) }";
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(sql)) {
+            cs.setInt(1, idCasa);
+            cs.setInt(2, idPetType);
+            cs.execute();
+        }
+    }
 
-        return idGenerado;
+    public void insertarRelacionEnergy(int idCasa, int idEnergyLevel) throws SQLException, ClassNotFoundException {
+        String sql = "{ CALL SP_Insertar_Niveles_Crib(?, ?) }";
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(sql)) {
+            cs.setInt(1, idCasa);
+            cs.setInt(2, idEnergyLevel);
+            cs.execute();
+        }
     }
 
     public static ResultadoCribHouse listarCribHouses() throws SQLException, ClassNotFoundException {

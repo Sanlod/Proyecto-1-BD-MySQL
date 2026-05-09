@@ -1,8 +1,12 @@
 package com.example.bdbconsultas.DAOs;
 
+import at.gadermaier.argon2.Argon2Factory;
 import com.example.bdbconsultas.DBConnection;
+
+import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class SeguridadDAO {
 
@@ -40,41 +44,39 @@ public class SeguridadDAO {
 
     // Registrar Usuario - Persona
     public int registrarUsuario(String firstName, String secondName, String firstSurname, String secondSurname, String username, String email, String password) throws SQLException, ClassNotFoundException {
+        String passwordHashed = hashPassword(password);
+
         try (Connection conn = DBConnection.getConnection()) {
-            // Se corrigió el paréntesis faltante aquí abajo:
             try (CallableStatement cs = conn.prepareCall("{ CALL SP_REGISTRAR_USUARIO_COMPLETO(?,?,?,?,?,?,?,?,?) }")) {
 
-                // Entradas Persona
                 cs.setString(1, firstName);
                 cs.setString(2, secondName);
                 cs.setString(3, firstSurname);
                 cs.setString(4, secondSurname);
-
-                // Entradas Usuario
                 cs.setString(5, username);
                 cs.setString(6, email);
-                cs.setString(7, password);
-
-                // CreatedBy: Usamos el username del nuevo registro
+                cs.setString(7, passwordHashed);
                 cs.setString(8, username);
-
-                // Salida: p_result (0=OK, 1=Error, 2=Duplicado)
                 cs.registerOutParameter(9, Types.NUMERIC);
 
                 cs.execute();
-
                 return cs.getInt(9);
             }
         }
     }
 
     private String hashPassword(String password) {
-        try {
-            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes(java.nio.charset.StandardCharsets.UTF_8));
-            return java.util.Base64.getEncoder().encodeToString(hash);
-        } catch (java.security.NoSuchAlgorithmException e) {
-            return null;
-        }
+        String salt = generateRandomSalt(); // Crea un String de salt
+        return Argon2Factory.create()
+                .setIterations(3) //Cantidad de veces que se ejecuta
+                .setMemory(16) //Uso de memoria en RAM 16 = 65MB aprox
+                .setParallelism(2)  //Cantidad de hilos que usa simultaneamente
+                .hash(password.toCharArray(), salt);
+    }
+
+    private String generateRandomSalt() {
+        byte[] saltBytes = new byte[16];          // Crea un arreglo de 16 bytes vacío
+        new SecureRandom().nextBytes(saltBytes);  // Lo llena con bytes aleatorios criptográficamente seguros
+        return Base64.getEncoder().encodeToString(saltBytes); // Lo convierte a texto legible
     }
 }

@@ -11,23 +11,31 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Hyperlink;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 import java.io.IOException;
 
 public class RegistrarController {
-    @FXML private TextField txtFirstName;
-    @FXML private TextField txtSecondName;
-    @FXML private TextField txtFirstSurname;
-    @FXML private TextField txtSecondSurname;
-    @FXML private TextField txtEmail;
-    @FXML private TextField txtUsername;
-    @FXML private PasswordField txtPassword;
-    @FXML private PasswordField txtConfirmPassword;
-    @FXML private Button btnRegistrar;
-    @FXML private Button btnVolver;
+    @FXML
+    private TextField txtFirstName;
+    @FXML
+    private TextField txtSecondName;
+    @FXML
+    private TextField txtFirstSurname;
+    @FXML
+    private TextField txtSecondSurname;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private TextField txtUsername;
+    @FXML
+    private PasswordField txtPassword;
+    @FXML
+    private PasswordField txtConfirmPassword;
+    @FXML
+    private Button btnRegistrar;
+    @FXML
+    private Button btnVolver;
 
     private final SeguridadDAO seguridadDAO = new SeguridadDAO();
 
@@ -43,7 +51,6 @@ public class RegistrarController {
         String username = txtUsername.getText();
         String password = txtPassword.getText();
         String confirmPassword = txtConfirmPassword.getText();
-        String passwordHasheada = hashPassword(password);
 
         //Verificar campos no vacios
         if (nombre.isEmpty() || apellido.isEmpty() || segundoApellido.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
@@ -93,7 +100,7 @@ public class RegistrarController {
 
         //Conectar al DAO
         try {
-            int resultado = seguridadDAO.registrarUsuario(nombre, segundoNombre, apellido, segundoApellido, username, email, passwordHasheada);
+            int resultado = seguridadDAO.registrarUsuario(nombre, segundoNombre, apellido, segundoApellido, username, email, password);
 
             switch (resultado) {
                 //Casos segun p_result
@@ -152,17 +159,5 @@ public class RegistrarController {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
-    }
-
-    //Metodo para hash
-    private String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes());
-            // Convertimos los bytes a una cadena legible (Base64)
-            return Base64.getEncoder().encodeToString(hash);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error al hashear la contraseña", e);
-        }
     }
 }

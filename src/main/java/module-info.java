@@ -4,6 +4,7 @@ module com.example.bdbconsultas {
     requires java.sql;
     requires javafx.graphics;
     requires javafx.base;
+    requires argon2;
 
 
     opens com.example.bdbconsultas to javafx.fxml;

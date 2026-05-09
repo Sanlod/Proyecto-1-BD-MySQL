@@ -48,4 +48,8 @@ public class AdminController {
     public void switchRegistrarCasaCuna(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/RegistrarCasaCuna.fxml", event);
     }
+
+    public void switchAsignarCasaCuna(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/Asignacion.fxml", event);
+    }
 }
