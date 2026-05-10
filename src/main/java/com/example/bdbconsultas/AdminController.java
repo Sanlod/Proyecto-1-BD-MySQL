@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class AdminController {
     //Navegación entre ventanas de admin
@@ -48,7 +49,9 @@ public class AdminController {
     public void switchRegistrarCasaCuna(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/RegistrarCasaCuna.fxml", event);
     }
-
+    public void switchUsuario(ActionEvent event) throws IOException {
+        cambiarEscena("/com/example/bdbconsultas/Usuario.fxml", event);
+    }
     public void switchAsignarCasaCuna(ActionEvent event) throws IOException {
         cambiarEscena("/com/example/bdbconsultas/Asignacion.fxml", event);
     }

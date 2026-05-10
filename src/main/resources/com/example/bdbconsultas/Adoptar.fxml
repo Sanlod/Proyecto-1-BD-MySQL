@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.AdoptarController">
+<AnchorPane prefHeight="700.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bdbconsultas.AdoptarController">
    <stylesheets>
       <URL value="@style.css" />
    </stylesheets>
@@ -17,20 +24,19 @@
                <children>
                   <VBox>
                      <children>
-                        <Label text="Nueva Solicitud de Adopción" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" />
+                        <Label style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" text="Nueva Solicitud de Adopción" />
                      </children>
                   </VBox>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#switchVolver" styleClass="button-secondary"
-                          style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white;" text="↩ Volver" />
+                  <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#switchVolver" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white;" styleClass="button-secondary" text="↩ Volver" />
                </children>
             </HBox>
 
             <HBox spacing="15.0" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox spacing="8.0" HBox.hgrow="ALWAYS" styleClass="card" style="-fx-padding: 10;">
+                  <VBox spacing="8.0" style="-fx-padding: 10;" styleClass="card" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label text="🐾 1. Seleccione Mascota" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                        <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="🐾 1. Seleccione Mascota" />
                         <TableView fx:id="tblMascotas" VBox.vgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="colPetId" prefWidth="60.0" text="ID" />
@@ -43,10 +49,10 @@
                      </children>
                   </VBox>
 
-                  <VBox spacing="8.0" HBox.hgrow="ALWAYS" styleClass="card" style="-fx-padding: 10;">
+                  <VBox spacing="8.0" style="-fx-padding: 10;" styleClass="card" visible="false" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label text="👤 2. Seleccione Adoptante" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-                        <TableView fx:id="tblAdoptantes" VBox.vgrow="ALWAYS">
+                        <Label style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="👤 2. Seleccione Adoptante" />
+                        <TableView fx:id="tblAdoptantes" visible="false" VBox.vgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="colAdopId" prefWidth="60.0" text="ID" />
                               <TableColumn fx:id="colAdopNombre" prefWidth="200.0" text="Nombre Completo" />
@@ -60,11 +66,11 @@
                </children>
             </HBox>
 
-            <VBox spacing="8.0" prefHeight="220.0" styleClass="card" style="-fx-padding: 12; -fx-border-color: #3498db; -fx-border-width: 0 0 0 4;">
+            <VBox prefHeight="220.0" spacing="8.0" style="-fx-padding: 12; -fx-border-color: #3498db; -fx-border-width: 0 0 0 4;" styleClass="card">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="10">
                      <children>
-                        <Label text="📝 Formulario de Evaluación" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #3498db;" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #3498db;" text="📝 Formulario de Evaluación" />
                         <Separator HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
@@ -77,10 +83,8 @@
 
                   <HBox alignment="CENTER_RIGHT" spacing="15.0" style="-fx-padding: 5 0 0 0;">
                      <children>
-                        <Label text="Complete todos los campos" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px; -fx-font-style: italic;" />
-                        <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#onRegistrar"
-                                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 25;"
-                                text="Registrar Solicitud" />
+                        <Label style="-fx-text-fill: #95a5a6; -fx-font-size: 11px; -fx-font-style: italic;" text="Complete todos los campos" />
+                        <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#onRegistrar" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 25;" text="Registrar Solicitud" />
                      </children>
                   </HBox>
                </children>

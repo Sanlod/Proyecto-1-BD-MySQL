@@ -59,8 +59,8 @@ public class RecompensaAdminController implements Initializable {
                     btnDonarAsociacion.setDisable(!haySeleccion);
                     if (haySeleccion) {
                         // Mostrar rescatista asignado a la mascota hallada del match
-                        lblRescatista.setText("Rescatista: " +
-                                (sel.size() > 5 ? sel.get(5) : "Sin rescatista"));
+                    //    lblRescatista.setText("Rescatista: " +
+                      //          (sel.size() > 5 ? sel.get(5) : "Sin rescatista"));
                     }
                 });
     }

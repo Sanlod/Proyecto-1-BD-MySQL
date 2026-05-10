@@ -45,9 +45,6 @@
                   <Button onAction="#onBuscar" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20;" text="🔍 Buscar" />
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER" style="-fx-background-color: #f8f9fa; -fx-padding: 5; -fx-background-radius: 50; -fx-border-color: #27ae60; -fx-border-width: 2;">
-                     <children>
-                        <ImageView fx:id="imgFoto" fitHeight="55.0" fitWidth="55.0" preserveRatio="true" />
-                     </children>
                   </VBox>
                </children>
             </HBox>
@@ -60,9 +57,40 @@
                            <children>
                               <Label text="📜 Historial de Adopciones" style="-fx-font-weight: bold; -fx-font-size: 15px; -fx-text-fill: #2c3e50;" />
                               <Separator HBox.hgrow="ALWAYS" />
+                              <Button onAction="#verFotos" style="-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="Ver Fotos" />
                            </children>
                         </HBox>
-                        <TableView fx:id="tablaAdopciones" VBox.vgrow="ALWAYS" style="-fx-selection-bar: #e8f8f5;" />
+
+                        <HBox spacing="10" VBox.vgrow="ALWAYS">
+                           <children>
+                              <TableView fx:id="tablaAdopciones" HBox.hgrow="ALWAYS" style="-fx-selection-bar: #e8f8f5;" />
+
+                              <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="230" style="-fx-background-color: transparent; -fx-background: #f0f0f0; -fx-border-color: #cccccc; -fx-border-radius: 5;">
+                                 <content>
+                                    <VBox alignment="TOP_CENTER" spacing="10" style="-fx-padding: 10;">
+                                       <children>
+                                          <Label text="FOTO ENTREGA" style="-fx-font-size: 10; -fx-font-weight: bold;" />
+                                          <StackPane prefHeight="130" prefWidth="180" style="-fx-background-color: white; -fx-border-color: #d1d8e0;">
+                                             <children>
+                                                <ImageView fx:id="imgFoto" fitHeight="125.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+                                             </children>
+                                          </StackPane>
+
+                                          <Separator />
+
+                                          <Label text="FOTO NUEVA VIDA" style="-fx-font-size: 10; -fx-font-weight: bold;" />
+                                          <StackPane prefHeight="130" prefWidth="180" style="-fx-background-color: white; -fx-border-color: #d1d8e0;">
+                                             <children>
+                                                <ImageView fx:id="imgNuevaVida" fitHeight="125.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </VBox>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </HBox>
+
                         <HBox alignment="CENTER_RIGHT">
                            <Label fx:id="lblResultados" text="Total: 0 registros encontrados" style="-fx-font-style: italic; -fx-text-fill: #95a5a6;" />
                         </HBox>

@@ -271,6 +271,11 @@ public class RegistrarMascotasController implements Initializable {
             LocalDate foundDate = LocalDate.now();
             LocalDate birthDate = birthDatePicker.getValue();
 
+            if (birthDate.isAfter(LocalDate.now()) || foundDate.isAfter(LocalDate.now()) || lossDate.isAfter(LocalDate.now())) {
+                mostrarError("Por favor elija una fecha válida");
+                return;
+            }
+
             int idMascota = mascotasDAO.registrarMascota(
                     txtIdNombre1.getText(), idRaza, idColor, txtChip1.getText(),
                     idEstado, idSeveridad, idNivelEnergia, idDistrito,

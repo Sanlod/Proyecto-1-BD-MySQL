@@ -144,10 +144,10 @@ public class EstadisticasAdoptionController {
 
             // Llenar tarjetas
             rows.forEach(r -> {
-                if (r.get(0).equals("APROBADA")) {
+                if (r.get(0).equals("Exitosa")) {
                     lblSuccessTotal.setText(r.get(1));
                     lblSuccessPct.setText(r.get(2) + " del total");
-                } else if (r.get(0).equals("PENDIENTE")) {
+                } else if (r.get(0).equals("En espera")) {
                     lblWaitingTotal.setText(r.get(1));
                     lblWaitingPct.setText(r.get(2) + " del total");
                 }

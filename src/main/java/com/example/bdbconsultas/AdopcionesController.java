@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
 
 public class AdopcionesController {
 
-    public ImageView imgNuevaVida;
-    public ImageView imgFoto;
+    @FXML private ImageView imgNuevaVida;
+    @FXML private ImageView imgFoto;
     public StackPane stackPaneSolicitudes;
     @FXML private DatePicker dpDesde;
     @FXML private DatePicker dpHasta;
@@ -332,9 +332,10 @@ public class AdopcionesController {
 
             if(imagental != null && imagental.length > 0) {
                 imgNuevaVida.setImage(new Image(new ByteArrayInputStream(imagental)));
-            }
+            }else{
+                System.out.println("la imagen me llegó nul manin");}
         }catch(Exception e){
-            mostrarAlerta("Error pepe", "WOW", Alert.AlertType.ERROR);
+            mostrarAlerta("Error pepe", "Seleccione una adopción", Alert.AlertType.ERROR);
         }
     }
 

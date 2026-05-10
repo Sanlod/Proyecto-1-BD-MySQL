@@ -161,7 +161,7 @@ public class CatalogosController implements Initializable {
             limpiarCamposEdicion();
             mostrarInfo("Registro eliminado correctamente.");
         } catch (Exception e) {
-            mostrarError("Error al eliminar: " + e.getMessage());
+            mostrarError("No se puede eliminar, hay datos que dependen de este catálogo");
         }
     }
 
