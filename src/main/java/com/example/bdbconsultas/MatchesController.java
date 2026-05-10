@@ -213,7 +213,7 @@ public class MatchesController implements Initializable {
         ObservableList<String> seleccion = tblMatches.getSelectionModel().getSelectedItem();
         if (seleccion == null) return;
 
-        String idMatch = seleccion.get(0); 
+        String idMatch = seleccion.get(0);
         String idLostPet = seleccion.get(1);
         String idFoundPet = seleccion.get(2);
 
@@ -221,7 +221,7 @@ public class MatchesController implements Initializable {
             String idEstadoNuevo = obtenerIdSeleccionado(cmbNuevoEstado, datosEstadosMatch);
             MatchesDAO.cambiarEstadoMatch(idMatch, idEstadoNuevo, LogInController.loggedUser);
 
-            if (cmbNuevoEstado.getValue().equalsIgnoreCase("APROBADO")) {
+            if (cmbNuevoEstado.getValue().equalsIgnoreCase("Confirmado")) {
                 MascotasDAO.marcarHallada(idLostPet, idFoundPet, LogInController.loggedUser);
                 mostrarInfo("Mascotas actualizadas a HALLADA y PROCESADA.");
             }

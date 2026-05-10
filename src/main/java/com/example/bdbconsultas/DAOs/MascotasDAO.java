@@ -781,5 +781,19 @@ public class MascotasDAO {
         }
     }
 
+    public static boolean marcarEnAdopcion(String idPet, String usuario) {
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("{call SP_MARCAR_ENADOP(?, ?)}")) {
+
+            cs.setString(1, idPet);
+            cs.setString(2, usuario);
+
+            cs.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

@@ -2,6 +2,7 @@ package com.example.bdbconsultas;
 
 import com.example.bdbconsultas.DAOs.AdopcionesDAO;
 import com.example.bdbconsultas.DAOs.MascotasDAO;
+import com.example.bdbconsultas.DAOs.MatchesDAO;
 import com.example.bdbconsultas.DAOs.PersonaDAO;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.*;
@@ -56,12 +57,16 @@ public class AdopcionesController {
     byte[] foto;
     byte[] fotoNew;
 
+    @FXML private TableView<ObservableList<String>> tablaHalladas;
+    @FXML private Button btnPasarAAdopcion;
     private ObservableList<ObservableList<String>> datosEstados;
 
 
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException, ClassNotFoundException {
         configurarEventos();
+        configurarTablaHalladas();
+        cargarTablaHalladas();
         dpDesde.setValue(LocalDate.now().withDayOfYear(1));
         dpHasta.setValue(LocalDate.now());
         btnAprobar.setVisible(true);
@@ -73,7 +78,9 @@ public class AdopcionesController {
                 mostrarDetalleSolicitud(newSelection);
             }
         });
-
+        btnPasarAAdopcion.disableProperty().bind(
+                tablaHalladas.getSelectionModel().selectedItemProperty().isNull()
+        );
         tablaSolicitudes.setVisible(true);
         panelDetalleSolicitud.setVisible(false);
     }
@@ -191,11 +198,10 @@ public class AdopcionesController {
                 return;
             }
 
-            // idSolicitud=0, idPet=1 o viene del SP, idPerson=2
-            // La tabla ya muestra estos datos desde SP_CONSULTAR_SOLICITUDES
+
             String idSolicitud = seleccion.get(0);
-            String idPet       = seleccion.get(1); // ajustar índice según SP
-            String idPerson    = seleccion.get(2); // ajustar índice según SP
+            String idPet       = seleccion.get(1);
+            String idPerson    = seleccion.get(2);
 
 
             boolean ok = AdopcionesDAO.actualizarEstadoSolicitud(
@@ -385,7 +391,43 @@ public class AdopcionesController {
         }
         return true;
     }
+    private void configurarTablaHalladas() {
+        tablaHalladas.getColumns().clear();
+        String[] nombresCol = {"ID", "Mascota", "Raza"};
 
+        for (int i = 0; i < nombresCol.length; i++) {
+            final int idx = i;
+            TableColumn<ObservableList<String>, String> col = new TableColumn<>(nombresCol[i]);
+            col.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get(idx)));
+            tablaHalladas.getColumns().add(col);
+        }
+    }
+
+    private void cargarTablaHalladas() throws SQLException, ClassNotFoundException {
+        tablaHalladas.setItems(MatchesDAO.getMascotasHalladas());
+    }
+
+    @FXML
+    private void onPasarAAdopcion() throws SQLException, ClassNotFoundException {
+        ObservableList<String> seleccion = tablaHalladas.getSelectionModel().getSelectedItem();
+
+        if (seleccion == null) {
+            mostrarAlerta("Atención", "Seleccione una mascota hallada.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        String idPet = seleccion.get(0);
+        String nombrePet = seleccion.get(1);
+
+        if (MascotasDAO.marcarEnAdopcion(idPet, LogInController.loggedUser)) {
+            mostrarAlerta("Éxito", nombrePet + " está ahora en Adopción'.", Alert.AlertType.INFORMATION);
+
+            cargarTablaHalladas();
+            cargarCombos();
+        } else {
+            mostrarAlerta("Error", "No se pudo actualizar el estado de la mascota.", Alert.AlertType.ERROR);
+        }
+    }
 
 
 }
