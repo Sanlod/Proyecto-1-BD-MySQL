@@ -163,11 +163,13 @@ public class BuscarMascotasController implements Initializable {
 
     private void cargarCombos() {
         try {
-            datosEstadosActuales = MascotasDAO.getEstados();
             cmbEstado.setItems(datosEstadosActuales.stream()
+                    .filter(row -> {
+                        String nombreEstado = row.get(1); 
+                        return !nombreEstado.equalsIgnoreCase("PROCESADA");
+                    })
                     .map(row -> row.get(1))
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-
             datosColoresActuales = MascotasDAO.getColores();
             cmbColor.setItems(datosColoresActuales.stream()
                     .map(row -> row.get(1))
