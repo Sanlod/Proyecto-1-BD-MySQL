@@ -192,15 +192,9 @@ public class MatchesController implements Initializable {
     }
 
     private void configurarColumnasDinamicas(java.util.List<String> columnas) {
-
-        if (columnas == null || columnas.isEmpty()) {
-            tblMatches.getColumns().clear();
-            return;
-        }
-
         tblMatches.getColumns().clear();
 
-        for (int i = 0; i < columnas.size(); i++) {
+        for (int i = 3; i < columnas.size(); i++) {
             final int idx = i;
             TableColumn<ObservableList<String>, String> col = new TableColumn<>(columnas.get(i));
             col.setCellValueFactory(data -> {
@@ -217,38 +211,25 @@ public class MatchesController implements Initializable {
     @FXML
     private void onCambiarEstado() {
         ObservableList<String> seleccion = tblMatches.getSelectionModel().getSelectedItem();
-        if (seleccion == null) { mostrarError("Seleccione un match."); return; }
-        if (cmbNuevoEstado.getValue() == null) { mostrarError("Seleccione un estado."); return; }
+        if (seleccion == null) return;
 
-        String idEstado = obtenerIdSeleccionado(cmbNuevoEstado, datosEstadosMatch);
-        String idMatch = seleccion.get(0);
+        String idMatch = seleccion.get(0); 
         String idLostPet = seleccion.get(1);
         String idFoundPet = seleccion.get(2);
 
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "¿Confirmar match?");
-        confirm.showAndWait().filter(r -> r == ButtonType.OK).ifPresent(r -> {
-            try {
-                MatchesDAO.cambiarEstadoMatch(idMatch, idEstado, LogInController.loggedUser);
+        try {
+            String idEstadoNuevo = obtenerIdSeleccionado(cmbNuevoEstado, datosEstadosMatch);
+            MatchesDAO.cambiarEstadoMatch(idMatch, idEstadoNuevo, LogInController.loggedUser);
 
-                String nombreEstado = cmbNuevoEstado.getValue();
-                if (nombreEstado.equalsIgnoreCase("APROBADO")) {
-                    int resultado = MascotasDAO.marcarHallada(idLostPet, idFoundPet, LogInController.loggedUser);
-                    if (resultado > 0) {
-                        mostrarInfo("Match aprobado y mascota marcada como hallada.");
-                    } else {
-                        mostrarError("Match aprobado pero no se encontró la mascota.");
-                    }
-                } else {
-                    mostrarInfo("Estado actualizado.");
-                }
-
-                onBuscar();
-            } catch (Exception e) {
-                mostrarError("Error: " + e.getMessage());
+            if (cmbNuevoEstado.getValue().equalsIgnoreCase("APROBADO")) {
+                MascotasDAO.marcarHallada(idLostPet, idFoundPet, LogInController.loggedUser);
+                mostrarInfo("Mascotas actualizadas a HALLADA y PROCESADA.");
             }
-        });
+            onBuscar();
+        } catch (Exception e) {
+            mostrarError("Error: " + e.getMessage());
+        }
     }
-
     @FXML
     private void onLimpiar() {
         cmbTipo.setValue(null);
