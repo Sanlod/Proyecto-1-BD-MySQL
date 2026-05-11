@@ -77,7 +77,7 @@ public class RecompensaAdminController implements Initializable {
 
     private void cargarMascotasPerdidas() {
         try {
-            ObservableList<ObservableList<String>> datos = MascotasDAO.getMascotasPerdidas();
+            ObservableList<ObservableList<String>> datos = MascotasDAO.getMascotasConBounty();
             tblMascotasPerdidas.setItems(datos);
             lblTotal.setText("Total: " + datos.size());
         } catch (Exception e) {
