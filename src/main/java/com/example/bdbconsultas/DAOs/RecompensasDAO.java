@@ -105,14 +105,16 @@ public class RecompensasDAO {
     public static void donarRecompensa(
             String idRecompensa,
             String idAsociacion,
-            String modifiedBy) throws SQLException, ClassNotFoundException {
+            String modifiedBy,
+            String idRescuer) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_DONAR_RECOMPENSA(?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("{ CALL SP_DONAR_RECOMPENSA(?,?,?,?) }")) {
 
             cs.setString(1, idRecompensa);
             cs.setString(2, idAsociacion);
             cs.setString(3, modifiedBy);
+            cs.setString(4, idRescuer);
 
             cs.execute();
         }
@@ -135,7 +137,7 @@ public class RecompensasDAO {
     public static boolean marcarHallada(String idPet, String modifiedBy)
             throws SQLException, ClassNotFoundException {
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_MARCAR_HALLADA(?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("{ CALL SP_MARCAR_HALLADA2(?,?,?) }")) {
             cs.setString(1, idPet);
             cs.setString(2, modifiedBy);
             cs.registerOutParameter(3, Types.NUMERIC);

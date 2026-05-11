@@ -17,7 +17,6 @@ public class SeguridadDAO {
 
         // Primero obtener el hash guardado en la BD
         String hashGuardado = obtenerHashPorUsername(username);
-        System.out.println("Hash guardado: " + hashGuardado);
 
         if (hashGuardado == null) {
             return new IntPair(-1, 0); // Usuario no existe
@@ -39,9 +38,6 @@ public class SeguridadDAO {
             return new IntPair(-1, 0); // Contraseña incorrecta
         }
 
-        System.out.println("Hash nuevo:    " + hashNuevo);
-        System.out.println("Hash original: " + hashOriginal);
-        System.out.println("Coincide: " + coincide);
         // Si coincide, llamar al SP solo para obtener el tipo de usuario e id
         try (Connection conn = DBConnection.getConnection()) {
             try (CallableStatement cs = conn.prepareCall("{ CALL SP_AUTENTICAR_USUARIO(?,?,?,?,?) }")) {
@@ -66,7 +62,6 @@ public class SeguridadDAO {
     // Registrar Usuario - Persona
     public int registrarUsuario(String firstName, String secondName, String firstSurname, String secondSurname, String username, String email, String password) throws SQLException, ClassNotFoundException {
         String passwordHashed = hashPassword(password);
-        System.out.println("Hash a guardar: " + passwordHashed);
 
         try (Connection conn = DBConnection.getConnection()) {
             try (CallableStatement cs = conn.prepareCall("{ CALL SP_REGISTRAR_USUARIO_COMPLETO(?,?,?,?,?,?,?,?,?) }")) {

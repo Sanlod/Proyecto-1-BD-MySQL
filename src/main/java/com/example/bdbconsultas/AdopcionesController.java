@@ -347,20 +347,20 @@ public class AdopcionesController {
 
     private void configurarEventos() {
         btnAprobar.setOnAction(e -> {
-            if (validarSolicitudParaGestion()) {
+            if (validarSolicitudParaGestion(true)) {
                 onAprobar();
             }
         });
 
         btnRechazar.setOnAction(e -> {
-            if (validarSolicitudParaGestion()) {
+            if (validarSolicitudParaGestion(false)) {
                 onRechazar();
             }
         });
     }
 
 
-    private boolean validarSolicitudParaGestion() {
+    private boolean validarSolicitudParaGestion(boolean aceptando) {
         ObservableList<String> seleccion = tablaSolicitudes.getSelectionModel().getSelectedItem();
 
         if (seleccion == null) {
@@ -383,17 +383,19 @@ public class AdopcionesController {
                 .anyMatch(fila -> fila.get(1).equals(idPetActual) &&
                         "APROBADA".equalsIgnoreCase(fila.get(6)));
 
-        if (mascotaYaAdoptada) {
-            mostrarAlerta("Mascota no disponible",
-                    "No se puede aprobar: Esta mascota ya fue adoptada mediante otra solicitud.",
-                    Alert.AlertType.ERROR);
-            return false;
+        if(aceptando) {
+            if (mascotaYaAdoptada) {
+                mostrarAlerta("Mascota no disponible",
+                        "No se puede aprobar: Esta mascota ya fue adoptada mediante otra solicitud.",
+                        Alert.AlertType.ERROR);
+                return false;
+            }
         }
         return true;
     }
     private void configurarTablaHalladas() {
         tablaHalladas.getColumns().clear();
-        String[] nombresCol = {"ID", "Mascota", "Raza"};
+        String[] nombresCol = {"ID", "Mascota"};
 
         for (int i = 0; i < nombresCol.length; i++) {
             final int idx = i;
@@ -425,7 +427,7 @@ public class AdopcionesController {
             cargarTablaHalladas();
             cargarCombos();
         } else {
-            mostrarAlerta("Error", "No se pudo actualizar el estado de la mascota.", Alert.AlertType.ERROR);
+            mostrarAlerta("Error", "No se pudo actualizar el estado de la mascota porque ya tiene una adopción asociada.", Alert.AlertType.ERROR);
         }
     }
 

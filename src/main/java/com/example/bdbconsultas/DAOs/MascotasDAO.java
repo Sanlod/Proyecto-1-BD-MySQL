@@ -791,7 +791,6 @@ public class MascotasDAO {
             cs.execute();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }

@@ -212,7 +212,9 @@ public class RegistrarMascotasController implements Initializable {
             boolean esPerdida = "PERDIDA".equalsIgnoreCase(estadoSeleccionado);
             txtMonto1.setDisable(!esPerdida);
             cmbIdMoneda1.setDisable(!esPerdida);
+            dpFechaperdida.setDisable(!esPerdida);
             if (!esPerdida) {
+                dpFechaperdida.setDisable(true);
                 txtMonto1.clear();
                 cmbIdMoneda1.setValue(null);
             }

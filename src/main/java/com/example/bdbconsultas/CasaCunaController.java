@@ -30,7 +30,6 @@ public class CasaCunaController implements Initializable {
     @FXML private TableView<ObservableList<String>> tblDatos;
     @FXML private TableColumn<ObservableList<String>, String> colId;
     @FXML private TableColumn<ObservableList<String>, String> colNombreCompleto;
-    @FXML private TextField txtIdPerson;
     @FXML private CheckBox checkRequiresFood;
     @FXML private ListView<String> listPetTypes;
     @FXML private ListView<String> listPetSizes;
@@ -105,7 +104,7 @@ public class CasaCunaController implements Initializable {
         try {
             if (!validarCampos()) return;
 
-            int idPersona = Integer.parseInt(txtIdPerson.getText());
+            int idPersona = Integer.parseInt( tblDatos.getSelectionModel().getSelectedItem().get(0));
             int requiereComida = checkRequiresFood.isSelected() ? 1 : 0;
             int idDistrito = Integer.parseInt(obtenerIdSeleccionado(comboDistrict, datosDistritos));
             String tamanios = obtenerSeleccionados(seleccionTamanos);
@@ -175,7 +174,7 @@ public class CasaCunaController implements Initializable {
     }
 
     private boolean validarCampos() {
-        if (txtIdPerson.getText().isEmpty()) { mostrarError("ID de persona obligatorio."); return false; }
+        if (tblDatos.getSelectionModel().getSelectedItem() == null) { mostrarError("Por favor seleccione una persona."); return false; }
         if (obtenerSeleccionados(seleccionTipos).isEmpty()) { mostrarError("Seleccione al menos un tipo."); return false; }
         if (obtenerSeleccionados(seleccionTamanos).isEmpty()) { mostrarError("Seleccione al menos un tamaño."); return false; }
         if (comboDistrict.getValue() == null) { mostrarError("Distrito obligatorio."); return false; }
@@ -183,7 +182,6 @@ public class CasaCunaController implements Initializable {
     }
 
     private void limpiarFormulario() {
-        txtIdPerson.clear();
         checkRequiresFood.setSelected(false);
         comboDistrict.setValue(null);
 

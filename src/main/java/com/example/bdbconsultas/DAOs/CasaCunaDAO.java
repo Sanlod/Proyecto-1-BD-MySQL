@@ -82,14 +82,10 @@ public class CasaCunaDAO {
 
             cs.execute();
             int idGenerado = cs.getInt(5);
-            System.out.println(">>> ID generado por SP: " + idGenerado);
             return idGenerado;
 
         } catch (SQLException e) {
             // Imprime el error COMPLETO de Oracle
-            System.err.println(">>> SQL Error Code: " + e.getErrorCode());
-            System.err.println(">>> SQL State: " + e.getSQLState());
-            System.err.println(">>> Mensaje: " + e.getMessage());
             e.printStackTrace();
             return -1;
         }

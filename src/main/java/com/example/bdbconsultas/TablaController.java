@@ -38,7 +38,6 @@ public class TablaController {
 
         ResultSet rs = (ResultSet) cs.getObject(1);
         if (!rs.isBeforeFirst()) {
-            System.out.println("NO HAY DATOS");
         }
 
 

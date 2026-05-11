@@ -139,7 +139,7 @@ public class RecompensaAdminController implements Initializable {
                 mostrarError("No hay bounty activo para esta mascota."); return;
             }
             String idBounty = bounties.filas.get(0).get(0);
-            RecompensasDAO.donarRecompensa(idBounty, idAsociacion, LogInController.loggedUser);
+            RecompensasDAO.donarRecompensa(idBounty, idAsociacion, LogInController.loggedUser, String.valueOf(LogInController.loggedUserId));
             RecompensasDAO.marcarHallada(idPet, LogInController.loggedUser);
             mostrarInfo("Bounty donado y mascota marcada como hallada.");
             cargarMascotasPerdidas();
