@@ -78,13 +78,14 @@ public class RegistrarController {
         //(?=.*[@$!%*?&]) para al menos un símbolo
         //[A-Za-z\d@$!%*?&] Caracteres válidos
         //{8,} mínimo de caracteres y $ fin de cadena
-        String passwordRegex = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";;
 
         if (!password.matches(passwordRegex)) {
             mostrarAlerta("Contraseña no válida",
                     "La contraseña debe tener:\n" +
                             "- Al menos 8 caracteres\n" +
-                            "- Al menos una letra\n" +
+                            "- Al menos una mayúscula\n" +
+                            "- Al menos una minúscula\n" +
                             "- Al menos un número\n" +
                             "- Al menos un símbolo (@$!%*?&)");
             btnRegistrar.setDisable(false);
