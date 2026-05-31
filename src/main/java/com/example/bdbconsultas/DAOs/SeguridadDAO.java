@@ -40,12 +40,12 @@ public class SeguridadDAO {
 
         // Si coincide, llamar al SP solo para obtener el tipo de usuario e id
         try (Connection conn = DBConnection.getConnection()) {
-            try (CallableStatement cs = conn.prepareCall("{ CALL SP_AUTENTICAR_USUARIO(?,?,?,?,?) }")) {
+            try (CallableStatement cs = conn.prepareCall("CALL SP_AUTENTICAR_USUARIO(?,?,?,?,?)")) {
                 cs.setString(1, username);
                 cs.setString(2, hashGuardado); // Mandamos el hash guardado para que el SP lo encuentre
-                cs.registerOutParameter(3, Types.NUMERIC);
-                cs.registerOutParameter(4, Types.NUMERIC);
-                cs.registerOutParameter(5, Types.NUMERIC);
+                cs.registerOutParameter(3, Types.INTEGER);
+                cs.registerOutParameter(4, Types.INTEGER);
+                cs.registerOutParameter(5, Types.INTEGER);
 
                 cs.execute();
 
@@ -64,7 +64,7 @@ public class SeguridadDAO {
         String passwordHashed = hashPassword(password);
 
         try (Connection conn = DBConnection.getConnection()) {
-            try (CallableStatement cs = conn.prepareCall("{ CALL SP_REGISTRAR_USUARIO_COMPLETO(?,?,?,?,?,?,?,?,?) }")) {
+            try (CallableStatement cs = conn.prepareCall("CALL SP_REGISTRAR_USUARIO_COMPLETO(?,?,?,?,?,?,?,?,?)")) {
 
                 cs.setString(1, firstName);
                 cs.setString(2, secondName);
@@ -74,7 +74,7 @@ public class SeguridadDAO {
                 cs.setString(6, email);
                 cs.setString(7, passwordHashed);
                 cs.setString(8, username);
-                cs.registerOutParameter(9, Types.NUMERIC);
+                cs.registerOutParameter(9, Types.INTEGER);
 
                 cs.execute();
                 return cs.getInt(9);
@@ -100,7 +100,7 @@ public class SeguridadDAO {
 
     private String obtenerHashPorUsername(String username) throws SQLException, ClassNotFoundException {
         try (Connection conn = DBConnection.getConnection()) {
-            try (CallableStatement cs = conn.prepareCall("{ CALL SP_Get_Pass_User(?,?) }")) {
+            try (CallableStatement cs = conn.prepareCall("CALL SP_Get_Pass_User(?,?)")) {
                 cs.setString(1, username);
                 cs.registerOutParameter(2, Types.VARCHAR);
                 cs.execute();

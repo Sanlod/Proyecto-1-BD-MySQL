@@ -29,15 +29,13 @@ public class CasaCunaDAO {
         return instance;
     }
 
-    private ObservableList<ObservableList<String>> listadosCatalogo(String nomSP) throws SQLException, ClassNotFoundException {
+    public static ObservableList<ObservableList<String>> listadosCatalogo(String nomSP)
+            throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL " + nomSP + " (?) }")) {
+             CallableStatement cs = conn.prepareCall("{ CALL " + nomSP + "() }")) {
 
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -52,7 +50,7 @@ public class CasaCunaDAO {
         return filas;
     }
 
-    public ObservableList<ObservableList<String>> getTiposMascotas()
+    public static ObservableList<ObservableList<String>> getTiposMascotas()
             throws SQLException, ClassNotFoundException {
         return listadosCatalogo("SP_LISTAR_TIPOS");
     }
@@ -69,7 +67,7 @@ public class CasaCunaDAO {
 
     public int registrarCasaCuna(int idPersona, int requiereComida, String tamanio, int idDistrito)
             throws SQLException, ClassNotFoundException {
-        String sql = "{ CALL SP_REGISTRAR_CASACUNA(?, ?, ?, ?, ?) }";
+        String sql = "CALL SP_REGISTRAR_CASACUNA(?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
@@ -90,8 +88,9 @@ public class CasaCunaDAO {
             return -1;
         }
     }
+
     public void insertarRelacionPetType(int idCasa, int idPetType) throws SQLException, ClassNotFoundException {
-        String sql = "{ CALL SP_Insertar_Tipos_Crib(?, ?) }";
+        String sql = "CALL SP_Insertar_Tipos_Crib(?, ?)";
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
             cs.setInt(1, idCasa);
@@ -101,7 +100,7 @@ public class CasaCunaDAO {
     }
 
     public void insertarRelacionEnergy(int idCasa, int idEnergyLevel) throws SQLException, ClassNotFoundException {
-        String sql = "{ CALL SP_Insertar_Niveles_Crib(?, ?) }";
+        String sql = "CALL SP_Insertar_Niveles_Crib(?, ?)";
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
             cs.setInt(1, idCasa);
@@ -114,14 +113,12 @@ public class CasaCunaDAO {
         List<String> columnas = new ArrayList<>();
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
 
-        String sql = "{ CALL SP_LISTAR_CRIBHOUSE(?) }";
+        String sql = "CALL SP_LISTAR_CRIBHOUSE()";
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
 
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
 

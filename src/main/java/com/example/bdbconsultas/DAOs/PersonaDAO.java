@@ -28,10 +28,9 @@ public class PersonaDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL " + nomSP + " (?) }")) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+             CallableStatement cs = conn.prepareCall("CALL " + nomSP + "()")) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -78,7 +77,7 @@ public class PersonaDAO {
             String createdBy) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_REPORTAR_LISTANEGRA(?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_REPORTAR_LISTANEGRA(?,?)")) {
             cs.setString(1, idPersona);
             cs.setString(2, createdBy);
             cs.execute();
@@ -89,7 +88,7 @@ public class PersonaDAO {
             throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_MAKE_RESCATISTA(?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_MAKE_RESCATISTA(?,?,?)")) {
 
             cs.setString(1, idPersona);
             cs.setString(2, createdBy);
@@ -112,18 +111,15 @@ public class PersonaDAO {
         int total = 0;
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_PERSONAS(?,?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_CONSULTAR_PERSONAS(?,?,?,?,?)")) {
             cs.setString(1, nombre == null || nombre.isEmpty() ? null : nombre);
             cs.setString(2, primerApellido == null || primerApellido.isEmpty() ? null : primerApellido);
             cs.setString(3, segundoApellido == null || segundoApellido.isEmpty() ? null : segundoApellido);
             cs.setString(4, enListaNegra == null || enListaNegra.isEmpty() ? null : enListaNegra);
 
-            cs.registerOutParameter(5, Types.REF_CURSOR);
-            cs.registerOutParameter(6, Types.NUMERIC);
-            cs.execute();
+            cs.registerOutParameter(5, Types.INTEGER);
 
-            total = cs.getInt(6);
-            try (ResultSet rs = (ResultSet) cs.getObject(5)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
                 for (int i = 1; i <= numCols; i++) {
@@ -138,6 +134,7 @@ public class PersonaDAO {
                     filas.add(fila);
                 }
             }
+            total = cs.getInt(5);
         }
         return new PersonaDAO.ResultadoConsulta(columnas, filas, total);
     }
@@ -149,7 +146,7 @@ public class PersonaDAO {
             String modifiedBy) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_REGISTRAR_CALIFICACION(?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_REGISTRAR_CALIFICACION(?,?,?,?)")) {
             cs.setString(1, idPersona);
             cs.setString(2, calificacion);
             cs.setString(3, notas == null || notas.isEmpty() ? null : notas);
@@ -165,7 +162,7 @@ public class PersonaDAO {
             String segundoApellido) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_REGISTRAR_PERSONA(?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_REGISTRAR_PERSONA(?,?,?,?)")) {
             cs.setString(1, primerNombre);
             cs.setString(2, segundoNombre == null || segundoNombre.isEmpty() ? null : segundoNombre);
             cs.setString(3, primerApellido);
@@ -173,7 +170,8 @@ public class PersonaDAO {
             cs.execute();
         }
     }
-/// Cambié el id a Integer para que
+
+    /// Cambié el id a Integer para que
     public static void actualizarPersona(
             Integer id,
             String primerNombre,
@@ -184,10 +182,10 @@ public class PersonaDAO {
             Integer rating,
             String modifiedBy,
             Integer idBlackList
-            ) throws SQLException, ClassNotFoundException {
+    ) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_ACTUALIZAR_PERSONA(?,?,?,?,?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_ACTUALIZAR_PERSONA(?,?,?,?,?,?,?,?,?)")) {
 
             cs.setObject(1, id, Types.INTEGER);
             cs.setObject(2, primerNombre, Types.VARCHAR);
@@ -204,7 +202,7 @@ public class PersonaDAO {
 
     public static void eliminarPersona(int id) throws SQLException, ClassNotFoundException {
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_ELIMINAR_PERSONA(?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_ELIMINAR_PERSONA(?)")) {
             cs.setInt(1, id);
             cs.execute();
         }
@@ -214,13 +212,11 @@ public class PersonaDAO {
             throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_OBTENER_CALIF_PERSONA(?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_OBTENER_CALIF_PERSONA(?)")) {
 
             cs.setInt(1, Integer.parseInt(idPersona));
-            cs.registerOutParameter(2, Types.REF_CURSOR);
-            cs.execute();
 
-            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 if (rs.next()) {
                     int rating = rs.getInt("rating");
                     return rating > 0 ? String.valueOf(rating) : null;
@@ -233,14 +229,12 @@ public class PersonaDAO {
     public static void hacerAdmin(String idPersona) throws SQLException, ClassNotFoundException {
         // LLamar al prcedimiento que convierte en admin
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_MAKE_ADM(?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_MAKE_ADM(?)")) {
 
             cs.setInt(1, Integer.parseInt(idPersona.trim()));
             cs.execute();
-        // Cae a error del sql que ya es admin
         } catch (SQLException e) {
             throw e;
         }
     }
-
 }

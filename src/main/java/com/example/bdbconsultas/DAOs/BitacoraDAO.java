@@ -27,10 +27,9 @@ public class BitacoraDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL " + nomSP + " (?) }")) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+             CallableStatement cs = conn.prepareCall("CALL " + nomSP + "()")) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -44,7 +43,6 @@ public class BitacoraDAO {
         }
         return filas;
     }
-
         public static ObservableList<ObservableList<String>> getUsuarios()
                 throws SQLException, ClassNotFoundException {
             return listadosCatalogo("SP_LISTAR_USUARIOS");
@@ -60,24 +58,20 @@ public class BitacoraDAO {
             int total = 0;
 
             try (Connection conn = DBConnection.getConnection();
-                 CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_BITACORA(?,?,?,?,?) }")) {
+                 CallableStatement cs = conn.prepareCall("CALL SP_CONSULTAR_BITACORA(?,?,?,?)")) {
 
-                cs.setObject(1, usuario, Types.VARCHAR);
-                cs.setObject(2, tabla, Types.VARCHAR);
+                cs.setString(1, (usuario == null || usuario.trim().isEmpty()) ? null : usuario);
+                cs.setString(2, (tabla == null || tabla.trim().isEmpty()) ? null : tabla);
 
                 if (fecha != null)
-                    cs.setTimestamp(3, Timestamp.valueOf(fecha + " 00:00:00"));
+                    cs.setTimestamp(3, Timestamp.valueOf(fecha.atStartOfDay()));
                 else
                     cs.setNull(3, Types.TIMESTAMP);
 
-                cs.registerOutParameter(4, Types.REF_CURSOR);
-                cs.registerOutParameter(5, Types.NUMERIC);
+                cs.registerOutParameter(4, Types.NUMERIC);
 
-                cs.execute();
 
-                total = cs.getInt(5);
-
-                try (ResultSet rs = (ResultSet) cs.getObject(4)) {
+                try (ResultSet rs = cs.executeQuery()) {
                     ResultSetMetaData meta = rs.getMetaData();
                     int numCols = meta.getColumnCount();
                     for (int i = 1; i <= numCols; i++) {
@@ -92,6 +86,7 @@ public class BitacoraDAO {
                         filas.add(fila);
                     }
                 }
+                total = cs.getInt(4);
             }
             return new BitacoraDAO.ResultadoConsulta(columnas, filas, total);
         }

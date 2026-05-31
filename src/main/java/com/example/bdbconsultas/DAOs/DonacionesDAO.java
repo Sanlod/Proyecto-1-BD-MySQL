@@ -40,7 +40,7 @@ public class DonacionesDAO {
 
         try (Connection conn = DBConnection.getConnection()) {
             try (CallableStatement cs = conn.prepareCall(
-                    "{ CALL SP_CONSULTAR_DONACIONES(?,?,?,?,?,?) }")) {
+                    "CALL SP_CONSULTAR_DONACIONES(?,?,?,?,?)")) {
 
                 // Parámetros IN — si viene vacío manda NULL
 
@@ -54,18 +54,14 @@ public class DonacionesDAO {
                 else
                     cs.setNull(2, Types.TIMESTAMP);
 
-                cs.setString(3, idPersona.isEmpty()    ? null : idPersona);
-                cs.setString(4, idAsociacion.isEmpty() ? null : idAsociacion);
-
+                cs.setString(3, (idPersona == null || idPersona.trim().isEmpty()) ? null : idPersona);
+                cs.setString(4, (idAsociacion == null || idAsociacion.trim().isEmpty()) ? null : idAsociacion);
                 // Parámetros OUT
-                cs.registerOutParameter(5, Types.REF_CURSOR);
-                cs.registerOutParameter(6, Types.NUMERIC);
+                cs.registerOutParameter(5, Types.INTEGER);
 
-                cs.execute();
 
-                total = cs.getInt(6);
 
-                try (ResultSet rs = (ResultSet) cs.getObject(5)) {
+                try (ResultSet rs = cs.executeQuery()) {
                     ResultSetMetaData meta = rs.getMetaData();
                     int numCols = meta.getColumnCount();
 
@@ -84,12 +80,14 @@ public class DonacionesDAO {
                         filas.add(fila);
                     }
                 }
+                total = cs.getInt(5);
             }
         }
         return new ResultadoConsulta(columnas, filas, total);
     }
 
-    public void registrarDonacion(int monto, int porcentaje, int idPersona, int idAsociacion, int idCurrency, String nomPersona) throws SQLException, ClassNotFoundException {
+    public void registrarDonacion(int monto, int porcentaje, int idPersona, int idAsociacion, int idCurrency, String nomPersona)
+            throws SQLException, ClassNotFoundException {
         try (Connection con = DBConnection.getConnection();
         CallableStatement cs = con.prepareCall("CALL SP_DONAR(?,?,?,?,?,?) ")){
             cs.setInt(1, monto);
@@ -100,13 +98,6 @@ public class DonacionesDAO {
             cs.setString(6, nomPersona);
             cs.execute();
 
-        }
-        catch (SQLException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error en la base de datos");
-            alert.setContentText(ex.getMessage());
-            alert.showAndWait();
         }
     }
 }

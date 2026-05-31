@@ -28,10 +28,9 @@ public class MatchesDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL " + nomSP + " (?) }")) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+             CallableStatement cs = conn.prepareCall("CALL " + nomSP + "()")) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -64,10 +63,14 @@ public class MatchesDAO {
             String modifiedBy) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_CAMBIAR_ESTADOMATCH(?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_CAMBIAR_ESTADOMATCH(?,?,?)")) {
 
-            cs.setInt(1, Integer.parseInt(idMatch));
-            cs.setInt(2, Integer.parseInt(idEstado));
+            if (idMatch == null || idMatch.isEmpty()) cs.setNull(1, Types.INTEGER);
+            else cs.setInt(1, Integer.parseInt(idMatch));
+
+            if (idEstado == null || idEstado.isEmpty()) cs.setNull(2, Types.INTEGER);
+            else cs.setInt(2, Integer.parseInt(idEstado));
+
             cs.setString(3, modifiedBy);
 
             cs.execute();
@@ -95,7 +98,7 @@ public class MatchesDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_CONSULTAR_MATCHES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }")) {
+                     "CALL SP_CONSULTAR_MATCHES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
 
             cs.setString(1, idMascotaPerdida == null || idMascotaPerdida.isEmpty() ? null : idMascotaPerdida);
             cs.setString(2, idTipo == null || idTipo.isEmpty() ? null : idTipo);
@@ -115,17 +118,9 @@ public class MatchesDAO {
             if (hasta != null) cs.setDate(13, java.sql.Date.valueOf(hasta));
             else cs.setNull(13, Types.DATE);
 
-            cs.registerOutParameter(14, Types.REF_CURSOR);
-            cs.registerOutParameter(15, Types.NUMERIC);
+            cs.registerOutParameter(14, Types.INTEGER);
 
-            cs.execute();
-
-            total = cs.getInt(15);
-
-            try (ResultSet rs = (ResultSet) cs.getObject(14)) {
-                if (rs == null) {
-                    return new ResultadoConsulta(columnas, filas, total);
-                }
+            try (ResultSet rs = cs.executeQuery()) {
 
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
@@ -143,13 +138,14 @@ public class MatchesDAO {
                     filas.add(fila);
                 }
             }
+            total = cs.getInt(14);
         }
         return new ResultadoConsulta(columnas, filas, total);
     }
 
     public static void ejecutarMatch() throws SQLException, ClassNotFoundException {
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_EJECUTAR_MATCH() }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_EJECUTAR_MATCH()")) {
 
             cs.execute();
         }

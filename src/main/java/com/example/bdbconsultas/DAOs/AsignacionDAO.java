@@ -20,11 +20,9 @@ public class AsignacionDAO {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_LISTAR_MASCOTAS_SIN_CASA(?) }")) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
+             CallableStatement cs = conn.prepareCall("CALL SP_LISTAR_MASCOTAS_SIN_CASA()")) {
 
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
                     for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
@@ -44,11 +42,10 @@ public class AsignacionDAO {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_LISTAR_MASCOTAS_CON_CASA(?) }")) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
+             CallableStatement cs = conn.prepareCall("CALL SP_LISTAR_MASCOTAS_CON_CASA()")) {
 
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
                     for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
@@ -67,11 +64,10 @@ public class AsignacionDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_CASAS_COMPATIBLES(?, ?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_CASAS_COMPATIBLES(?)")) {
             cs.setInt(1, idPet);
-            cs.registerOutParameter(2, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
                     for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
@@ -89,7 +85,7 @@ public class AsignacionDAO {
     public void asignarMascotaCasa(int idPet, int idCribHouse)
             throws SQLException, ClassNotFoundException {
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_ASIGNAR_MASCOTA_CASA(?, ?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_ASIGNAR_MASCOTA_CASA(?, ?)")) {
             cs.setInt(1, idPet);
             cs.setInt(2, idCribHouse);
             cs.execute();
@@ -99,7 +95,7 @@ public class AsignacionDAO {
     //Quitar asignación
     public void quitarAsignacion(int idPet) throws SQLException, ClassNotFoundException {
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_NULL_PET_CRIB(?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_NULL_PET_CRIB(?)")) {
             cs.setInt(1, idPet);
             cs.execute();
         }

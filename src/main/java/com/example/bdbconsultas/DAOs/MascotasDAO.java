@@ -41,10 +41,9 @@ public class MascotasDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL " + nomSP + " (?) }")) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+             CallableStatement cs = conn.prepareCall(" CALL " + nomSP + "() ")) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -58,7 +57,6 @@ public class MascotasDAO {
         }
         return filas;
     }
-
 
     public static ObservableList<ObservableList<String>> getTiposMascotas()
             throws SQLException, ClassNotFoundException {
@@ -144,11 +142,9 @@ public class MascotasDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_LISTAR_RAZAS(?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_LISTAR_RAZAS(?)")) {
             cs.setString(1, idTipo == null || idTipo.isEmpty() ? null : idTipo);
-            cs.registerOutParameter(2, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -167,11 +163,10 @@ public class MascotasDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_LISTAR_CANTONES(?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_LISTAR_CANTONES(?)")) {
             cs.setString(1, idProvincia == null || idProvincia.isEmpty() ? null : idProvincia);
-            cs.registerOutParameter(2, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -190,11 +185,9 @@ public class MascotasDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_LISTAR_DISTRITOS_CANTON(?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_LISTAR_DISTRITOS_CANTON(?)")) {
             cs.setString(1, idCanton == null || idCanton.isEmpty() ? null : idCanton);
-            cs.registerOutParameter(2, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -218,14 +211,14 @@ public class MascotasDAO {
             Integer idDisease,
             LocalDate fechaInicio,
             LocalDate fechaFin
-            ) throws SQLException, ClassNotFoundException {
+    ) throws SQLException, ClassNotFoundException {
         List<String> columnas = new ArrayList<>();
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         int total = 0;
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_CONSULTAR_SALUD(?,?,?,?,?,?,?,?,?) }")) {
+                     "CALL SP_CONSULTAR_SALUD(?,?,?,?,?,?,?,?)")) {
 
             cs.setObject(1, nombre, Types.VARCHAR);
             cs.setObject(2, chip, Types.VARCHAR);
@@ -245,14 +238,11 @@ public class MascotasDAO {
                 cs.setDate(7, Date.valueOf(fechaFin));
             }
 
-            cs.registerOutParameter(8, Types.REF_CURSOR);
-            cs.registerOutParameter(9, Types.NUMERIC);
+            cs.registerOutParameter(8, Types.INTEGER);
 
-            cs.execute();
 
-            total = cs.getInt(9);
 
-            try (ResultSet rs = (ResultSet) cs.getObject(8)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
 
@@ -269,6 +259,8 @@ public class MascotasDAO {
                     filas.add(fila);
                 }
             }
+            total = cs.getInt(8);
+
         }
         return new ResultadoConsulta(columnas, filas, total);
     }
@@ -297,7 +289,7 @@ public class MascotasDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_CONSULTAR_MASCOTAS(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }")) {
+                     "CALL SP_CONSULTAR_MASCOTAS(?,?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
 
             cs.setString(1, idTipo == null || idTipo.isEmpty() ? null : idTipo);
             cs.setString(2, idRaza == null || idRaza.isEmpty() ? null : idRaza);
@@ -323,14 +315,11 @@ public class MascotasDAO {
                 cs.setDate(13, Date.valueOf(fechaHasta));
             }
 
-            cs.registerOutParameter(14, Types.REF_CURSOR);
-            cs.registerOutParameter(15, Types.NUMERIC);
+            cs.registerOutParameter(14, Types.INTEGER);
 
-            cs.execute();
 
-            total = cs.getInt(15);
 
-            try (ResultSet rs = (ResultSet) cs.getObject(14)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
 
@@ -347,6 +336,7 @@ public class MascotasDAO {
                     filas.add(fila);
                 }
             }
+            total = cs.getInt(14);
         }
         return new ResultadoConsulta(columnas, filas, total);
     }
@@ -380,7 +370,7 @@ public class MascotasDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRAR_MASCOTA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }")) {
+                     "CALL SP_REGISTRAR_MASCOTA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")) {
 
             cs.setString(1, nombre);
             cs.setString(2, idBreed == null || idBreed.isEmpty() ? null : idBreed);
@@ -432,7 +422,7 @@ public class MascotasDAO {
 
             cs.setDate(25, birthDate == null ? null : Date.valueOf(birthDate));
 
-            cs.registerOutParameter(26, Types.NUMERIC);
+            cs.registerOutParameter(26, Types.INTEGER);
 
             cs.execute();
 
@@ -448,7 +438,7 @@ public class MascotasDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL REGISTRARESTADOMASCOTA(?,?,?,?) }")) {
+                     "CALL REGISTRARESTADOMASCOTA(?,?,?,?)")) {
 
             cs.setString(1, idPet);
             cs.setString(2, idState);
@@ -467,7 +457,7 @@ public class MascotasDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRAR_ENF_MASCOTA(?,?,?,?) }")) {
+                     "CALL SP_REGISTRAR_ENF_MASCOTA(?,?,?,?)")) {
 
             cs.setString(1, idPet);
             cs.setString(2, idDisease);
@@ -486,7 +476,7 @@ public class MascotasDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRAR_TRAT_MASCOTA(?,?,?,?) }")) {
+                     "CALL SP_REGISTRAR_TRAT_MASCOTA(?,?,?,?)")) {
 
             cs.setString(1, idPet);
             cs.setString(2, idTreatment);
@@ -506,7 +496,7 @@ public class MascotasDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRAR_MED_MASCOTA(?,?,?,?,?) }")) {
+                     "CALL SP_REGISTRAR_MED_MASCOTA(?,?,?,?,?)")) {
 
             cs.setString(1, idPet);
             cs.setString(2, idMedication);
@@ -525,12 +515,12 @@ public class MascotasDAO {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, Integer.parseInt(idMascota));
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                Blob blob = rs.getBlob("beforePicture");
-                if (blob != null) {
-                    return blob.getBytes(1, (int) blob.length());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Blob blob = rs.getBlob("beforePicture");
+                    if (blob != null) {
+                        return blob.getBytes(1, (int) blob.length());
+                    }
                 }
             }
         }
@@ -538,20 +528,14 @@ public class MascotasDAO {
     }
 
     public Map<String, Object> obtenerMascotaPorId(String idMascota) throws SQLException, ClassNotFoundException {
-        String sql = "{call SP_GET_DETALLES_PET(?, ?)}";
+        String sql = "CALL SP_GET_DETALLES_PET(?)";
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
 
             cs.setInt(1, Integer.parseInt(idMascota));
-            cs.registerOutParameter(2, Types.REF_CURSOR);
 
-            cs.execute();
-
-
-
-
-            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 if (rs.next()) {
                     Map<String, Object> datos = new HashMap<>();
 
@@ -611,16 +595,11 @@ public class MascotasDAO {
         int total = 0;
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_STATS_SIN_ADOPTAR_EDAD(?,?) }")) {
+                     "CALL SP_STATS_SIN_ADOPTAR_EDAD(?)")) {
 
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.registerOutParameter(2, Types.NUMERIC);
+            cs.registerOutParameter(1, Types.INTEGER);
 
-            cs.execute();
-
-            total = cs.getInt(2);
-
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
 
@@ -632,75 +611,72 @@ public class MascotasDAO {
                     ObservableList<String> fila = FXCollections.observableArrayList();
                     for (int i = 1; i <= numCols; i++) {
                         Object val = rs.getObject(i);
-                        if (val instanceof Blob blob) {
+                        if (val instanceof Blob) {
                             fila.add("Imagen");
-                        }else {
+                        } else {
                             fila.add(val != null ? val.toString() : "");
                         }
                     }
                     filas.add(fila);
                 }
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+            total = cs.getInt(1);
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         return new ResultadoConsulta(columnas, filas, total);
     }
 
     public static ResultadoConsulta buscarMascotasSinAdoptar(
-        Integer meses,
-        Integer idTipo,
-        Integer idRaza,
-        Integer idColor,
-        Integer edad
-        ) throws SQLException, ClassNotFoundException {
+            Integer meses,
+            Integer idTipo,
+            Integer idRaza,
+            Integer idColor,
+            Integer edad
+    ) throws SQLException, ClassNotFoundException {
 
-            List<String> columnas = new ArrayList<>();
-            ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
-            int total = 0;
+        List<String> columnas = new ArrayList<>();
+        ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
+        int total = 0;
 
-            try (Connection conn = DBConnection.getConnection();
-                 CallableStatement cs = conn.prepareCall(
-                         "{ CALL SP_CONSULTAR_SIN_ADOPTAR(?,?,?,?,?,?,?) }")) {
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(
+                     "CALL SP_CONSULTAR_SIN_ADOPTAR(?,?,?,?,?,?)")) {
 
-                cs.setObject(1, meses, Types.INTEGER);
-                cs.setObject(2, idTipo, Types.INTEGER);
-                cs.setObject(3, idRaza, Types.INTEGER);
-                cs.setObject(4, idColor, Types.INTEGER);
+            cs.setObject(1, meses, Types.INTEGER);
+            cs.setObject(2, idTipo, Types.INTEGER);
+            cs.setObject(3, idRaza, Types.INTEGER);
+            cs.setObject(4, idColor, Types.INTEGER);
 
-                cs.registerOutParameter(5, Types.REF_CURSOR);
-                cs.registerOutParameter(6, Types.NUMERIC);
-                cs.setObject(7, edad, Types.INTEGER);
+            cs.registerOutParameter(5, Types.INTEGER);
+            cs.setObject(6, edad, Types.INTEGER);
 
-                cs.execute();
 
-                total = cs.getInt(6);
 
-                try (ResultSet rs = (ResultSet) cs.getObject(5)) {
-                    ResultSetMetaData meta = rs.getMetaData();
-                    int numCols = meta.getColumnCount();
+            try (ResultSet rs = cs.executeQuery()) {
+                ResultSetMetaData meta = rs.getMetaData();
+                int numCols = meta.getColumnCount();
 
+                for (int i = 1; i <= numCols; i++) {
+                    columnas.add(meta.getColumnLabel(i));
+                }
+
+                while (rs.next()) {
+                    ObservableList<String> fila = FXCollections.observableArrayList();
                     for (int i = 1; i <= numCols; i++) {
-                        columnas.add(meta.getColumnLabel(i));
-                    }
-
-                    while (rs.next()) {
-                        ObservableList<String> fila = FXCollections.observableArrayList();
-                        for (int i = 1; i <= numCols; i++) {
-                            Object val = rs.getObject(i);
-                            if (val instanceof Blob blob) {
-                                fila.add("Imagen");
-                            }else {
-                                fila.add(val != null ? val.toString() : "");
-                            }
+                        Object val = rs.getObject(i);
+                        if (val instanceof Blob) {
+                            fila.add("Imagen");
+                        } else {
+                            fila.add(val != null ? val.toString() : "");
                         }
-                        filas.add(fila);
                     }
+                    filas.add(fila);
                 }
             }
-            return new ResultadoConsulta(columnas, filas, total);
+            total = cs.getInt(5);
+        }
+        return new ResultadoConsulta(columnas, filas, total);
     }
 
 
@@ -726,7 +702,7 @@ public class MascotasDAO {
             throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_MARCAR_HALLADA(?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_MARCAR_HALLADA(?,?,?,?)")) {
 
             cs.setString(1, idPet);
             cs.setString(2, idFoundPet);
@@ -743,7 +719,7 @@ public class MascotasDAO {
             Integer idMascota,
             Integer idEnfermedad) throws SQLException, ClassNotFoundException {
         try (Connection conn = DBConnection.getConnection();
-        CallableStatement cs = conn.prepareCall("{ CALL SP_QUITAR_ENFERMEDAD(?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_QUITAR_ENFERMEDAD(?,?)")) {
 
             cs.setObject(1, idMascota, Types.INTEGER);
             cs.setObject(2, idEnfermedad, Types.INTEGER);
@@ -757,7 +733,7 @@ public class MascotasDAO {
             Integer idMascota,
             Integer idEnfermedad) throws SQLException, ClassNotFoundException {
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_QUITAR_TRATAMIENTO(?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_QUITAR_TRATAMIENTO(?,?)")) {
 
             cs.setObject(1, idMascota, Types.INTEGER);
             cs.setObject(2, idEnfermedad, Types.INTEGER);
@@ -771,7 +747,7 @@ public class MascotasDAO {
             Integer idMascota,
             Integer idEnfermedad) throws SQLException, ClassNotFoundException {
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_QUITAR_MEDICINA(?,?)}")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_QUITAR_MEDICINA(?,?)")) {
 
             cs.setObject(1, idMascota, Types.INTEGER);
             cs.setObject(2, idEnfermedad, Types.INTEGER);
@@ -783,7 +759,7 @@ public class MascotasDAO {
 
     public static boolean marcarEnAdopcion(String idPet, String usuario) {
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{call SP_MARCAR_ENADOP(?, ?)}")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_MARCAR_ENADOP(?, ?)")) {
 
             cs.setString(1, idPet);
             cs.setString(2, usuario);
@@ -804,14 +780,10 @@ public class MascotasDAO {
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_CONSULTAR_MASCOTAS_USUARIO(?,?) }")) {
+                     "CALL SP_CONSULTAR_MASCOTAS_USUARIO(?)")) {
 
             cs.setObject(1, idUser, Types.INTEGER);
-            cs.registerOutParameter(2, Types.REF_CURSOR);
-
-            cs.execute();
-
-            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
 
@@ -828,6 +800,7 @@ public class MascotasDAO {
                     filas.add(fila);
                 }
             }
+            total = filas.size();
         }
         return new ResultadoConsulta(columnas, filas, total);
     }
@@ -837,12 +810,9 @@ public class MascotasDAO {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_LISTAR_PETS_BOUNTY (?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_LISTAR_PETS_BOUNTY ()")) {
 
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData metaData = rs.getMetaData();
                 int numCols = metaData.getColumnCount();
 

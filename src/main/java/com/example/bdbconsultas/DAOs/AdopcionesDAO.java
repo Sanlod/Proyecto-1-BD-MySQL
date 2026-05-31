@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class AdopcionesDAO {
 
-
     public ResultadoConsulta consultarSolicitudes(String idM, String idA) {
         return null;
     }
@@ -34,10 +33,9 @@ public class AdopcionesDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL " + nomSP + " (?) }")) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+             CallableStatement cs = conn.prepareCall("CALL " + nomSP + "()")) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -52,15 +50,13 @@ public class AdopcionesDAO {
         return filas;
     }
 
-
     public static ObservableList<ObservableList<String>> getMascotas()
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_LISTAR_MASCOTAS(?) }")) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+             CallableStatement cs = conn.prepareCall("CALL SP_LISTAR_MASCOTAS()")) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -79,10 +75,9 @@ public class AdopcionesDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_LISTAR_ADOPTANTES(?) }")) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+             CallableStatement cs = conn.prepareCall("CALL SP_LISTAR_ADOPTANTES()")) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -106,26 +101,16 @@ public class AdopcionesDAO {
         int total = 0;
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_SOLICITUDES(?,?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_CONSULTAR_SOLICITUDES(?,?,?,?,?)")) {
 
             cs.setObject(1, desde != null ? Date.valueOf(desde) : null);
             cs.setObject(2, hasta != null ? Date.valueOf(hasta) : null);
             cs.setString(3, (idMascota == null || idMascota.equals("0")) ? null : idMascota);
             cs.setString(4, (idAdoptante == null || idAdoptante.equals("0")) ? null : idAdoptante);
 
-            cs.registerOutParameter(5, Types.REF_CURSOR);
-            cs.registerOutParameter(6, Types.NUMERIC);
+            cs.registerOutParameter(5, Types.NUMERIC);
 
-            cs.execute();
-            total = cs.getInt(6);
-
-
-            try (ResultSet rs = (ResultSet) cs.getObject(5)) {
-                if (rs == null) {
-                    System.out.println("ERROR: El cursor es NULL");
-                    return new ResultadoConsulta(columnas, filas, total);
-                }
-
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
 
@@ -142,6 +127,8 @@ public class AdopcionesDAO {
                     filas.add(fila);
                 }
             }
+            // Correctly extracted right after handling the ResultSet streams
+            total = cs.getInt(5);
         }
         return new ResultadoConsulta(columnas, filas, total);
     }
@@ -154,21 +141,18 @@ public class AdopcionesDAO {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         int total = 0;
 
+        // FIXED: Added the 5th missing (?) placeholder string index
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_ADOPS(?,?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_CONSULTAR_ADOPS(?,?,?,?,?)")) {
 
             cs.setObject(1, desde != null ? Date.valueOf(desde) : null);
             cs.setObject(2, hasta != null ? Date.valueOf(hasta) : null);
             cs.setString(3, (idMascota == null || idMascota.equals("0")) ? null : idMascota);
             cs.setString(4, (idAdoptante == null || idAdoptante.equals("0")) ? null : idAdoptante);
 
-            cs.registerOutParameter(5, Types.REF_CURSOR);
-            cs.registerOutParameter(6, Types.NUMERIC);
+            cs.registerOutParameter(5, Types.NUMERIC);
 
-            cs.execute();
-            total = cs.getInt(6);
-
-            try (ResultSet rs = (ResultSet) cs.getObject(5)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
 
@@ -183,10 +167,10 @@ public class AdopcionesDAO {
                     filas.add(fila);
                 }
             }
+            total = cs.getInt(5);
         }
         return new ResultadoConsulta(columnas, filas, total);
     }
-
 
     public static boolean actualizarEstadoSolicitud(
             String idSolicitud, String idPet, String idPerson,
@@ -194,7 +178,7 @@ public class AdopcionesDAO {
             String nuevoEstado, String usuario, byte[] fotoNew) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_GESTIONAR_SOLICITUD(?,?,?,?,?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_GESTIONAR_SOLICITUD(?,?,?,?,?,?,?,?,?)")) {
             cs.setInt(1, Integer.parseInt(idSolicitud));
             cs.setInt(2, Integer.parseInt(idPet));
             cs.setInt(3, Integer.parseInt(idPerson));
@@ -222,8 +206,7 @@ public class AdopcionesDAO {
             throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRAR_REQUEST(?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_REGISTRAR_REQUEST(?,?,?,?,?)")) {
             cs.setString(1, idMascota);
             cs.setString(2, idPerson);
             cs.setString(3, createdBy);
@@ -240,8 +223,7 @@ public class AdopcionesDAO {
             String createdBy) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRAR_ADOPCION(?,?,?,?,?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_REGISTRAR_ADOPCION(?,?,?,?,?,?,?,?)")) {
 
             cs.setString(1, idMascota);
             cs.setString(2, idAdoptante);
@@ -273,8 +255,7 @@ public class AdopcionesDAO {
             throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall(
-                     "{ CALL SP_REGISTRAR_RESPUESTA(?,?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_REGISTRAR_RESPUESTA(?,?,?,?)")) {
             cs.setString(1, idPregunta);
             cs.setString(2, idRequest);
             cs.setString(3, valor);
@@ -296,13 +277,11 @@ public class AdopcionesDAO {
         int total = 0;
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_SEGUIMIENTO_MASCOTA(?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_SEGUIMIENTO_MASCOTA(?)")) {
 
             cs.setString(1, idPet);
-            cs.registerOutParameter(2, Types.REF_CURSOR);
-            cs.execute();
 
-            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
                 for (int i = 1; i <= numCols; i++) columnas.add(meta.getColumnLabel(i));
@@ -325,73 +304,67 @@ public class AdopcionesDAO {
         List<Map<String, String>> preguntasRespuestas = new ArrayList<>();
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_OBTENER_DETALLE_SOLICITUD(?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_OBTENER_DETALLE_SOLICITUD(?)")) {
 
             cs.setInt(1, Integer.parseInt(idSolicitud));
-            cs.registerOutParameter(2, Types.REF_CURSOR);
-            cs.registerOutParameter(3, Types.REF_CURSOR);
-            cs.execute();
+            boolean tieneResultados = cs.execute();
 
-            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
-                if (rs.next()) {
-                    resultado.put("id", rs.getString("id"));
-                    resultado.put("idPet", rs.getString("idPet"));
-                    resultado.put("idPerson", rs.getString("idPerson"));
-                    resultado.put("pet_name", rs.getString("pet_name"));
-                    resultado.put("adoptant_name", rs.getString("adoptant_name"));
-                    resultado.put("status_name", rs.getString("status_name"));
-                    resultado.put("createdAt", rs.getTimestamp("createdAt"));
-                    resultado.put("createdBy", rs.getString("createdBy"));
+            if (tieneResultados) {
+                try (ResultSet rs = cs.getResultSet()) {
+                    if (rs.next()) {
+                        resultado.put("id", rs.getString("id"));
+                        resultado.put("idPet", rs.getString("idPet"));
+                        resultado.put("idPerson", rs.getString("idPerson"));
+                        resultado.put("pet_name", rs.getString("pet_name"));
+                        resultado.put("adoptant_name", rs.getString("adoptant_name"));
+                        resultado.put("status_name", rs.getString("status_name"));
+                        resultado.put("createdAt", rs.getTimestamp("createdAt"));
+                        resultado.put("createdBy", rs.getString("createdBy"));
+                    }
                 }
             }
 
-            try (ResultSet rsPreg = (ResultSet) cs.getObject(3)) {
-                while (rsPreg.next()) {
-                    Map<String, String> pr = new HashMap<>();
-                    pr.put("question_id", rsPreg.getString("question_id"));
-                    pr.put("question_text", rsPreg.getString("question_text"));
-                    pr.put("answer_value", rsPreg.getString("answer_value"));
-                    preguntasRespuestas.add(pr);
+            if (cs.getMoreResults()) {
+                try (ResultSet rsPreg = cs.getResultSet()) {
+                    while (rsPreg.next()) {
+                        Map<String, String> pr = new HashMap<>();
+                        pr.put("question_id", rsPreg.getString("question_id"));
+                        pr.put("question_text", rsPreg.getString("question_text"));
+                        pr.put("answer_value", rsPreg.getString("answer_value"));
+                        preguntasRespuestas.add(pr);
+                    }
                 }
             }
             resultado.put("preguntas", preguntasRespuestas);
+            return resultado;
         }
-        return resultado;
     }
-
 
     public static byte[] obtenerImagenMascota(Integer idAdoption, boolean cual) {
-
         try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall("CALL SP_GET_PHOTOS(?)")) {
 
-             CallableStatement cs = conn.prepareCall("{CALL SP_GET_PHOTOS(?,?)}")){
-                 cs.setInt(1, idAdoption);
-                 cs.registerOutParameter(2, Types.REF_CURSOR);
-                 cs.execute();
+            cs.setInt(1, idAdoption);
 
-                 ResultSet rs = (ResultSet) cs.getObject(2);
-
-                 if(rs.next()) {
-                     if(cual) {
-                         Blob blobPhoto = rs.getBlob("PHOTO");
-                         if (blobPhoto != null) {
-                             return blobPhoto.getBytes(1, (int) blobPhoto.length());
-                         }
-                     }else {
-                         Blob blobPhoto = rs.getBlob("PHOTONEW");
-                         if (blobPhoto != null) {
-                             return blobPhoto.getBytes(1, (int) blobPhoto.length());
-                         }
-                     }
-                 }
-             }
-             catch(Exception e){
-                 System.out.println("Ërro" + e.getMessage());
-                 return null;
-             }
-
+            try (ResultSet rs = cs.executeQuery()) {
+                if (rs.next()) {
+                    if (cual) {
+                        Blob blobPhoto = rs.getBlob("PHOTO");
+                        if (blobPhoto != null) {
+                            return blobPhoto.getBytes(1, (int) blobPhoto.length());
+                        }
+                    } else {
+                        Blob blobPhoto = rs.getBlob("PHOTONEW");
+                        if (blobPhoto != null) {
+                            return blobPhoto.getBytes(1, (int) blobPhoto.length());
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error al obtener imagen: " + e.getMessage());
+            return null;
+        }
         return null;
     }
-
-
 }

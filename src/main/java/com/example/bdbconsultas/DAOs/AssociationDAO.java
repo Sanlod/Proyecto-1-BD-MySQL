@@ -25,10 +25,9 @@ public class AssociationDAO {
             throws SQLException, ClassNotFoundException {
         ObservableList<ObservableList<String>> filas = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL " + nomSP + " (?) }")) {
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+             CallableStatement cs = conn.prepareCall("CALL " + nomSP + "()")) {
+
+            try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
@@ -52,7 +51,7 @@ public class AssociationDAO {
             String nombre) throws SQLException, ClassNotFoundException {
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_REGISTRAR_ASOCIACION(?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_REGISTRAR_ASOCIACION(?)")) {
 
             cs.setString(1, nombre);
 
@@ -69,19 +68,17 @@ public class AssociationDAO {
         int total = 0;
 
         try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall("{ CALL SP_CONSULTAR_ASOCIACIONES(?,?,?) }")) {
+             CallableStatement cs = conn.prepareCall("CALL SP_CONSULTAR_ASOCIACIONES(?,?)")) {
 
             cs.setString(1, nombre.isEmpty()          ? null : nombre);
 
 
-            cs.registerOutParameter(2, Types.REF_CURSOR);
-            cs.registerOutParameter(3, Types.NUMERIC);
+            cs.registerOutParameter(2, Types.NUMERIC);
 
-            cs.execute();
 
-            total = cs.getInt(3);
+            total = cs.getInt(2);
 
-            try (ResultSet rs = (ResultSet) cs.getObject(2)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData meta = rs.getMetaData();
                 int numCols = meta.getColumnCount();
                 for (int i = 1; i <= numCols; i++) {
