@@ -6,8 +6,8 @@ import java.sql.SQLException;
 public class DBConnection {
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
         return DriverManager.getConnection(
-                "jdbc:oracle:thin:@//localhost:1521/BDBIEN",
-                "pr",
-                "pr_pass1");
+                "jdbc:mysql://localhost:3306/Proyecto?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
+                "PR",
+                "Flavio5107");
     }
 }

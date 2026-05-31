@@ -11,17 +11,15 @@ public class EstadisticasZonaDAO {
             String level, int idState) throws SQLException, ClassNotFoundException {
 
         ObservableList<ObservableList<String>> results = FXCollections.observableArrayList();
-        String sql = "{ call SP_STATS_PETS_BY_LOCATION(?, ?, ?) }";
+        String sql = "{ call SP_STATS_PETS_BY_LOCATION(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
 
             cs.setString(1, level);
             cs.setInt(2, idState);
-            cs.registerOutParameter(3, Types.REF_CURSOR);
-            cs.execute();
 
-            try (ResultSet rs = (ResultSet) cs.getObject(3)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 while (rs.next()) {
                     ObservableList<String> row = FXCollections.observableArrayList();
                     row.add(rs.getString("zona"));   // [0]

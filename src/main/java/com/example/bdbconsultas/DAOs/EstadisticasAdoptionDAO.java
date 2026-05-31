@@ -12,7 +12,7 @@ public class EstadisticasAdoptionDAO {
             Integer idPetType, Integer idBreed) throws SQLException {
 
         ObservableList<ObservableList<String>> results = FXCollections.observableArrayList();
-        String sql = "{ call SP_STATS_ADOPTIONS(?, ?, ?, ?, ?) }";
+        String sql = "{ call SP_STATS_ADOPTIONS(?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
@@ -21,10 +21,8 @@ public class EstadisticasAdoptionDAO {
             cs.setDate(2, Date.valueOf(endDate));
             cs.setObject(3, idPetType, Types.INTEGER);
             cs.setObject(4, idBreed, Types.INTEGER);
-            cs.registerOutParameter(5, Types.REF_CURSOR);
-            cs.execute();
 
-            try (ResultSet rs = (ResultSet) cs.getObject(5)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 while (rs.next()) {
                     ObservableList<String> row = FXCollections.observableArrayList();
                     row.add(rs.getString("adoption_status")); // [0]
@@ -49,11 +47,11 @@ public class EstadisticasAdoptionDAO {
 
     // Devuelve [id, name] por fila para poblar el ComboBox
     public ObservableList<ObservableList<String>> getPetTypes() throws SQLException, ClassNotFoundException {
-        return fetchSimpleCursor("{ call SP_GET_PET_TYPES(?) }");
+        return fetchSimpleCursor("{ call SP_GET_PET_TYPES() }");
     }
 
     public ObservableList<ObservableList<String>> getBreeds() throws SQLException, ClassNotFoundException {
-        return fetchSimpleCursor("{ call SP_GET_BREEDS(?) }");
+        return fetchSimpleCursor("{ call SP_GET_BREEDS() }");
     }
 
     private ObservableList<ObservableList<String>> fetchSimpleCursor(String sql) throws SQLException, ClassNotFoundException {
@@ -62,10 +60,7 @@ public class EstadisticasAdoptionDAO {
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
 
-            cs.registerOutParameter(1, Types.REF_CURSOR);
-            cs.execute();
-
-            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 while (rs.next()) {
                     ObservableList<String> row = FXCollections.observableArrayList();
                     row.add(rs.getString("id"));   // [0]

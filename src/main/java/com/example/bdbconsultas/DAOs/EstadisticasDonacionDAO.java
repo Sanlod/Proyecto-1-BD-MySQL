@@ -12,8 +12,8 @@ public class EstadisticasDonacionDAO {
 
         ObservableList<ObservableList<String>> results = FXCollections.observableArrayList();
 
-        results.addAll(fetchCursor("{ call SP_STATS_DONABYASSO(?, ?, ?) }", startDate, endDate));
-        results.addAll(fetchCursor("{ call SP_STATS_BOUNTIES_BY_RESCUER(?, ?, ?) }", startDate, endDate));
+        results.addAll(fetchCursor("{ call SP_STATS_DONABYASSO(?, ?) }", startDate, endDate));
+        results.addAll(fetchCursor("{ call SP_STATS_BOUNTIES_BY_RESCUER(?, ?) }", startDate, endDate));
 
         return results;
     }
@@ -28,10 +28,8 @@ public class EstadisticasDonacionDAO {
 
             cs.setDate(1, Date.valueOf(startDate));
             cs.setDate(2, Date.valueOf(endDate));
-            cs.registerOutParameter(3, Types.REF_CURSOR);
-            cs.execute();
 
-            try (ResultSet rs = (ResultSet) cs.getObject(3)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 while (rs.next()) {
                     ObservableList<String> row = FXCollections.observableArrayList();
                     row.add(rs.getString("entity_name")); // [0]

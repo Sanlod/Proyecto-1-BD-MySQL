@@ -12,17 +12,15 @@ public class EstadisticasDAO {
             LocalDate startDate, LocalDate endDate) throws SQLException {
 
         ObservableList<ObservableList<String>> results = FXCollections.observableArrayList();
-        String sql = "{ call SP_STATS_PETBYTYPESTATE(?, ?, ?) }";
+        String sql = "{ call SP_STATS_PETBYTYPESTATE(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
 
             cs.setDate(1, Date.valueOf(startDate));
             cs.setDate(2, Date.valueOf(endDate));
-            cs.registerOutParameter(3, Types.REF_CURSOR);
-            cs.execute();
 
-            try (ResultSet rs = (ResultSet) cs.getObject(3)) {
+            try (ResultSet rs = cs.executeQuery()) {
                 while (rs.next()) {
                     ObservableList<String> row = FXCollections.observableArrayList();
                     row.add(rs.getString("pet_type_name")); // [0]
