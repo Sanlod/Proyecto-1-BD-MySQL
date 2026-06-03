@@ -28,6 +28,10 @@ public class CatalogosController implements Initializable {
     @FXML private TableView<ObservableList<String>> tblDatos;
     @FXML private TableColumn<ObservableList<String>, String> colC1;
     @FXML private TableColumn<ObservableList<String>, String> colC2;
+    @FXML private TableColumn<ObservableList<String>, String> colC3;
+    @FXML private TableColumn<ObservableList<String>, String> colC4;
+    @FXML private TableColumn<ObservableList<String>, String> colC5;
+    @FXML private TableColumn<ObservableList<String>, String> colC6;
     @FXML private Spinner<Integer> spnIdEditar;
     @FXML private TextField txtNuevoValor;
     @FXML private TextField txtValorAgregar;
@@ -71,13 +75,13 @@ public class CatalogosController implements Initializable {
     private void configurarTabla() {
         colC1.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().get(0)));
         colC2.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().get(1)));
+        colC3.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().get(2)));
+        colC4.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().get(3)));
+        colC5.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().get(4)));
+        colC6.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().get(5)));
         tblDatos.getSelectionModel().selectedItemProperty().addListener((obs, old, sel) -> {
-            if (sel != null) {
-                spnIdEditar.getValueFactory().setValue(
-                        Integer.parseInt(sel.get(0)));
-                txtNuevoValor.setText(sel.get(1));
-            }
         });
+
     }
 
     @FXML
@@ -92,15 +96,22 @@ public class CatalogosController implements Initializable {
         try {
             switch (entidad) {
                 case "Raza":
+                    System.out.println("El caso es raza");
                     cmbFiltroEspecial.setVisible(true);
                     cmbFiltroEspecial.setPromptText("Tipo de mascota");
+                    System.out.println("obteniendo tipos de mascotas");
                     datosFiltroEspecial = MascotasDAO.getTiposMascotas();
+                    System.out.println("datos mascotas");
                     cmbFiltroEspecial.setOnAction(e -> {
                         int idx = cmbFiltroEspecial.getSelectionModel().getSelectedIndex();
                         if (idx >= 0) {
                             try {
+                                System.out.println("obteniendo el id del tipo");
                                 String idTipo = datosFiltroEspecial.get(idx).get(0);
+                                System.out.println("obteniendo datos");
                                 tblDatos.setItems(MascotasDAO.getRazasPorTipo(idTipo));
+
+                                System.out.println("datos obtenidos");
                             } catch (Exception ex) {
                                 mostrarError("Error al filtrar razas: " + ex.getMessage());
                             }

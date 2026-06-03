@@ -42,7 +42,11 @@
                         <TableView fx:id="tblDatos" style="-fx-selection-bar: #e8f8f5;" HBox.hgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="colId" maxWidth="80.0" prefWidth="70.0" text="ID" />
-                                <TableColumn fx:id="colNombreCompleto" prefWidth="500.0" text="Nombre Completo del Usuario" />
+                                <TableColumn fx:id="colNombreCompleto" prefWidth="100.0" text="Nombre Completo del Usuario" />
+                                <TableColumn fx:id="colCreatedBy" prefWidth="100.0" text="CreatedBy" />
+                                <TableColumn fx:id="colCreatedAt" prefWidth="100.0" text="CreatedAt" />
+                                <TableColumn fx:id="colModifiedBy" prefWidth="100.0" text="ModifiedBy" />
+                                <TableColumn fx:id="colModifiedAt" prefWidth="100.0" text="ModifiedAt" />
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

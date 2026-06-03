@@ -395,7 +395,7 @@ public class AdopcionesController {
     }
     private void configurarTablaHalladas() {
         tablaHalladas.getColumns().clear();
-        String[] nombresCol = {"ID", "Mascota"};
+        String[] nombresCol = {"ID", "Mascota", "CreatedBy", "CreatedAt", "ModifiedBy", "ModifiedAt"};
 
         for (int i = 0; i < nombresCol.length; i++) {
             final int idx = i;

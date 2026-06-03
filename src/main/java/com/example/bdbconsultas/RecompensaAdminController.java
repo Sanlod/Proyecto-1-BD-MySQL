@@ -66,16 +66,21 @@ public class RecompensaAdminController implements Initializable {
     }
 
     private void configurarTabla() {
-        String[] headers = {"ID", "Nombre", "Tipo", "Raza", "Fecha Pérdida", "Bounty", "Moneda"};
+        String[] headers = {"ID", "Nombre", "Tipo", "Raza", "Fecha Pérdida", "Bounty", "Moneda", "CreatedBy", "CreatedAt", "ModifiedBy", "ModifiedAt"};
         for (int i = 0; i < headers.length; i++) {
             final int idx = i;
+            System.out.println("idx" + idx + ": " + headers[i]);
             TableColumn<ObservableList<String>, String> col = new TableColumn<>(headers[i]);
+            System.out.println("se creo la columna " + col);
             col.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().get(idx)));
             tblMascotasPerdidas.getColumns().add(col);
+            System.out.println("columna " + headers[i] + "agregada");
         }
+        System.out.println("se agregaron todas");
     }
 
     private void cargarMascotasPerdidas() {
+        System.out.println("se están cargando las mascotas perdidas");
         try {
             ObservableList<ObservableList<String>> datos = MascotasDAO.getMascotasConBounty();
             tblMascotasPerdidas.setItems(datos);

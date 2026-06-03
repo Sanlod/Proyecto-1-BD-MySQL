@@ -23,6 +23,10 @@ public class PersonaController implements Initializable {
     @FXML private TableView<ObservableList<String>> tblDatos;
     @FXML private TableColumn<ObservableList<String>, String> colId;
     @FXML private TableColumn<ObservableList<String>, String> colNombreCompleto;
+    @FXML private TableColumn<ObservableList<String>, String> colCreatedBy;
+    @FXML private TableColumn<ObservableList<String>, String> colCreatedAt;
+    @FXML private TableColumn<ObservableList<String>, String> colModifiedBy;
+    @FXML private TableColumn<ObservableList<String>, String> colModifiedAt;
     @FXML private TableColumn<ObservableList<String>, String> colListaNegra;
     @FXML private TableColumn<ObservableList<String>, String> colNotas;
 
@@ -58,6 +62,10 @@ public class PersonaController implements Initializable {
                 new SimpleStringProperty(cellData.getValue().get(0)));
         colNombreCompleto.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().get(1)));
+        colCreatedBy.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(2)));
+        colCreatedAt.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(3)));
+        colModifiedBy.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(4)));
+        colModifiedAt.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().get(5)));
 
 
         tblDatos.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
@@ -80,8 +88,8 @@ public class PersonaController implements Initializable {
     private void cargarSeleccionEnFormulario(ObservableList<String> fila) {
         String idPersona = fila.get(0);
         txtId.setText(idPersona);
-        txtNotas.setText(fila.get(3) != null ? fila.get(3) : "");
-        chkListaNegra.setSelected("Sí".equals(fila.get(2)));
+        txtNotas.setText(fila.get(3) != null ? fila.get(6) : "");
+        chkListaNegra.setSelected("Si".equals(fila.get(7)));
 
         try {
             String calificacion = PersonaDAO.obtenerCalificacionPersona(idPersona);

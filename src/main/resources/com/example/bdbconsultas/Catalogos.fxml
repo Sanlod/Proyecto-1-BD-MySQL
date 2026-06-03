@@ -53,6 +53,10 @@
                <columns>
                   <TableColumn fx:id="colC1" prefWidth="120.0" text="ID Identificador" />
                   <TableColumn fx:id="colC2" prefWidth="600.0" text="Valor / Descripción del Registro" />
+                  <TableColumn fx:id="colC3" prefWidth="600.0" text="Created By" />
+                  <TableColumn fx:id="colC4" prefWidth="600.0" text="Created At" />
+                  <TableColumn fx:id="colC5" prefWidth="600.0" text="Modified By" />
+                  <TableColumn fx:id="colC6" prefWidth="600.0" text="Modified At" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

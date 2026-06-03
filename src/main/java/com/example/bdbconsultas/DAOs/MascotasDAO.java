@@ -146,6 +146,7 @@ public class MascotasDAO {
             cs.setString(1, idTipo == null || idTipo.isEmpty() ? null : idTipo);
             try (ResultSet rs = cs.executeQuery()) {
                 int numCols = rs.getMetaData().getColumnCount();
+                System.out.println(numCols);
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
                     for (int i = 1; i <= numCols; i++) {
@@ -815,6 +816,7 @@ public class MascotasDAO {
             try (ResultSet rs = cs.executeQuery()) {
                 ResultSetMetaData metaData = rs.getMetaData();
                 int numCols = metaData.getColumnCount();
+                System.out.println(numCols);
 
                 while (rs.next()) {
                     ObservableList<String> fila = FXCollections.observableArrayList();
